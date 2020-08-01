@@ -14,18 +14,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
 from kernels import Tanimoto
-from photoswtich_data_utils import transform_data, TaskDataLoader, featurise_mols
+from data_utils import transform_data, TaskDataLoader, featurise_mols
 
 
 def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_conf):
     """
     :param path: str specifying path to dataset.
-    :param task: str specifying the task. One of ['e_iso_pi', 'z_iso_pi', 'e_iso_n', 'z_iso_n']
-    :param representation: str specifying the molecular representation. One of ['fingerprints, 'fragments', 'fragprints']
+    :param task: str specifying the task. One of ['Photoswitch', 'ESOL', 'FreeSolv', 'Lipophilicity']
+    :param representation: str specifying the molecular representation. One of ['SMILES, fingerprints, 'fragments', 'fragprints']
     :param use_pca: bool. If True apply PCA to perform Principal Components Regression.
     :param n_trials: int specifying number of random train/test splits to use
     :param test_set_size: float in range [0, 1] specifying fraction of dataset to use as test set
-    :param use_rmse_conf: bool specifying wheter to compute the rmse confidence-error curves or the mae confidence-
+    :param use_rmse_conf: bool specifying whether to compute the rmse confidence-error curves or the mae confidence-
     error curves. True is the option for rmse.
     """
 
@@ -66,6 +66,10 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
     for i in range(0, n_trials):
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_set_size, random_state=i)
+
+        # Artificially create a 80/10/10 train/validation/test split discarding the validation set.
+        X_test = X_test[0:len((X_test/2))]
+        y_test = y_test[0:len((y_test/2))]
 
         y_train = y_train.reshape(-1, 1)
         y_test = y_test.reshape(-1, 1)
@@ -159,11 +163,11 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
         plt.plot(confidence_percentiles, rmse_mean, label='mean')
         plt.fill_between(confidence_percentiles, lower, upper, alpha=0.2)
         plt.xlabel('Confidence Percentile')
-        plt.ylabel('RMSE (nm)')
+        plt.ylabel('RMSE')
         plt.ylim([0, np.max(upper) + 1])
         plt.xlim([0, 100*((len(y_test) - 1) / len(y_test))])
         plt.yticks(np.arange(0, np.max(upper) + 1, 5.0))
-        plt.savefig(task + '/results/gpr/{}_confidence_curve_rmse.png'.format(representation))
+        plt.savefig(task + '/results/tanimoto/{}_confidence_curve_rmse.png'.format(representation))
         plt.show()
 
     else:
@@ -182,11 +186,11 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
         plt.plot(confidence_percentiles, mae_mean, label='mean')
         plt.fill_between(confidence_percentiles, lower, upper, alpha=0.2)
         plt.xlabel('Confidence Percentile')
-        plt.ylabel('MAE (nm)')
+        plt.ylabel('MAE')
         plt.ylim([0, np.max(upper) + 1])
         plt.xlim([0, 100 * ((len(y_test) - 1) / len(y_test))])
         plt.yticks(np.arange(0, np.max(upper) + 1, 5.0))
-        plt.savefig(task + '/results/gpr/{}_confidence_curve_mae.png'.format(representation))
+        plt.savefig(task + '/results/tanimoto/{}_confidence_curve_mae.png'.format(representation))
         plt.show()
 
 
@@ -194,13 +198,13 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../dataset/photoswitches.csv',
-                        help='Path to the photoswitches.csv file.')
-    parser.add_argument('-t', '--task', type=str, default='e_iso_pi',
-                        help='str specifying the task. One of [e_iso_pi, z_iso_pi, e_iso_n, z_iso_n].')
+    parser.add_argument('-p', '--path', type=str, default='../datasets/Lipophilicity.csv',
+                        help='Path to the csv file for the task.')
+    parser.add_argument('-t', '--task', type=str, default='Lipophilicity',
+                        help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='fragprints',
                         help='str specifying the molecular representation. '
-                             'One of [fingerprints, fragments, fragprints].')
+                             'One of [SMILES, fingerprints, fragments, fragprints].')
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
                         help='If True apply PCA to perform Principal Components Regression.')
     parser.add_argument('-n', '--n_trials', type=int, default=20,
@@ -208,7 +212,7 @@ if __name__ == '__main__':
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
                         help='float in range [0, 1] specifying fraction of dataset to use as test set')
     parser.add_argument('-rms', '--use_rmse_conf', type=bool, default=True,
-                        help='bool specifying wheter to compute the rmse confidence-error curves or the mae '
+                        help='bool specifying whether to compute the rmse confidence-error curves or the mae '
                              'confidence-error curves. True is the option for rmse.')
 
     args = parser.parse_args()
