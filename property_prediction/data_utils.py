@@ -1,7 +1,6 @@
-# Copyright Ryan-Rhys Griffiths and Aditya Raymond Thawani 2020
 # Author: Ryan-Rhys Griffiths
 """
-module for loading the photoswitch data.
+Module containing data loading utility functions.
 """
 
 import numpy as np
@@ -20,7 +19,7 @@ class TaskDataLoader:
         """
         :param task: Property prediction task to load data from:
         ['thermal', 'e_iso_pi', 'z_iso_pi', 'e_iso_n', 'z_iso_n']
-        :param path: Path to the photoswitches csv file
+        :param path: Path to the corresponding csv file for the task
         """
 
         self.task = task
@@ -33,45 +32,29 @@ class TaskDataLoader:
         """
 
         df = pd.read_csv(self.path)
-        smiles_list = df['SMILES'].to_list()
 
-        if self.task == 'thermal':
+        if self.task == 'Photoswitch':
 
-            # Load the SMILES as x-values and the rate of thermal isomerisation as the y-values
-
-            property_vals = df['rate of thermal isomerisation from Z-E in s-1'].to_numpy()
-
-        elif self.task == 'e_iso_pi':
-
-            #     Load the SMILES as x-values and the E isomer pi-pi* wavelength in nm as the y-values.
-            #     108 molecules with valid experimental values as of 11 May 2020.
-
+            # Load the SMILES as x-values and the E isomer pi-pi* wavelength in nm as the y-values.
+            smiles_list = df['SMILES'].to_list()
             property_vals = df['E isomer pi-pi* wavelength in nm'].to_numpy()
 
-        elif self.task == 'z_iso_pi':
+        elif self.task == 'ESOL':
+            smiles_list = df['smiles'].tolist()
+            property_vals = df['measured log solubility in mols per litre'].to_numpy()
 
-            #     Load the SMILES as x-values and the Z isomer pi-pi* wavelength in nm as the y-values.
-            #     84 valid molecules for this property as of 11 May 2020.
+        elif self.task == 'FreeSolv':
+            smiles_list = df['smiles'].tolist()
+            property_vals = df['expt'].to_numpy()  # can change to df['calc'] for calculated values
 
-            property_vals = df['Z isomer pi-pi* wavelength in nm'].to_numpy()
-
-        elif self.task == 'e_iso_n':
-
-            #     Load the SMILES as x-values and the E isomer n-pi* wavelength in nm as the y-values.
-            #     96 valid molecules for this property as of 9 May 2020.
-
-            property_vals = df['E isomer n-pi* wavelength in nm'].to_numpy()
-
-        elif self.task == 'z_iso_n':
-
-            #     Load the SMILES as x-values and the Z isomer n-pi* wavelength in nm as the y-values.
-            #     93 valid molecules with this property as of 9 May 2020
-            #     114 valid molecules with this property as of 16 May 2020
-
-            property_vals = df['Z isomer n-pi* wavelength in nm'].to_numpy()
+        elif self.task == 'Lipophilicity':
+            smiles_list = df['smiles'].tolist()
+            property_vals = df['exp'].to_numpy()
 
         else:
             raise Exception('Must specify a valid task')
+
+        # delete SMILES entries where the corresponding property values is NAN.
 
         smiles_list = list(np.delete(np.array(smiles_list), np.argwhere(np.isnan(property_vals))))
         property_vals = np.delete(property_vals, np.argwhere(np.isnan(property_vals)))
@@ -140,9 +123,7 @@ def featurise_mols(smiles_list, representation, bond_radius=3, nBits=2048):
                 raise Exception('molecule {}'.format(i) + ' is not canonicalised')
             X[i, :] = features
 
-    else:
-
-        # fragprints
+    elif representation == 'fragprints':
 
         rdkit_mols = [MolFromSmiles(smiles) for smiles in smiles_list]
         X = [AllChem.GetMorganFingerprintAsBitVect(mol, 3, nBits=2048) for mol in rdkit_mols]
@@ -159,5 +140,11 @@ def featurise_mols(smiles_list, representation, bond_radius=3, nBits=2048):
             X1[i, :] = features
 
         X = np.concatenate((X, X1), axis=1)
+
+    else:
+
+        # SMILES
+
+        return smiles_list
 
     return X
