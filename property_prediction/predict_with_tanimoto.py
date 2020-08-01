@@ -40,8 +40,6 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
     else:
         n_components = None
 
-    num_features = np.shape(X)[1]
-
     # We define the Gaussian Process Regression Model using the Tanimoto kernel
 
     m = None
@@ -55,8 +53,9 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
 
     # We pre-allocate arrays for plotting confidence-error curves
 
-    _, _, _, y_test = train_test_split(X, y, test_size=test_set_size)  # To get test set size
-    n_test = len(y_test)
+    _, _, _, y_test = train_test_split(X, y, test_size=test_set_size) # To get test set size
+    split_in_two = int(len(y_test)/2)
+    n_test = split_in_two
 
     rmse_confidence_list = np.zeros((n_trials, n_test))
     mae_confidence_list = np.zeros((n_trials, n_test))
@@ -68,8 +67,9 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_set_size, random_state=i)
 
         # Artificially create a 80/10/10 train/validation/test split discarding the validation set.
-        X_test = X_test[0:len((X_test/2))]
-        y_test = y_test[0:len((y_test/2))]
+        split_in_two = int(len(y_test)/2)
+        X_test = X_test[0:split_in_two]
+        y_test = y_test[0:split_in_two]
 
         y_train = y_train.reshape(-1, 1)
         y_test = y_test.reshape(-1, 1)
@@ -198,16 +198,16 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/Lipophilicity.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='Lipophilicity',
+    parser.add_argument('-t', '--task', type=str, default='ESOL',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='fragprints',
                         help='str specifying the molecular representation. '
                              'One of [SMILES, fingerprints, fragments, fragprints].')
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
                         help='If True apply PCA to perform Principal Components Regression.')
-    parser.add_argument('-n', '--n_trials', type=int, default=20,
+    parser.add_argument('-n', '--n_trials', type=int, default=8,
                         help='int specifying number of random train/test splits to use')
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
                         help='float in range [0, 1] specifying fraction of dataset to use as test set')
