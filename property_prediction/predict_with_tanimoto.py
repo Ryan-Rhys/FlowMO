@@ -32,6 +32,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
     data_loader = TaskDataLoader(task, path)
     smiles_list, y = data_loader.load_property_data()
     X = featurise_mols(smiles_list, representation)
+    np.savetxt(f'precomputed_representations/{task}_{representation}.txt', X)
 
     # If True we perform Principal Components Regression
 
@@ -64,7 +65,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
 
     for i in range(0, n_trials):
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_set_size, random_state=i)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_set_size, random_state=i+20)
 
         # Artificially create a 80/10/10 train/validation/test split discarding the validation set.
         split_in_two = int(len(y_test)/2)
@@ -198,9 +199,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/FreeSolv.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='ESOL',
+    parser.add_argument('-t', '--task', type=str, default='FreeSolv',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='fragprints',
                         help='str specifying the molecular representation. '
