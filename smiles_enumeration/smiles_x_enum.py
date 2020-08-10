@@ -23,7 +23,7 @@ def rotate_atoms(li, x):
 # rotate: rotation of atoms's index for augmentation (default: False)
 # returns:
 #         list of augmented SMILES (non-canonical equivalents from canonical SMILES representation)
-def generate_smiles(smiles, kekule=False, canon=True, rotate=False):
+def generate_smiles(smiles, aug_factor, kekule=False, canon=True, rotate=False):
     smiles_list = list()
     try:
         mol = Chem.MolFromSmiles(smiles)
@@ -37,7 +37,7 @@ def generate_smiles(smiles, kekule=False, canon=True, rotate=False):
             if n_atoms != 0:
                 j = 0
                 for iatoms in range(n_atoms):
-                    if j >= 2:
+                    if j >= aug_factor:
                         break
                     j += 1
                     n_atoms_list_tmp = rotate_atoms(n_atoms_list, iatoms)  # rotate atoms' index
@@ -89,12 +89,12 @@ def generate_smiles(smiles, kekule=False, canon=True, rotate=False):
 #         array of augmented SMILES,
 #         number of augmentation per SMILES,
 #         array of related property
-def augmentation(smiles_array, prop_array, canon=True, rotate=False):
+def augmentation(smiles_array, prop_array, aug_factor, canon=True, rotate=False):
     smiles_enum = list()
     prop_enum = list()
     smiles_enum_card = list()
     for csmiles, ismiles in enumerate(smiles_array.tolist()):
-        enumerated_smiles = generate_smiles(ismiles, canon=canon, rotate=rotate)
+        enumerated_smiles = generate_smiles(ismiles, aug_factor, canon=canon, rotate=rotate)
         if 'None' not in enumerated_smiles:
             smiles_enum_card.append(len(enumerated_smiles))
             smiles_enum.extend(enumerated_smiles)
