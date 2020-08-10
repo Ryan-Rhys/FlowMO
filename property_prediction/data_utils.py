@@ -18,7 +18,7 @@ class TaskDataLoader:
     def __init__(self, task, path):
         """
         :param task: Property prediction task to load data from:
-        ['Photoswitch', 'Photoswitch_x2', 'ESOL', 'FreeSolv', 'Lipophilicity']
+        ['Photoswitch', 'ESOL', 'FreeSolv', 'Lipophilicity']
         :param path: Path to the corresponding csv file for the task
         """
 
@@ -34,12 +34,6 @@ class TaskDataLoader:
         df = pd.read_csv(self.path)
 
         if self.task == 'Photoswitch':
-
-            # Load the SMILES as x-values and the E isomer pi-pi* wavelength in nm as the y-values.
-            smiles_list = df['SMILES'].to_list()
-            property_vals = df['E isomer pi-pi* wavelength in nm'].to_numpy()
-
-        elif self.task == 'Photoswitch_x2':
 
             # Load the SMILES as x-values and the E isomer pi-pi* wavelength in nm as the y-values.
             smiles_list = df['SMILES'].to_list()

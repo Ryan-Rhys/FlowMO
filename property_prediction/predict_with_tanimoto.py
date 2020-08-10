@@ -17,7 +17,7 @@ from kernels import Tanimoto
 from data_utils import transform_data, TaskDataLoader, featurise_mols
 
 
-def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_conf):
+def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_conf, precompute_repr):
     """
     :param path: str specifying path to dataset.
     :param task: str specifying the task. One of ['Photoswitch', 'ESOL', 'FreeSolv', 'Lipophilicity']
@@ -27,12 +27,15 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
     :param test_set_size: float in range [0, 1] specifying fraction of dataset to use as test set
     :param use_rmse_conf: bool specifying whether to compute the rmse confidence-error curves or the mae confidence-
     error curves. True is the option for rmse.
+    :param precompute_repr: bool indicating whether to precompute representations or not.
     """
 
     data_loader = TaskDataLoader(task, path)
     smiles_list, y = data_loader.load_property_data()
     X = featurise_mols(smiles_list, representation)
-    #np.savetxt(f'precomputed_representations/{task}_{representation}.txt', X)
+
+    if precompute_repr:
+        np.savetxt(f'precomputed_representations/{task}_{representation}.txt', X)
 
     # If True we perform Principal Components Regression
 
@@ -226,7 +229,10 @@ if __name__ == '__main__':
     parser.add_argument('-rms', '--use_rmse_conf', type=bool, default=True,
                         help='bool specifying whether to compute the rmse confidence-error curves or the mae '
                              'confidence-error curves. True is the option for rmse.')
+    parser.add_argument('-pr', '--precompute_repr', type=bool, default=False,
+                        help='bool indicating whether to precompute representations')
 
     args = parser.parse_args()
 
-    main(args.path, args.task, args.representation, args.use_pca, args.n_trials, args.test_set_size, args.use_rmse_conf)
+    main(args.path, args.task, args.representation, args.use_pca, args.n_trials, args.test_set_size, args.use_rmse_conf,
+         args.precompute_repr)
