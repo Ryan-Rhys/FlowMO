@@ -210,9 +210,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/photoswitches.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/Lipophilicity.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='Photoswitch',
+    parser.add_argument('-t', '--task', type=str, default='Lipophilicity',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='SMILES',
                         help='str specifying the molecular representation. '
