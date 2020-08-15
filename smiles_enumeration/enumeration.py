@@ -41,11 +41,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/Lipophilicity.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='Lipophilicity',
+    parser.add_argument('-t', '--task', type=str, default='ESOL',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-a', '--aug_factor', type=int, default=15,
+    parser.add_argument('-a', '--aug_factor', type=int, default=9,
                         help='Augmentation Factor.')
     parser.add_argument('-n', '--n_trials', type=int, default=10,
                         help='int specifying number of random train/test splits to use')
