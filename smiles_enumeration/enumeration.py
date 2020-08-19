@@ -28,8 +28,7 @@ def main(path, task, aug_factor, n_trials, test_set_size):
 
         # Augment the train set SMILES by a factor equal to aug_factor
 
-        X_train, smiles_card, y_train = augmentation(np.array(X_train), y_train, aug_factor, canon=False,
-                                                           rotate=True)
+        X_train, smiles_card, y_train = augmentation(np.array(X_train), y_train, aug_factor, canon=False, rotate=True)
 
         np.savetxt(f'enumerated_datasets/{task}/X_train_split_aug_x{aug_factor}_split_{i}.txt', X_train, fmt="%s")
         np.savetxt(f'enumerated_datasets/{task}/X_test_split_aug_x{aug_factor}_split_{i}.txt', X_test, fmt="%s")
@@ -41,13 +40,13 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/photoswitches.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='ESOL',
+    parser.add_argument('-t', '--task', type=str, default='Photoswitch',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-a', '--aug_factor', type=int, default=9,
+    parser.add_argument('-a', '--aug_factor', type=int, default=15,
                         help='Augmentation Factor.')
-    parser.add_argument('-n', '--n_trials', type=int, default=10,
+    parser.add_argument('-n', '--n_trials', type=int, default=20,
                         help='int specifying number of random train/test splits to use')
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
                         help='float in range [0, 1] specifying fraction of dataset to use as test set')
