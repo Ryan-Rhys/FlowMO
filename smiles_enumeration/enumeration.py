@@ -30,19 +30,30 @@ def main(path, task, aug_factor, n_trials, test_set_size):
 
         X_train, smiles_card, y_train = augmentation(np.array(X_train), y_train, aug_factor, canon=False, rotate=True)
 
+        # Augment the test set SMILES by a factor equal to aug_factor
+
+        X_test_aug, smiles_test_card, y_test_aug = augmentation(np.array(X_test), y_test, aug_factor, canon=False, rotate=True)
+
+        # Save the augmented train SMILES with fixed test set.
+
         np.savetxt(f'enumerated_datasets/{task}/X_train_split_aug_x{aug_factor}_split_{i}.txt', X_train, fmt="%s")
         np.savetxt(f'enumerated_datasets/{task}/X_test_split_aug_x{aug_factor}_split_{i}.txt', X_test, fmt="%s")
         np.savetxt(f'enumerated_datasets/{task}/y_train_split_aug_x{aug_factor}_split_{i}.txt', y_train)
         np.savetxt(f'enumerated_datasets/{task}/y_test_split_aug_x{aug_factor}_split_{i}.txt', y_test)
+
+        # Save the augmented test SMILES. aug in front of filename denotes test set augmentation as well.
+
+        np.savetxt(f'enumerated_datasets/{task}/aug_X_test_split_aug_x{aug_factor}_split_{i}.txt', X_test_aug, fmt="%s")
+        np.savetxt(f'enumerated_datasets/{task}/aug_y_test_split_aug_x{aug_factor}_split_{i}.txt', y_test_aug)
 
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/photoswitches.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/FreeSolv.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='Photoswitch',
+    parser.add_argument('-t', '--task', type=str, default='FreeSolv',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-a', '--aug_factor', type=int, default=15,
                         help='Augmentation Factor.')
