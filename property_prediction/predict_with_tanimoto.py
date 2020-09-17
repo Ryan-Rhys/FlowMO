@@ -221,23 +221,23 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/photoswitches.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='Photoswitch',
+    parser.add_argument('-t', '--task', type=str, default='ESOL',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-r', '--representation', type=str, default='fingerprints',
+    parser.add_argument('-r', '--representation', type=str, default='SMILES',
                         help='str specifying the molecular representation. '
                              'One of [SMILES, fingerprints, fragments, fragprints].')
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
                         help='If True apply PCA to perform Principal Components Regression.')
-    parser.add_argument('-n', '--n_trials', type=int, default=20,
+    parser.add_argument('-n', '--n_trials', type=int, default=1,
                         help='int specifying number of random train/test splits to use')
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
                         help='float in range [0, 1] specifying fraction of dataset to use as test set')
     parser.add_argument('-rms', '--use_rmse_conf', type=bool, default=True,
                         help='bool specifying whether to compute the rmse confidence-error curves or the mae '
                              'confidence-error curves. True is the option for rmse.')
-    parser.add_argument('-pr', '--precompute_repr', type=bool, default=False,
+    parser.add_argument('-pr', '--precompute_repr', type=bool, default=True,
                         help='bool indicating whether to precompute representations')
 
     args = parser.parse_args()
