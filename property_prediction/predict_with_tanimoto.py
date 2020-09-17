@@ -35,7 +35,12 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
     X = featurise_mols(smiles_list, representation)
 
     if precompute_repr:
-        np.savetxt(f'precomputed_representations/{task}_{representation}.txt', X)
+        if representation == 'SMILES':
+            with open(f'precomputed_representations/{task}_{representation}.txt', 'w') as f:
+                for smiles in X:
+                    f.write(smiles + '\n')
+        else:
+            np.savetxt(f'precomputed_representations/{task}_{representation}.txt', X)
 
     # If True we perform Principal Components Regression
 
@@ -221,9 +226,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/Lipophilicity.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='ESOL',
+    parser.add_argument('-t', '--task', type=str, default='Lipophilicity',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='SMILES',
                         help='str specifying the molecular representation. '
