@@ -1,6 +1,0 @@
-==================================================
-:mod:`ops` --  Some Common Ops and extra Ops stuff
-==================================================
-
-.. automodule:: theano.compile.ops
-    :members:
