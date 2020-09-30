@@ -1,6 +1,7 @@
 # Author: Ryan-Rhys Griffiths
 """
-Script for training a model to predict properties in the photoswitch dataset using Gaussian Process Regression.
+Script for training a model to predict properties using a Black Box alpha-divergence
+minimisation Bayesian neural network.
 """
 
 import argparse
