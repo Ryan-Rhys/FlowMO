@@ -9,7 +9,7 @@ We recommend using a conda environment.
 
 ```
 conda install -c conda-forge rdkit
-conda install matplotlib pytest scikit-learn pandas
+conda install matplotlib pytest scikit-learn pandas pytorch
 pip install git+https://github.com/GPflow/GPflow.git@develop#egg=gpflow
 
 cd Theano-master
