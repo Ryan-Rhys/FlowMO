@@ -144,7 +144,7 @@ if __name__ == '__main__':
                         help='Path to the csv file for the task.')
     parser.add_argument('-t', '--task', type=str, default='FreeSolv',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-r', '--representation', type=str, default='fingerprints',
+    parser.add_argument('-r', '--representation', type=str, default='fragments',
                         help='str specifying the molecular representation. '
                              'One of [fingerprints, fragments, fragprints].')
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,

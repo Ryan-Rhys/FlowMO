@@ -113,10 +113,10 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
 
             N_train = train_set_x.get_value(borrow=True).shape[0]
             N_test = test_set_x.get_value(borrow=True).shape[0]
-            layer_sizes = [d, 10, 10, len(mean_y_train)]
+            layer_sizes = [d, 20, 20, len(mean_y_train)]
             n_samples = 100
             alpha = 0.5
-            learning_rate = 0.01
+            learning_rate = 0.001
             v_prior = 1.0
             batch_size = 32
             print('... building model')
@@ -126,7 +126,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
             print('... training')
             sys.stdout.flush()
 
-            test_error, test_ll = bb_alpha.train_ADAM(20)
+            test_error, test_ll = bb_alpha.train_ADAM(100)
 
             print('Test RMSE: ', test_error)
             print('Test ll: ', test_ll)
@@ -271,9 +271,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/FreeSolv.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='ESOL',
+    parser.add_argument('-t', '--task', type=str, default='FreeSolv',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='fingerprints',
                         help='str specifying the molecular representation. '

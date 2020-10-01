@@ -98,19 +98,19 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
         y_train = torch.from_numpy(y_train).float().unsqueeze(dim=0)
 
         m = AttentiveNP(x_size=X_train.shape[2], y_size=y_size, r_size=r_size,
-                        det_encoder_hidden_size=8,
+                        det_encoder_hidden_size=16,
                         det_encoder_n_hidden=det_encoder_n_hidden,
-                        lat_encoder_hidden_size=8,
+                        lat_encoder_hidden_size=16,
                         lat_encoder_n_hidden=lat_encoder_n_hidden,
-                        decoder_hidden_size=16,
+                        decoder_hidden_size=8,
                         decoder_n_hidden=decoder_n_hidden,
-                        lr=0.001, attention_type="multihead")
+                        lr=0.01, attention_type="multihead")
 
         print('...training.')
 
         np.random.seed(42)
 
-        m.train(X_train, y_train, batch_size=16, iterations=500, print_freq=None)
+        m.train(X_train, y_train, batch_size=32, iterations=500, print_freq=None)
 
         # Now, the context set comprises the training x / y values, the target set comprises the test x values.
 
@@ -237,11 +237,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--task', default='FreeSolv',
+    parser.add_argument('-t', '--task', default='Photoswitch',
                         help='Task name. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-p', '--path', default='../datasets/FreeSolv.csv',
+    parser.add_argument('-p', '--path', default='../datasets/photoswitches.csv',
                         help='Path to task dataset csv file.')
-    parser.add_argument('-r', '--representation', default='fingerprints',
+    parser.add_argument('-r', '--representation', default='fragments',
                         help='Descriptor type. One of [fingerprints, fragments, fragprints.')
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
                         help='If true, apply PCA to data (50 components).')
