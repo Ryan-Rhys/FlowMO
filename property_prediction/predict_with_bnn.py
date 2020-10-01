@@ -55,7 +55,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
 
     # We pre-allocate arrays for plotting confidence-error curves
 
-    _, _, _, y_test = train_test_split(X, y, test_size=test_set_size)  # To get test set size
+    _, _, _, y_test = train_test_split(X, y, test_size=test_set_size, random_state=42)  # To get test set size
 
     # Photoswitch dataset requires 80/20 splitting. Other datasets are 80/10/10.
 
@@ -104,6 +104,8 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
             X_train = X_train.astype(np.float64)
             X_test = X_test.astype(np.float64)
 
+            np.random.seed(42)
+
             datasets, n, d, mean_y_train, std_y_train = load_reg_data(X_train, y_train, X_test, y_test)
 
             train_set_x, train_set_y = datasets[0]
@@ -111,12 +113,12 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
 
             N_train = train_set_x.get_value(borrow=True).shape[0]
             N_test = test_set_x.get_value(borrow=True).shape[0]
-            layer_sizes = [d, 10, 10, len(mean_y_train)]
+            layer_sizes = [d, 20, 20, len(mean_y_train)]
             n_samples = 100
             alpha = 0.5
-            learning_rate = 0.01
+            learning_rate = 0.001
             v_prior = 1.0
-            batch_size = 64
+            batch_size = 32
             print('... building model')
             sys.stdout.flush()
             bb_alpha = BB_alpha(layer_sizes, n_samples, alpha, learning_rate, v_prior, batch_size,
@@ -124,7 +126,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
             print('... training')
             sys.stdout.flush()
 
-            test_error, test_ll = bb_alpha.train_ADAM(2)
+            test_error, test_ll = bb_alpha.train_ADAM(20)
 
             print('Test RMSE: ', test_error)
             print('Test ll: ', test_ll)
@@ -190,9 +192,9 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
         rmse_list = np.array(rmse_list)
         mae_list = np.array(mae_list)
 
-        print("\nmean R^2: {:.4f} +- {:.4f}".format(np.mean(r2_list), np.std(r2_list)/np.sqrt(len(r2_list))))
-        print("mean RMSE: {:.4f} +- {:.4f}".format(np.mean(rmse_list), np.std(rmse_list)/np.sqrt(len(rmse_list))))
-        print("mean MAE: {:.4f} +- {:.4f}\n".format(np.mean(mae_list), np.std(mae_list)/np.sqrt(len(mae_list))))
+        print("\nmean R^2: {:.4f} +- {:.4f}".format(np.mean(r2_list), np.std(r2_list)))
+        print("mean RMSE: {:.4f} +- {:.4f}".format(np.mean(rmse_list), np.std(rmse_list)))
+        print("mean MAE: {:.4f} +- {:.4f}\n".format(np.mean(mae_list), np.std(mae_list)))
 
         # Plot confidence-error curves
 
@@ -220,7 +222,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
             plt.ylim([0, np.max(upper) + 1])
             plt.xlim([0, 100*((len(y_test) - 1) / len(y_test))])
             plt.yticks(np.arange(0, np.max(upper) + 1, 5.0))
-            plt.savefig(task + '/results/BNN/{}_confidence_curve_rmse.png'.format(representation))
+            plt.savefig(task + '/results/BNN/{}_{}_confidence_curve_rmse.png'.format(representation, task))
             plt.show()
 
         else:
@@ -243,7 +245,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
             plt.ylim([0, np.max(upper) + 1])
             plt.xlim([0, 100 * ((len(y_test) - 1) / len(y_test))])
             plt.yticks(np.arange(0, np.max(upper) + 1, 5.0))
-            plt.savefig(task + '/results/BNN/{}_confidence_curve_mae.png'.format(representation))
+            plt.savefig(task + '/results/BNN/{}_{}_confidence_curve_mae.png'.format(representation, task))
             plt.show()
 
         # Plot the calibration curve
@@ -258,8 +260,11 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
         plt.plot(qs, qs, color="red")
         plt.xlabel('C(q)')
         plt.ylabel('q')
-        plt.savefig(task + '/results/BNN/{}_calibration_curve.png'.format(representation))
+        plt.savefig(task + '/results/BNN/{}_{}_calibration_curve.png'.format(representation, task))
         plt.show()
+
+        np.savetxt(task + '/results/BNN/{}_{}_mean_props'.format(representation, task), mean_props)
+        np.savetxt(task + '/results/BNN/{}_{}_sd_props'.format(representation, task), sd_props)
 
 
 if __name__ == '__main__':
