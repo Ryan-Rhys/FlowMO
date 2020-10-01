@@ -133,10 +133,10 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--task', default='ESOL',
+    parser.add_argument('-t', '--task', default='FreeSolv',
                         help='Task name One of: [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-p', '--path', default='../datasets/ESOL.csv',
-                        help='Path to photoswitches.csv file.')
+    parser.add_argument('-p', '--path', default='../datasets/FreeSolv.csv',
+                        help='Path to dataset csv file.')
     parser.add_argument('-r', '--representation', default='fragments',
                         help='Descriptor type. One of [fingerprints, fragments, fragprints.')
     parser.add_argument('-pca', '--use_pca', type=bool, default=True,
