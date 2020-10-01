@@ -113,10 +113,10 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
 
             N_train = train_set_x.get_value(borrow=True).shape[0]
             N_test = test_set_x.get_value(borrow=True).shape[0]
-            layer_sizes = [d, 20, 20, len(mean_y_train)]
+            layer_sizes = [d, 10, 10, len(mean_y_train)]
             n_samples = 100
             alpha = 0.5
-            learning_rate = 0.001
+            learning_rate = 0.01
             v_prior = 1.0
             batch_size = 32
             print('... building model')
@@ -258,8 +258,8 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
         plt.plot(qs, mean_props, label='mean')
         plt.fill_between(qs, lower, upper, alpha=0.2)
         plt.plot(qs, qs, color="red")
-        plt.xlabel('C(q)')
-        plt.ylabel('q')
+        plt.xlabel('q')
+        plt.ylabel('C(q)')
         plt.savefig(task + '/results/BNN/{}_{}_calibration_curve.png'.format(representation, task))
         plt.show()
 
@@ -271,9 +271,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/photoswitches.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='Photoswitch',
+    parser.add_argument('-t', '--task', type=str, default='ESOL',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='fingerprints',
                         help='str specifying the molecular representation. '

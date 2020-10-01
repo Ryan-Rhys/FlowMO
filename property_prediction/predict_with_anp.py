@@ -224,8 +224,8 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
     plt.plot(qs, mean_props, label='mean')
     plt.fill_between(qs, lower, upper, alpha=0.2)
     plt.plot(qs, qs, color="red")
-    plt.xlabel('C(q)')
-    plt.ylabel('q')
+    plt.xlabel('q')
+    plt.ylabel('C(q)')
     plt.savefig(task + '/results/ANP/{}_{}_calibration_curve.png'.format(representation, task))
     plt.show()
 
