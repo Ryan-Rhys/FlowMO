@@ -98,21 +98,30 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
         y_train = torch.from_numpy(y_train).float().unsqueeze(dim=0)
 
         m = AttentiveNP(x_size=X_train.shape[2], y_size=y_size, r_size=r_size,
-                        det_encoder_hidden_size=det_encoder_hidden_size,
+                        det_encoder_hidden_size=16,
                         det_encoder_n_hidden=det_encoder_n_hidden,
-                        lat_encoder_hidden_size=lat_encoder_hidden_size,
+                        lat_encoder_hidden_size=8,
                         lat_encoder_n_hidden=lat_encoder_n_hidden,
-                        decoder_hidden_size=decoder_hidden_size,
+                        decoder_hidden_size=8,
                         decoder_n_hidden=decoder_n_hidden,
-                        lr=lr, attention_type="multihead")
+                        lr=0.001, attention_type="multihead")
 
         print('...training.')
 
-        m.train(X_train, y_train, batch_size=batch_size, iterations=iterations, print_freq=None)
+        np.random.seed(42)
+
+        m.train(X_train, y_train, batch_size=16, iterations=250, print_freq=None)
 
         # Now, the context set comprises the training x / y values, the target set comprises the test x values.
 
         y_pred, y_var = m.predict(X_train, y_train, X_test, n_samples=100)
+
+        # For producing the calibration curve
+
+        for k in [0.13, 0.26, 0.39, 0.53, 0.68, 0.85, 1.04, 1.15, 1.28, 1.44, 1.645, 1.96]:
+            a = (y_test < y_scaler.inverse_transform(y_pred + k * np.sqrt(y_var)))
+            b = (y_test > y_scaler.inverse_transform(y_pred - k * np.sqrt(y_var)))
+            prediction_prop[i].append(np.argwhere((a == True) & (b == True)).shape[0] / len(y_test))
 
         y_pred = y_scaler.inverse_transform(y_pred)
 
@@ -152,9 +161,9 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
     rmse_list = np.array(rmse_list)
     mae_list = np.array(mae_list)
 
-    print("\nmean R^2: {:.4f} +- {:.4f}".format(np.mean(r2_list), np.std(r2_list) / np.sqrt(len(r2_list))))
-    print("mean RMSE: {:.4f} +- {:.4f}".format(np.mean(rmse_list), np.std(rmse_list) / np.sqrt(len(rmse_list))))
-    print("mean MAE: {:.4f} +- {:.4f}\n".format(np.mean(mae_list), np.std(mae_list) / np.sqrt(len(mae_list))))
+    print("\nmean R^2: {:.4f} +- {:.4f}".format(np.mean(r2_list), np.std(r2_list)))
+    print("mean RMSE: {:.4f} +- {:.4f}".format(np.mean(rmse_list), np.std(rmse_list)))
+    print("mean MAE: {:.4f} +- {:.4f}\n".format(np.mean(mae_list), np.std(mae_list)))
 
     # Plot confidence-error curves
 
@@ -181,7 +190,8 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
     plt.ylim([0, np.max(upper) + 1])
     plt.xlim([0, 100 * ((len(y_test) - 1) / len(y_test))])
     plt.yticks(np.arange(0, np.max(upper) + 1, 5.0))
-    plt.savefig(task + '/results/ANP/{}_confidence_curve_rmse.png'.format(representation))
+    plt.savefig(task + '/results/ANP/{}_{}_confidence_curve_rmse.png'.format(representation, task))
+    plt.close()
 
     # We plot the Mean-absolute error confidence-error curves
 
@@ -201,7 +211,8 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
     plt.ylim([0, np.max(upper) + 1])
     plt.xlim([0, 100 * ((len(y_test) - 1) / len(y_test))])
     plt.yticks(np.arange(0, np.max(upper) + 1, 5.0))
-    plt.savefig(task + '/results/ANP/{}_confidence_curve_mae.png'.format(representation))
+    plt.savefig(task + '/results/ANP/{}_{}_confidence_curve_mae.png'.format(representation, task))
+    plt.close()
 
     # Plot the calibration curve
 
@@ -215,8 +226,11 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
     plt.plot(qs, qs, color="red")
     plt.xlabel('C(q)')
     plt.ylabel('q')
-    plt.savefig(task + '/results/ANP/{}_calibration_curve.png'.format(representation))
+    plt.savefig(task + '/results/ANP/{}_{}_calibration_curve.png'.format(representation, task))
     plt.show()
+
+    np.savetxt(task + '/results/ANP/{}_{}_mean_props'.format(representation, task), mean_props)
+    np.savetxt(task + '/results/ANP/{}_{}_sd_props'.format(representation, task), sd_props)
 
 
 if __name__ == '__main__':
@@ -252,13 +266,13 @@ if __name__ == '__main__':
                         help='Dimensionality of latent encoder hidden layers.')
     parser.add_argument('-lnh', '--lat_encoder_n_hidden', type=int, default=2,
                         help='Number of latent encoder hidden layers.')
-    parser.add_argument('-dhs', '--decoder_hidden_size', type=int, default=32,
+    parser.add_argument('-dhss', '--decoder_hidden_size', type=int, default=32,
                         help='Dimensionality of decoder hidden layers.')
-    parser.add_argument('-dnh', '--decoder_n_hidden', type=int, default=2,
+    parser.add_argument('-dnhn', '--decoder_n_hidden', type=int, default=2,
                         help='Number of decoder hidden layers.')
 
     args = parser.parse_args()
 
     main(args.task, args.path, args.representation, args.use_pca, args.n_trials, args.test_set_size, args.batch_size,
-         args._learning_rate, args.iterations, args.r_size, args.det_encoder_hidden_size, args.det_encoder_n_hidden,
+         args.learning_rate, args.iterations, args.r_size, args.det_encoder_hidden_size, args.det_encoder_n_hidden,
          args.lat_encoder_hidden_size, args.lat_encoder_n_hidden, args.decoder_hidden_size, args.decoder_n_hidden)

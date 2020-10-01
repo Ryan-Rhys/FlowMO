@@ -72,7 +72,7 @@ def main(task, path, representation, use_pca, test_set_size, r_size, det_encoder
     decoder_hidden_sizes = [8, 16]
     learning_rates = [0.01, 0.001]
     batch_sizes = [16, 32]
-    iteration_numbers = [100, 250, 500]
+    iteration_numbers = [250, 500]
 
     best_rmse = 10000000  # a big number
     best_params = {'det_encs': 0, 'lat_encs': 0, 'dec_hid': 0, 'lr': 0, 'batch_size': 0, 'iterations': 0}
@@ -100,13 +100,12 @@ def main(task, path, representation, use_pca, test_set_size, r_size, det_encoder
                             # Now, the context set comprises the training x / y values, the target set comprises the test x values.
 
                             y_pred, y_var = m.predict(X_train, y_train, X_test, n_samples=100)
-                            y_pred = y_scaler.inverse_transform(y_pred)
 
                             # Output Standardised RMSE and RMSE on Train Set
 
-                            score = r2_score(y_test, y_pred)
-                            rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-                            mae = mean_absolute_error(y_test, y_pred)
+                            score = r2_score(y_test, y_scaler.inverse_transform(y_pred))
+                            rmse = np.sqrt(mean_squared_error(y_test, y_scaler.inverse_transform(y_pred)))
+                            mae = mean_absolute_error(y_test, y_scaler.inverse_transform(y_pred))
 
                             print("\nR^2: {:.3f}".format(score))
                             print("RMSE: {:.3f}".format(rmse))
@@ -126,19 +125,19 @@ def main(task, path, representation, use_pca, test_set_size, r_size, det_encoder
     print('Final best parameters are \n')
     print(best_params)
 
-    with open(f'cross_val_hypers/{task}/ANP/hypers.txt', 'w') as f:
-        f.write(best_params)
+    with open(f'cross_val_hypers/{task}/ANP/hypers_{representation}.txt', 'w') as f:
+        f.write(str(best_params))
 
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--task', default='Photoswitch',
+    parser.add_argument('-t', '--task', default='ESOL',
                         help='Task name One of: [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-p', '--path', default='../dataset/photoswitches.csv',
+    parser.add_argument('-p', '--path', default='../datasets/ESOL.csv',
                         help='Path to photoswitches.csv file.')
-    parser.add_argument('-r', '--representation', default='fingerprints',
+    parser.add_argument('-r', '--representation', default='fragments',
                         help='Descriptor type. One of [fingerprints, fragments, fragprints.')
     parser.add_argument('-pca', '--use_pca', type=bool, default=True,
                         help='If true, apply PCA to data (50 components).')
@@ -150,7 +149,7 @@ if __name__ == '__main__':
                         help='Number of deterministic encoder hidden layers.')
     parser.add_argument('-lnh', '--lat_encoder_n_hidden', type=int, default=2,
                         help='Number of latent encoder hidden layers.')
-    parser.add_argument('-dnh', '--decoder_n_hidden', type=int, default=2,
+    parser.add_argument('-denh', '--decoder_n_hidden', type=int, default=2,
                         help='Number of decoder hidden layers.')
 
     args = parser.parse_args()

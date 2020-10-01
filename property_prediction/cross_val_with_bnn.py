@@ -133,16 +133,16 @@ def main(path, task, representation, use_pca, test_set_size):
     print('Final best parameters are \n')
     print(best_params)
 
-    with open(f'cross_val_hypers/{task}/BNN/hypers.txt', 'w') as f:
-        f.write(best_params)
+    with open(f'cross_val_hypers/{task}/BNN/hypers_{representation}.txt', 'w') as f:
+        f.write(str(best_params))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/photoswitches.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/FreeSolv.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='Photoswitch',
+    parser.add_argument('-t', '--task', type=str, default='FreeSolv',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='fingerprints',
                         help='str specifying the molecular representation. '
