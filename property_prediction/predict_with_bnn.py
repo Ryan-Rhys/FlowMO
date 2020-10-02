@@ -116,9 +116,9 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
             layer_sizes = [d, 20, 20, len(mean_y_train)]
             n_samples = 100
             alpha = 0.5
-            learning_rate = 0.001
+            learning_rate = 0.01
             v_prior = 1.0
-            batch_size = 32
+            batch_size = 64
             print('... building model')
             sys.stdout.flush()
             bb_alpha = BB_alpha(layer_sizes, n_samples, alpha, learning_rate, v_prior, batch_size,
@@ -126,7 +126,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
             print('... training')
             sys.stdout.flush()
 
-            test_error, test_ll = bb_alpha.train_ADAM(100)
+            test_error, test_ll = bb_alpha.train_ADAM(50)
 
             print('Test RMSE: ', test_error)
             print('Test ll: ', test_ll)
@@ -275,7 +275,7 @@ if __name__ == '__main__':
                         help='Path to the csv file for the task.')
     parser.add_argument('-t', '--task', type=str, default='FreeSolv',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-r', '--representation', type=str, default='fingerprints',
+    parser.add_argument('-r', '--representation', type=str, default='fragments',
                         help='str specifying the molecular representation. '
                              'One of [SMILES, fingerprints, fragments, fragprints].')
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
