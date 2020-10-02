@@ -137,7 +137,7 @@ if __name__ == '__main__':
                         help='Task name One of: [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-p', '--path', default='../datasets/FreeSolv.csv',
                         help='Path to dataset csv file.')
-    parser.add_argument('-r', '--representation', default='fragments',
+    parser.add_argument('-r', '--representation', default='fragprints',
                         help='Descriptor type. One of [fingerprints, fragments, fragprints.')
     parser.add_argument('-pca', '--use_pca', type=bool, default=True,
                         help='If true, apply PCA to data (50 components).')

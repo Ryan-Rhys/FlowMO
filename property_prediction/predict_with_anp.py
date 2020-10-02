@@ -98,13 +98,13 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
         y_train = torch.from_numpy(y_train).float().unsqueeze(dim=0)
 
         m = AttentiveNP(x_size=X_train.shape[2], y_size=y_size, r_size=r_size,
-                        det_encoder_hidden_size=16,
+                        det_encoder_hidden_size=8,
                         det_encoder_n_hidden=det_encoder_n_hidden,
                         lat_encoder_hidden_size=16,
                         lat_encoder_n_hidden=lat_encoder_n_hidden,
                         decoder_hidden_size=8,
                         decoder_n_hidden=decoder_n_hidden,
-                        lr=0.01, attention_type="multihead")
+                        lr=0.001, attention_type="multihead")
 
         print('...training.')
 
@@ -237,9 +237,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--task', default='Photoswitch',
+    parser.add_argument('-t', '--task', default='FreeSolv',
                         help='Task name. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-p', '--path', default='../datasets/photoswitches.csv',
+    parser.add_argument('-p', '--path', default='../datasets/FreeSolv.csv',
                         help='Path to task dataset csv file.')
     parser.add_argument('-r', '--representation', default='fragments',
                         help='Descriptor type. One of [fingerprints, fragments, fragprints.')
