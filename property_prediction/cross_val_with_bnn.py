@@ -140,9 +140,9 @@ def main(path, task, representation, use_pca, test_set_size):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/photoswitches.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='ESOL',
+    parser.add_argument('-t', '--task', type=str, default='Photoswitch',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
     parser.add_argument('-r', '--representation', type=str, default='fragments',
                         help='str specifying the molecular representation. '
