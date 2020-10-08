@@ -1,5 +1,5 @@
 """
-Script for performing cross-validation for the Attentive Neural Process.
+Script for performing validation for the Attentive Neural Process.
 """
 
 import argparse
@@ -125,7 +125,7 @@ def main(task, path, representation, use_pca, test_set_size, r_size, det_encoder
     print('Final best parameters are \n')
     print(best_params)
 
-    with open(f'cross_val_hypers/{task}/ANP/hypers_{representation}.txt', 'w') as f:
+    with open(f'validation_hypers/{task}/ANP/hypers_{representation}.txt', 'w') as f:
         f.write(str(best_params))
 
 

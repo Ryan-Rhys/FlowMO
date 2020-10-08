@@ -1,6 +1,6 @@
 # Author: Ryan-Rhys Griffiths
 """
-Script for cross-validation for the Black box alpha-divergence minimisation Bayesian neural network.
+Script for validation for the Black box alpha-divergence minimisation Bayesian neural network.
 """
 
 import argparse
@@ -133,7 +133,7 @@ def main(path, task, representation, use_pca, test_set_size):
     print('Final best parameters are \n')
     print(best_params)
 
-    with open(f'cross_val_hypers/{task}/BNN/hypers_{representation}.txt', 'w') as f:
+    with open(f'validation_hypers/{task}/BNN/hypers_{representation}.txt', 'w') as f:
         f.write(str(best_params))
 
 
