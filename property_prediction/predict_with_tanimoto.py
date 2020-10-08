@@ -13,7 +13,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
-from kernels import Tanimoto
+from GP.kernels import Tanimoto
 from data_utils import transform_data, TaskDataLoader, featurise_mols
 
 
@@ -226,11 +226,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='../datasets/Lipophilicity.csv',
+    parser.add_argument('-p', '--path', type=str, default='../datasets/ESOL.csv',
                         help='Path to the csv file for the task.')
-    parser.add_argument('-t', '--task', type=str, default='Lipophilicity',
+    parser.add_argument('-t', '--task', type=str, default='ESOL',
                         help='str specifying the task. One of [Photoswitch, ESOL, FreeSolv, Lipophilicity].')
-    parser.add_argument('-r', '--representation', type=str, default='SMILES',
+    parser.add_argument('-r', '--representation', type=str, default='fingerprints',
                         help='str specifying the molecular representation. '
                              'One of [SMILES, fingerprints, fragments, fragprints].')
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
