@@ -25,11 +25,11 @@ The library currently supports SMILES and ECFP6 Fingerprints (pictured below)
 as well as RDKit fragment features
 
 <p align="center">
-  <img src="fingerpin.jpeg" width="500" title="ECFP6 Fingerprints">
+  <img src="FlowMO/fingerpin.jpeg" width="500" title="ECFP6 Fingerprints">
 </p>
 
 <p align="center">
-  <img src="SMILES.jpeg" width="500" title="SMILES">
+  <img src="FlowMO/SMILES.jpeg" width="500" title="SMILES">
 </p>
 
 ## Uncertainty Calibration
@@ -39,7 +39,7 @@ Tanimoto GP (TK GP), Black Box Alpha Divergence Minimisation Bayesian Neural Net
 Attentive Neural Process (ANP) on the Photoswitch Dataset.
 
 <p align="center">
-  <img src="FreeSolv.png" width="500" title="Uncertainty Calibration for the Photoswitch Dataset">
+  <img src="FlowMO/FreeSolv.png" width="500" title="Uncertainty Calibration for the Photoswitch Dataset">
 </p>
 
 ## Citing
