@@ -20,6 +20,11 @@ cd Theano-master
 python setup.py install
 ```
 
+## Examples
+
+See the examples folder for a bare minimum required to fit Tanimoto and string kernel GPs on training molecules and 
+evaluate on a heldout test set.
+
 ## Representations
 
 The library currently supports SMILES and ECFP6 Fingerprints (pictured below)
@@ -32,11 +37,6 @@ as well as RDKit fragment features
 <p align="center">
   <img src="SMILES.jpeg" width="500" title="SMILES">
 </p>
-
-## Examples
-
-See the examples folder for a bare minimum required to fit Tanimoto and string kernel GPs on training molecules and 
-evaluate on a heldout test set.
 
 ## Uncertainty Calibration
 
