@@ -14,6 +14,7 @@ conda create -n gp_molecule python==3.7
 conda install -c conda-forge rdkit
 conda install matplotlib pytest scikit-learn pandas pytorch
 pip install git+https://github.com/GPflow/GPflow.git@develop#egg=gpflow
+pip3 install jupyter
 
 cd Theano-master
 python setup.py install
@@ -31,6 +32,11 @@ as well as RDKit fragment features
 <p align="center">
   <img src="SMILES.jpeg" width="500" title="SMILES">
 </p>
+
+## Examples
+
+See the examples folder for a bare minimum required to fit Tanimoto and string kernel GPs on training molecules and 
+evaluate on a heldout test set.
 
 ## Uncertainty Calibration
 
