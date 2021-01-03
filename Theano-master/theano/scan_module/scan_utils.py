@@ -70,11 +70,11 @@ def safe_new(x, tag='', dtype=None):
             nw_x = x.type()
         nw_x.name = nw_name
         if theano.config.compute_test_value != 'off':
-            # Copy test value, cast it if necessary
+            # Copy tests value, cast it if necessary
             try:
                 x_test_value = gof.op.get_test_value(x)
             except AttributeError:
-                # There is no test value
+                # There is no tests value
                 pass
             else:
                 # This clause is executed if no exception was raised
@@ -89,21 +89,21 @@ def safe_new(x, tag='', dtype=None):
             # ndarrays
             pass
 
-    # Cast x if needed. If x has a test value, this will also cast it.
+    # Cast x if needed. If x has a tests value, this will also cast it.
     if dtype and x.dtype != dtype:
         x = x.astype(dtype)
 
     nw_x = x.type()
     nw_x.name = nw_name
-    # Preserve test values so that the 'compute_test_value' option can be used.
-    # The test value is deep-copied to ensure there can be no interactions
-    # between test values, due to inplace operations for instance. This may
+    # Preserve tests values so that the 'compute_test_value' option can be used.
+    # The tests value is deep-copied to ensure there can be no interactions
+    # between tests values, due to inplace operations for instance. This may
     # not be the most efficient memory-wise, though.
     if theano.config.compute_test_value != 'off':
         try:
             nw_x.tag.test_value = copy.deepcopy(gof.op.get_test_value(x))
         except AttributeError:
-            # This means `x` has no test value.
+            # This means `x` has no tests value.
             pass
 
     return nw_x

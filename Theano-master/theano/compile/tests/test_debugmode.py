@@ -204,7 +204,7 @@ def test_badthunkoutput():
     # this should evaluate with no error
     f_good([1.0, 2.0, 3.0], [2, 3, 4])
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
 
     try:
         f_inconsistent([1.0, 2.0, 3.0], [2, 3, 4])
@@ -312,7 +312,7 @@ def test_stochasticoptimization():
 
 def test_just_c_code():
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
     x = theano.tensor.dvector()
     f = theano.function([x], wb2(x),
                         mode=debugmode.DebugMode(check_py_code=False))
@@ -344,7 +344,7 @@ def test_baddestroymap():
 
 def test_baddestroymap_c():
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
     x = theano.tensor.dvector()
     f = theano.function([x], wb2i(x),
                         mode=debugmode.DebugMode(check_py_code=False))
@@ -412,7 +412,7 @@ class Test_ViewMap(unittest.TestCase):
 
     def test_badviewmap_c(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
         x = theano.tensor.dvector()
         f = theano.function([x], wb1i(x),
                             mode=debugmode.DebugMode(check_py_code=False))
@@ -727,7 +727,7 @@ class Test_preallocated_output(unittest.TestCase):
         a = theano.tensor.fmatrix('a')
         b = theano.tensor.fmatrix('b')
         z = BrokenCImplementationAdd()(a, b)
-        # In this test, we do not want z to be an output of the graph.
+        # In this tests, we do not want z to be an output of the graph.
         out = theano.tensor.dot(z, numpy.eye(7))
 
         a_val = self.rng.randn(7, 7).astype('float32')
@@ -756,7 +756,7 @@ class Test_preallocated_output(unittest.TestCase):
             f(a_val, b_val)
 
     def test_f_contiguous_out(self):
-        # Same test as test_f_contiguous, but check that it works
+        # Same tests as test_f_contiguous, but check that it works
         # even if z _is_ the output of the graph
         a = theano.tensor.fmatrix('a')
         b = theano.tensor.fmatrix('b')

@@ -36,7 +36,7 @@ class test_ifelse(unittest.TestCase):
 
         up1[a] = 5
 
-        # test that addition works
+        # tests that addition works
         assert up1
         assert up1 + up2
         assert not up2

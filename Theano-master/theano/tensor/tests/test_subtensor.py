@@ -46,7 +46,7 @@ else:
 
 class T_subtensor(unittest.TestCase, utt.TestOptimizationMixin):
     """
-    This is build in a way that allow to reuse it to test the
+    This is build in a way that allow to reuse it to tests the
     equivalent gpu op.
     """
     def __init__(self, name, shared=tensor._shared,
@@ -319,7 +319,7 @@ class T_subtensor(unittest.TestCase, utt.TestOptimizationMixin):
 
     def test_long_too_big(self):
         # Currently, we cast Python longs to int64 when used for indexing.
-        # This test checks that using a long that does not fit raises an error.
+        # This tests checks that using a long that does not fit raises an error.
         n = self.shared(numpy.arange(12, dtype=self.dtype).reshape((4, 3)))
         self.assertRaises(Exception, lambda: n[:L(2 ** 63)])
 
@@ -456,7 +456,7 @@ class T_subtensor(unittest.TestCase, utt.TestOptimizationMixin):
             n = self.shared(data)
             t = n[idx]
 
-            # We test again AdvancedSubtensor1 as we transfer data to the cpu.
+            # We tests again AdvancedSubtensor1 as we transfer data to the cpu.
             self.assertTrue(isinstance(t.owner.op, tensor.AdvancedSubtensor1))
 
             val = self.eval_output_and_check(t, list=True)
@@ -480,7 +480,7 @@ class T_subtensor(unittest.TestCase, utt.TestOptimizationMixin):
                 out2 = test_out[0][0]
                 assert out1 is out2
 
-            # test the grad
+            # tests the grad
             gn = theano.grad(t.sum(), n)
             g = self.function([], gn, op=self.adv_incsub1)
             utt.verify_grad(lambda m: m[[1, 3]],
@@ -501,7 +501,7 @@ class T_subtensor(unittest.TestCase, utt.TestOptimizationMixin):
         n = self.shared(numpy.ones((2, 3), dtype=self.dtype) * 5)
         l = lvector()
         t = n[l]
-        # We test again AdvancedSubtensor1 as we transfer data to the cpu.
+        # We tests again AdvancedSubtensor1 as we transfer data to the cpu.
         self.assertTrue(isinstance(t.owner.op, tensor.AdvancedSubtensor1))
 
         f = self.function([l], t, op=self.adv_sub1)
@@ -1032,7 +1032,7 @@ class T_subtensor(unittest.TestCase, utt.TestOptimizationMixin):
                                 # Sanity check: `data_num` should be intact.
                                 assert (data_num == data_num_init).all()
 
-        # Actual test (we compile a single Theano function to make it faster).
+        # Actual tests (we compile a single Theano function to make it faster).
         orig_warn = theano.config.warn.gpu_set_subtensor1
         try:
             theano.config.warn.gpu_set_subtensor1 = False
@@ -1190,7 +1190,7 @@ class T_subtensor(unittest.TestCase, utt.TestOptimizationMixin):
 
 
 class TestIncSubtensor1(unittest.TestCase):
-    # test inc_subtensor
+    # tests inc_subtensor
     # also tests set_subtensor
 
     def setUp(self):
@@ -1248,7 +1248,7 @@ inplace_increment_missing = SkipTest(
 
 
 class TestAdvancedSubtensor(unittest.TestCase):
-    # test inc_subtensor
+    # tests inc_subtensor
     # also tests set_subtensor
     def __init__(self, name,
                  shared=tensor._shared,

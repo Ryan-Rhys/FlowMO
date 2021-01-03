@@ -56,9 +56,9 @@ class Solve(gof.Op):
 solve = Solve()
 
 
-# TODO: test dtype conversion
-# TODO: test that invalid types are rejected by make_node
-# TODO: test that each valid type for A and b works correctly
+# TODO: tests dtype conversion
+# TODO: tests that invalid types are rejected by make_node
+# TODO: tests that each valid type for A and b works correctly
 
 class T_solve(unittest.TestCase):
     def setUp(self):

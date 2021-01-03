@@ -13,9 +13,9 @@ mode = theano.compile.mode.get_mode(config.mode)
 
 class TestGaussNewton(unittest.TestCase):
     """
-    Regression test for code exhibiting various optimization errors.
+    Regression tests for code exhibiting various optimization errors.
 
-    This test case is based on code by Sigurd Spieckermann.
+    This tests case is based on code by Sigurd Spieckermann.
     """
     def setUp(self):
         self.rng = numpy.random.RandomState(utt.fetch_seed())
@@ -285,11 +285,11 @@ class TestPushOutSumOfDot():
 
     def test_machine_translation(self):
         """
-        This test case comes from https://github.com/rizar/scan-grad-speed and
+        This tests case comes from https://github.com/rizar/scan-grad-speed and
         is an example of actual computation done with scan in the context of
         machine translation
 
-        'dim' has been reduced from 1000 to 5 to make the test run faster
+        'dim' has been reduced from 1000 to 5 to make the tests run faster
         """
 
         # Parameters from an actual machine tranlation run

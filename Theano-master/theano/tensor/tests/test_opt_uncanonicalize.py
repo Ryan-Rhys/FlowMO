@@ -84,7 +84,7 @@ class T_min_max(unittest.TestCase):
             assert isinstance(topo[0].op, CAReduce)
             f(data)
 
-            # test variant with neg to make sure we optimize correctly
+            # tests variant with neg to make sure we optimize correctly
             f = function([n], tensor.min(-n, axis), mode=self.mode)
             topo = f.maker.fgraph.toposort()
             assert len(topo) == 2

@@ -20,7 +20,7 @@ def main(task, path, representation, use_pca, test_set_size, r_size, det_encoder
     :param path: str specifying the path to the photoswitches.csv file
     :param representation: str specifying the representation. One of [fingerprints, fragments, fragprints]
     :param use_pca: bool specifying whether or not to use PCA to perform Principal Components Regression
-    :param test_set_size: float specifying the train/test split ratio. e.g. 0.2 is 80/20 train/test split
+    :param test_set_size: float specifying the train/tests split ratio. e.g. 0.2 is 80/20 train/tests split
     :param r_size: Dimensionality of context encoding r.
     :param det_encoder_n_hidden: Number of deterministic encoder hidden layers.
     :param lat_encoder_n_hidden: Number of latent encoder hidden layers.
@@ -46,7 +46,7 @@ def main(task, path, representation, use_pca, test_set_size, r_size, det_encoder
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_set_size, random_state=42)
 
     if task != 'Photoswitch':
-        # Artificially create a 80/10/10 train/validation/test split discarding the validation set.
+        # Artificially create a 80/10/10 train/validation/tests split discarding the validation set.
         split_in_two = int(len(y_test) / 2)
         X_test = X_test[0:split_in_two]
         y_test = y_test[0:split_in_two]
@@ -97,7 +97,7 @@ def main(task, path, representation, use_pca, test_set_size, r_size, det_encoder
 
                             m.train(X_train, y_train, batch_size=batch_s, iterations=iter_num, print_freq=None)
 
-                            # Now, the context set comprises the training x / y values, the target set comprises the test x values.
+                            # Now, the context set comprises the training x / y values, the target set comprises the tests x values.
 
                             y_pred, y_var = m.predict(X_train, y_train, X_test, n_samples=100)
 
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     parser.add_argument('-pca', '--use_pca', type=bool, default=True,
                         help='If true, apply PCA to data (50 components).')
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
-                        help='Fraction of Dataset to use as test set.')
+                        help='Fraction of Dataset to use as tests set.')
     parser.add_argument('-rs', '--r_size', type=int, default=8,
                         help='Dimensionality of context encoding, r.')
     parser.add_argument('-dnh', '--det_encoder_n_hidden', type=int, default=2,

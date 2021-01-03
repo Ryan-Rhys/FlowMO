@@ -111,7 +111,7 @@ def main():
 
     # When 'theano-nose' is called-back under the time-profile option, an
     # instance of the custom Nosetests plugin class 'DisabDocString' (see
-    # below) is loaded. The latter ensures that the test name will not be
+    # below) is loaded. The latter ensures that the tests name will not be
     # replaced in display by the first line of the documentation string.
     if '--disabdocstring' in sys.argv:
         addplugins.append(DisabDocString())
@@ -152,7 +152,7 @@ def help():
                 `n` tests each. Default n is 100.
 
             --time-profile:
-                Each test will be run and timed separately and the results will
+                Each tests will be run and timed separately and the results will
                 be deposited in the files 'timeprof_sort', 'timeprof_nosort'
                 and 'timeprof_rawlog' in the current directory. If the
                 '--batch[=n]' option is also specified, notification of the
@@ -161,16 +161,16 @@ def help():
                 of 100 tests.
 
                 The files 'timeprof_sort' and 'timeprof_nosort' both contain one
-                record for each test and comprise the following fields:
-                - test running-time
-                - nosetests sequential test number
-                - test name
-                - name of class to which test belongs (if any), otherwise full
-                  information is contained in test name
-                - test outcome ('OK', 'SKIPPED TEST', 'FAILED TEST' or
+                record for each tests and comprise the following fields:
+                - tests running-time
+                - nosetests sequential tests number
+                - tests name
+                - name of class to which tests belongs (if any), otherwise full
+                  information is contained in tests name
+                - tests outcome ('OK', 'SKIPPED TEST', 'FAILED TEST' or
                   'FAILED PARSING')
 
-                In 'timeprof_sort', test records are sorted according to
+                In 'timeprof_sort', tests records are sorted according to
                 running-time whereas in 'timeprof_nosort' records are reported
                 according to sequential number. The former classification is the
                 main information source for time-profiling. Since tests belonging
@@ -204,7 +204,7 @@ class DisabDocString(Plugin):
 
     """
     When activated, a custom Nosetests plugin created through this class
-    will preclude automatic replacement in display of the name of the test
+    will preclude automatic replacement in display of the name of the tests
     by the first line in its documentation string.
 
     Sources:
@@ -253,8 +253,8 @@ class DisabDocString(Plugin):
         self.enabled = getattr(options, self.enableOpt)
 
     def describeTest(self, test):
-        # 'describeTest' is also called when the test result in Nosetests calls
-        # 'test.shortDescription()' and can thus be used to alter the display.
+        # 'describeTest' is also called when the tests result in Nosetests calls
+        # 'tests.shortDescription()' and can thus be used to alter the display.
         return False
 
 if __name__ == '__main__':

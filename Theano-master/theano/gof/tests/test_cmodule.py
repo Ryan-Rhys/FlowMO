@@ -38,7 +38,7 @@ def test_inter_process_cache():
     in the graph with different inputs variable(so they don't get
     merged) but the inputs variable have the same type, do we reuse
     the same module? Even if they would generate different c_code?
-    Currently this test show that we generate the c_code only once.
+    Currently this tests show that we generate the c_code only once.
 
     This is to know if the c_code can add information specific to the
     node.inputs[*].owner like the name of the variable.
@@ -67,5 +67,5 @@ def test_flag_detection():
     # Check that the code detecting blas flags does not raise any exception.
     # It used to happen on python 3 because of improper string handling,
     # but was not detected because that path is not usually taken,
-    # so we test it here directly.
+    # so we tests it here directly.
     GCC_compiler.try_flags(["-lblas"])

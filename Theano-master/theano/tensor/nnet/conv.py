@@ -80,7 +80,7 @@ def conv2d(input, filters, image_shape=None, filter_shape=None,
                 config.openmp. For small image, filter,
                 batch size, nkern and stack size, it can be
                 faster to disable manually openmp. A fast and
-                incomplete test show that with image size
+                incomplete tests show that with image size
                 6x6, filter size 4x4, batch size==1,
                 n kern==1 and stack size==1, it is faster
                 to disable it in valid mode. But if we

@@ -7,7 +7,7 @@ import theano
 import theano.tensor as T
 import theano.tests.unittest_tools as utt
 
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 import theano.sandbox.cuda as cuda
 if not cuda.cuda_available:
     raise SkipTest('Optional package cuda disabled')
@@ -25,7 +25,7 @@ else:
 
 def test_GpuCrossentropySoftmaxArgmax1HotWithBias():
     """
-    This is basic test for GpuCrossentropySoftmaxArgmax1HotWithBias
+    This is basic tests for GpuCrossentropySoftmaxArgmax1HotWithBias
 
     We check that we loop when there are too many threads
 
@@ -43,7 +43,7 @@ def test_GpuCrossentropySoftmaxArgmax1HotWithBias():
 
     b = T.fvector('b')
 
-    # we precompute the dot with big shape before to allow the test of
+    # we precompute the dot with big shape before to allow the tests of
     # GpuCrossentropySoftmax1HotWithBiasDx to don't fail with the error
     # (the launch timed out and was terminated) on GPU card not
     # powerful enough. We need the big shape to check for corner
@@ -96,7 +96,7 @@ def test_GpuCrossentropySoftmaxArgmax1HotWithBias():
 
 def test_GpuCrossentropySoftmax1HotWithBiasDx():
     """
-    This is basic test for GpuCrossentropySoftmax1HotWithBiasDx
+    This is basic tests for GpuCrossentropySoftmax1HotWithBiasDx
 
     We check that we loop when there are too many threads
 
@@ -162,7 +162,7 @@ def test_GpuCrossentropySoftmax1HotWithBiasDx():
 
 def test_softmax_with_bias():
     """
-    This is basic test for GpuSoftmaxWithBias
+    This is basic tests for GpuSoftmaxWithBias
 
     We check that we loop when their is too much block
 
@@ -170,7 +170,7 @@ def test_softmax_with_bias():
     NOT IMPLEMENTED)
     """
     x = T.fmatrix('x')
-    # We can't use zeros_like(x[0,::]) as this don't allow to test with
+    # We can't use zeros_like(x[0,::]) as this don't allow to tests with
     # 0 shape.
     z = T.nnet.softmax_with_bias(x, T.arange(x.shape[1] * 2,
                                              dtype='float32')[::2])
@@ -189,7 +189,7 @@ def test_softmax_with_bias():
         assert numpy.allclose(out, gout), numpy.absolute(out - gout)
 
     cmp(2, 5)
-    # we need to test n>32*1024 to check that we make the block loop.
+    # we need to tests n>32*1024 to check that we make the block loop.
     cmp(2 << 15, 5)
     cmp(4074, 400)
     cmp(0, 10)
@@ -223,7 +223,7 @@ class test_SoftMax(unittest.TestCase):
         check_types
     ):
         """
-        This is basic test for GpuSoftmax and GpuDnnSoftmax
+        This is basic tests for GpuSoftmax and GpuDnnSoftmax
 
         We check that we loop when there is too much block
         We use slower code when there isn't enough shared memory
@@ -235,7 +235,7 @@ class test_SoftMax(unittest.TestCase):
         f_gpu = theano.function([x_gpu], f_gpu_z_out, mode=self.mode)
         check_types(f, f_gpu)
 
-        # we need to test n>32*1024 to check that we make the block loop.
+        # we need to tests n>32*1024 to check that we make the block loop.
         cmp(1, 5, f, f_gpu)
         cmp(2, 5, f, f_gpu)
         cmp(10, 5, f, f_gpu)

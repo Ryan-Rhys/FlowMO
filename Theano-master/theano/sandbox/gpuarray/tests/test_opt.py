@@ -347,7 +347,7 @@ def test_local_gpu_elemwise():
     assert sum(type(node.op) == tensor.Elemwise for node in topo) == 0
     utt.assert_allclose(f(a_v, b_v, c_v), a_v + b_v + c_v)
 
-    # Now test with the composite already on the cpu before we move it
+    # Now tests with the composite already on the cpu before we move it
     # to the gpu
     a_s = theano.scalar.int8()
     b_s = theano.scalar.float32()

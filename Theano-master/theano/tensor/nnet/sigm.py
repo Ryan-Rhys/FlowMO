@@ -267,7 +267,7 @@ def local_ultra_fast_sigmoid(node):
 
         def values_eq_approx_remove_low_prec(a, b):
             # atol is found by trial/error.
-            # Other test could fail without good reason.
+            # Other tests could fail without good reason.
             return tensor.TensorType.values_eq_approx(a, b, atol=0.02)
         # Let DebugMode know that there this opt approx the values.
         out.tag.values_eq_approx = values_eq_approx_remove_low_prec
@@ -307,7 +307,7 @@ def local_hard_sigmoid(node):
 
         def values_eq_approx_remove_low_prec(a, b):
             # atol is found by trial/error.
-            # Other test could fail without good reason.
+            # Other tests could fail without good reason.
             return tensor.TensorType.values_eq_approx(a, b, atol=0.1)
         # Let DebugMode know that there this opt approx the values.
         out.tag.values_eq_approx = values_eq_approx_remove_low_prec

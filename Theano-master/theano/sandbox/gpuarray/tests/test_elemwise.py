@@ -16,7 +16,7 @@ from ..type import GpuArrayType, get_context
 from pygpu import ndgpuarray as gpuarray
 
 
-# This is acutally a test for GpuElemwise
+# This is acutally a tests for GpuElemwise
 class test_gpu_Broadcast(test_elemwise.test_Broadcast):
     op = GpuElemwise
     type = GpuArrayType
@@ -151,12 +151,12 @@ class test_GpuCAReduceCuda(test_GpuCAReduceCPY):
              ((1, 2), (1,)),
              ((100, 3, 1300), [1]),
              ((0,), [0]), ((5,), [0]),
-             ((0, 0), [0, 1]), ((1, 0), [0, 1]), ((5, 4), [0, 1]), ((33, 31), [0, 1]), ((5, 4), [1]), ((5, 4), [0]),  # need something bigger then 32 for some opt test.
+             ((0, 0), [0, 1]), ((1, 0), [0, 1]), ((5, 4), [0, 1]), ((33, 31), [0, 1]), ((5, 4), [1]), ((5, 4), [0]),  # need something bigger then 32 for some opt tests.
              ((5, 4, 3), [0]), ((5, 4, 3), [1]), ((5, 4, 3), [0, 1]), ((5, 4, 3), [2]), ((5, 4, 3), [1, 2]), ((5, 4, 3), [0, 1, 2]),
              ((0, 0, 0, 0), [0, 1, 2, 3]),
              ((5, 4, 3, 20), [2, 3]), ((5, 4, 3, 2), [0, 1, 2, 3]), ((5, 4, 3, 2), [0, 2, 3]), ((5, 4, 3, 2), [1, 2, 3]),
 
-             # test shape bigger then 4096 on each dimension to make sure that we work correctly when we don't have enough thread/block in each dimensions
+             # tests shape bigger then 4096 on each dimension to make sure that we work correctly when we don't have enough thread/block in each dimensions
              ((4100, 3), [0]), ((3, 4101), [0]),  # 10
              ((1024, 33), [0]), ((33, 1024), [0]),  # 10
              ((1025, 33), [0]), ((33, 1025), [0]),  # 10
@@ -197,8 +197,8 @@ class test_GpuCAReduceCuda(test_GpuCAReduceCPY):
              # reduce over 4d
              ((4100, 2, 3, 4), [0, 1, 2, 3]), ((2, 4100, 3, 4), [0, 1, 2, 3]), ((2, 3, 4100, 4), [0, 1, 2, 3]), ((2, 3, 4, 4100), [0, 1, 2, 3]), ((128, 1, 3, 3), [0, 1, 2, 3]),  # 1111
 
-             # test pattern implemented by reshape
-             # Skip them as this test the op directly, not the optimization with reshape
+             # tests pattern implemented by reshape
+             # Skip them as this tests the op directly, not the optimization with reshape
              # ((4100,4,3,2),[0]),((4,4100,3,2),[0]),((4,3,4100,2),[0]),((4,3,2,4100),[0]),#1000
              # ((4100,4,3,2),[1]),((4,4100,3,2),[1]),((4,3,4100,2),[1]),((4,3,2,4100),[1]),#0100
              # ((4100,4,3,2),[2]),((4,4100,3,2),[2]),((4,3,4100,2),[2]),((4,3,2,4100),[2]),#0010

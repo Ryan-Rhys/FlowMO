@@ -153,7 +153,7 @@ class TestConv2D(utt.InferShapeTester):
         self.validate((3, 2, 7, 5), (5, 2, 3, 2), 'valid', verify_grad=False)
         self.validate((3, 2, 8, 8), (4, 2, 5, 5), 'full', verify_grad=False)
         self.validate((3, 2, 7, 5), (5, 2, 2, 3), 'full')
-        # test filter same size as input
+        # tests filter same size as input
 
     def test_uint_image_shape_datatype(self):
         """Tests for uint datatype in image_shape.
@@ -251,7 +251,7 @@ class TestConv2D(utt.InferShapeTester):
 
     def test_unroll_batch_kern_fail(self):
         """Test mini-batch unrolling with kernel unrolling for various
-        legal values, but pass bad input.  All those test must
+        legal values, but pass bad input.  All those tests must
         generate errors
 
         """

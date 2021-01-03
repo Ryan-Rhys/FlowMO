@@ -202,7 +202,7 @@ class T_Images2Neibs(unittest_tools.InferShapeTester):
                      [11, 12, 13, 16, 17, 18, 21, 22, 23],
                      [13, 14, 10, 18, 19, 15, 23, 24, 20]]
 
-        # TODO test discontinous image
+        # TODO tests discontinous image
 
         for shp_idx, (shape, neib_shape, neib_step, expected) in enumerate([
             [(7, 8, 5, 5), (3, 3), (2, 2), expected1],
@@ -277,7 +277,7 @@ class T_Images2Neibs(unittest_tools.InferShapeTester):
             f()
 
     def test_grad_wrap_centered(self):
-        # It is not implemented for now. So test that we raise an error.
+        # It is not implemented for now. So tests that we raise an error.
         shape = (2, 3, 6, 6)
         images_val = numpy.random.rand(*shape).astype('float32')
 

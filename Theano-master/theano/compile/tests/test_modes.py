@@ -13,7 +13,7 @@ from theano.compile import Mode, ProfileMode
 class T_bunch_of_modes(unittest.TestCase):
 
     def test1(self):
-        # this is a quick test after the LazyLinker branch merge
+        # this is a quick tests after the LazyLinker branch merge
         # to check that all the current modes can still be used.
         linker_classes_involved = []
 
@@ -34,7 +34,7 @@ class T_bunch_of_modes(unittest.TestCase):
             x = T.matrix()
             y = T.vector()
             f = theano.function([x, y], x + y, mode=mode)
-            # test that it runs something
+            # tests that it runs something
             f([[1, 2], [3, 4]], [5, 6])
             linker_classes_involved.append(f.maker.mode.linker.__class__)
             # print 'MODE:', mode, f.maker.mode.linker, 'stop'
@@ -65,7 +65,7 @@ class T_ProfileMode_WrapLinker(unittest.TestCase):
         # because an fgraph was associated to the default linker
         copy.deepcopy(modified_mode)
 
-        # More straightforward test
+        # More straightforward tests
         linker = theano.compile.mode.get_default_mode().linker
         assert not hasattr(linker, "fgraph") or linker.fgraph is None
 

@@ -1574,8 +1574,8 @@ def verify_grad(fun, pt, n_tests=2, rng=None, eps=None,
         a single output.
     :param pt: the list of numpy.ndarrays to use as input values.
         These arrays must be either float32 or float64 arrays.
-    :param n_tests: number of times to run the test
-    :param rng: random number generator used to sample u, we test gradient
+    :param n_tests: number of times to run the tests
+    :param rng: random number generator used to sample u, we tests gradient
         of sum(u * fun) at pt
     :param eps: stepsize used in the Finite Difference Method (Default
         None is type-dependent)
@@ -1594,7 +1594,7 @@ def verify_grad(fun, pt, n_tests=2, rng=None, eps=None,
         cast_to_output_type is True, cast the random projection to
         float32. Otherwise it is float64.
 
-    :note: WARNING to unit-test writers: if `op` is a function that builds
+    :note: WARNING to unit-tests writers: if `op` is a function that builds
         a graph, try to make it a SMALL graph.  Often verify grad is run
         in debug mode, which can be very slow if it has to verify a lot of
         intermediate computations.
@@ -1708,7 +1708,7 @@ def verify_grad(fun, pt, n_tests=2, rng=None, eps=None,
                                          max_abs_err, max_rel_err,
                                          abs_tol, rel_tol)
 
-            # get new random projection for next test
+            # get new random projection for next tests
             if test_num < n_tests - 1:
                 t_r.set_value(random_projection(), borrow=True)
         except Exception as e:

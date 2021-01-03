@@ -102,8 +102,8 @@ else:
 
 if config.device.startswith('gpu') or config.init_gpu_device.startswith('gpu'):
     import theano.sandbox.cuda
-    # We can't test the driver during import of theano.sandbox.cuda as
-    # this cause circular import dependency. So we also test it manually
+    # We can't tests the driver during import of theano.sandbox.cuda as
+    # this cause circular import dependency. So we also tests it manually
     # after the import
     if theano.sandbox.cuda.cuda_available:
         import theano.sandbox.cuda.tests.test_driver
@@ -185,7 +185,7 @@ def get_scalar_constant_value(v):
     If `v` is not some view of constant data, then raise a
     tensor.basic.NotScalarConstantError.
     """
-    # Is it necessary to test for presence of theano.sparse at runtime?
+    # Is it necessary to tests for presence of theano.sparse at runtime?
     if 'sparse' in globals() and isinstance(v.type, sparse.SparseType):
         if v.owner is not None and isinstance(v.owner.op, sparse.CSM):
             data = v.owner.inputs[0]

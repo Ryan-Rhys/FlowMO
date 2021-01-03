@@ -286,7 +286,7 @@ class TestCorrConv2d(BaseTestConv2d):
     def tcase(self, i, f, s, b, flip, provide_shape):
         o = self.get_output_shape(i, f, s, b)
         if not theano.config.blas.ldflags:
-            raise SkipTest("Need blas to test conv2d")
+            raise SkipTest("Need blas to tests conv2d")
         self.run_fwd(inputs_shape=i, filters_shape=f, subsample=s,
                      verify_grad=True, provide_shape=provide_shape,
                      border_mode=b, filter_flip=flip, target_op=CorrMM)
@@ -337,7 +337,7 @@ class TestCpuConv2d(BaseTestConv2d):
 
         if fwd_OK:
             if not theano.config.blas.ldflags:
-                raise SkipTest("Need blas to test conv2d")
+                raise SkipTest("Need blas to tests conv2d")
             self.run_fwd(inputs_shape=i, filters_shape=f, subsample=s,
                          verify_grad=(gradweight_OK and gradinput_OK),
                          mode=mode, provide_shape=provide_shape,
@@ -356,7 +356,7 @@ class TestCpuConv2d(BaseTestConv2d):
 
         if gradweight_OK:
             if not theano.config.blas.ldflags:
-                raise SkipTest("Need blas to test conv2d")
+                raise SkipTest("Need blas to tests conv2d")
             self.run_gradweight(inputs_shape=i, filters_shape=f,
                                 output_shape=o, subsample=s,
                                 verify_grad=False, mode=mode,
@@ -378,7 +378,7 @@ class TestCpuConv2d(BaseTestConv2d):
 
         if gradinput_OK:
             if not theano.config.blas.ldflags:
-                raise SkipTest("Need blas to test conv2d")
+                raise SkipTest("Need blas to tests conv2d")
             self.run_gradinput(inputs_shape=i, filters_shape=f,
                                output_shape=o, subsample=s,
                                verify_grad=False, mode=mode,
@@ -539,7 +539,7 @@ class TestConvTypes(unittest.TestCase):
 
 class TestBilinearUpsampling(unittest.TestCase):
     # If BLAS is not available on CPU, then we accept the fallback to the
-    # slow Python implementation for that test.
+    # slow Python implementation for that tests.
     compile_mode = theano.compile.mode.get_default_mode()
     if not theano.config.blas.ldflags:
         compile_mode = compile_mode.excluding('AbstractConvCheck')

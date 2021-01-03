@@ -41,4 +41,4 @@ class T_config(unittest.TestCase):
         # Check that the flag has been removed
         assert 'T_config.test_invalid_default_b' not in THEANO_FLAGS_DICT
 
-        # TODO We should remove these dummy options on test exit.
+        # TODO We should remove these dummy options on tests exit.

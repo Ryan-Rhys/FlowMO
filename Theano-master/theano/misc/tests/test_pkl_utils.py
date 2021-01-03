@@ -37,10 +37,10 @@ class T_dump_load(unittest.TestCase):
         x = CudaNdarraySharedVariable('x', CudaNdarrayType((1, 1), name='x'),
                                       [[1]], False)
 
-        with open('test', 'wb') as f:
+        with open('tests', 'wb') as f:
             dump(x, f)
 
-        with open('test', 'rb') as f:
+        with open('tests', 'rb') as f:
             x = load(f)
 
         assert x.name == 'x'
@@ -49,10 +49,10 @@ class T_dump_load(unittest.TestCase):
     def test_dump_load_mrg(self):
         rng = MRG_RandomStreams(use_cuda=cuda_ndarray.cuda_enabled)
 
-        with open('test', 'wb') as f:
+        with open('tests', 'wb') as f:
             dump(rng, f)
 
-        with open('test', 'rb') as f:
+        with open('tests', 'rb') as f:
             rng = load(f)
 
         assert type(rng) == MRG_RandomStreams
@@ -86,7 +86,7 @@ class TestStripPickler(unittest.TestCase):
             shutil.rmtree(self.tmpdir)
 
     def test0(self):
-        with open('test.pkl', 'wb') as f:
+        with open('tests.pkl', 'wb') as f:
             m = theano.tensor.matrix()
             dest_pkl = 'my_test.pkl'
             f = open(dest_pkl, 'wb')

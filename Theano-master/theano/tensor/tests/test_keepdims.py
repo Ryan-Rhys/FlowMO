@@ -43,7 +43,7 @@ class TestKeepDims(unittest.TestCase):
 
         x = tensor.dtensor3()
         a = numpy.random.rand(3, 2, 4)
-        # We don't need to test all opt and C code, as this is tested
+        # We don't need to tests all opt and C code, as this is tested
         # by the ops tests.
         mode = theano.compile.Mode(optimizer="fast_compile", linker="py")
 

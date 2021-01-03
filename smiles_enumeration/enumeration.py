@@ -16,8 +16,8 @@ def main(path, task, aug_factor, n_trials, test_set_size):
     :param path: str specifying path to dataset.
     :param task: str specifying the task. One of ['Photoswitch', 'ESOL', 'FreeSolv', 'Lipophilicity']
     :param aug_factor: Factor by which to augment the SMILES dataset.
-    :param n_trials: int specifying number of random train/test splits to use
-    :param test_set_size: float in range [0, 1] specifying fraction of dataset to use as test set
+    :param n_trials: int specifying number of random train/tests splits to use
+    :param test_set_size: float in range [0, 1] specifying fraction of dataset to use as tests set
     """
     data_loader = TaskDataLoader(task, path)
     smiles_list, y = data_loader.load_property_data()
@@ -30,18 +30,18 @@ def main(path, task, aug_factor, n_trials, test_set_size):
 
         X_train, smiles_card, y_train = augmentation(np.array(X_train), y_train, aug_factor, canon=False, rotate=True)
 
-        # Augment the test set SMILES by a factor equal to aug_factor
+        # Augment the tests set SMILES by a factor equal to aug_factor
 
         X_test_aug, smiles_test_card, y_test_aug = augmentation(np.array(X_test), y_test, aug_factor, canon=False, rotate=True)
 
-        # Save the augmented train SMILES with fixed test set.
+        # Save the augmented train SMILES with fixed tests set.
 
         np.savetxt(f'enumerated_datasets/{task}/X_train_split_aug_x{aug_factor}_split_{i}.txt', X_train, fmt="%s")
         np.savetxt(f'enumerated_datasets/{task}/X_test_split_aug_x{aug_factor}_split_{i}.txt', X_test, fmt="%s")
         np.savetxt(f'enumerated_datasets/{task}/y_train_split_aug_x{aug_factor}_split_{i}.txt', y_train)
         np.savetxt(f'enumerated_datasets/{task}/y_test_split_aug_x{aug_factor}_split_{i}.txt', y_test)
 
-        # Save the augmented test SMILES. aug in front of filename denotes test set augmentation as well.
+        # Save the augmented tests SMILES. aug in front of filename denotes tests set augmentation as well.
 
         np.savetxt(f'enumerated_datasets/{task}/aug_X_test_split_aug_x{aug_factor}_split_{i}.txt', X_test_aug, fmt="%s")
         np.savetxt(f'enumerated_datasets/{task}/aug_y_test_split_aug_x{aug_factor}_split_{i}.txt', y_test_aug)
@@ -58,9 +58,9 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--aug_factor', type=int, default=15,
                         help='Augmentation Factor.')
     parser.add_argument('-n', '--n_trials', type=int, default=20,
-                        help='int specifying number of random train/test splits to use')
+                        help='int specifying number of random train/tests splits to use')
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
-                        help='float in range [0, 1] specifying fraction of dataset to use as test set')
+                        help='float in range [0, 1] specifying fraction of dataset to use as tests set')
 
     args = parser.parse_args()
 

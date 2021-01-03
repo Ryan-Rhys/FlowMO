@@ -83,7 +83,7 @@ class TestSignalConv2D(unittest.TestCase):
     def test_basic(self):
         """
         Basic functionality of nnet.conv.ConvOp is already tested by
-        its own test suite.  We just have to test whether or not
+        its own tests suite.  We just have to tests whether or not
         signal.conv.conv2d can support inputs and filters of type
         matrix or tensor3.
         """

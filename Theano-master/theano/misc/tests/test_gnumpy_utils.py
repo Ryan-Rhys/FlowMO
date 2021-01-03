@@ -6,7 +6,7 @@ from theano.misc.gnumpy_utils import gnumpy_available
 
 if not gnumpy_available:  # noqa
     from nose.plugins.skip import SkipTest
-    raise SkipTest("gnumpy not installed. Skip test related to it.")
+    raise SkipTest("gnumpy not installed. Skip tests related to it.")
 
 from theano.misc.gnumpy_utils import (garray_to_cudandarray,
                                       cudandarray_to_garray)

@@ -36,10 +36,10 @@ class TFunctionGraph(unittest.TestCase):
         fgraph.variables event if the apply had other output used in
         the graph. This caused a crash.
 
-        This test run the pickle that reproduce this case.
+        This tests run the pickle that reproduce this case.
         """
         if sys.version_info[:2] < (2, 7):
-            raise SkipTest("This test need python 2.7 or more recent.")
+            raise SkipTest("This tests need python 2.7 or more recent.")
         with open(os.path.join(os.path.dirname(__file__),
                                'test_fg_old_crash.pkl'),
                   'rb') as f:

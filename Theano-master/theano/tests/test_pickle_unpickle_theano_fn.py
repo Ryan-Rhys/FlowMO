@@ -43,7 +43,7 @@ def test_pickle_unpickle_with_reoptimization():
     in1 = numpy.ones((10, 10), dtype=floatX)
     in2 = numpy.ones((10, 10), dtype=floatX)
 
-    # test unpickle with optimization
+    # tests unpickle with optimization
     default = theano.config.reoptimize_unpickled_function
     try:
         # the default is True
@@ -76,7 +76,7 @@ def test_pickle_unpickle_without_reoptimization():
     in1 = numpy.ones((10, 10), dtype=floatX)
     in2 = numpy.ones((10, 10), dtype=floatX)
 
-    # test unpickle without optimization
+    # tests unpickle without optimization
     default = theano.config.reoptimize_unpickled_function
     try:
         # the default is True

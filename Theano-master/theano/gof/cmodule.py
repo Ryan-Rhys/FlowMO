@@ -1696,7 +1696,7 @@ class Compiler(object):
     def _try_compile_tmp(src_code, tmp_prefix='', flags=(),
                          try_run=False, output=False, compiler=None):
         """
-        Try to compile (and run) a test program.
+        Try to compile (and run) a tests program.
 
         This is useful in various occasions, to check if libraries
         or compilers are behaving as expected.

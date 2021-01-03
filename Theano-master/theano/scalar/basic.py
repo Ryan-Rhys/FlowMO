@@ -682,7 +682,7 @@ complexs128 = _multi(complex128)
 # Using a class instead of a function makes it possible to deep-copy it in
 # Python 2.4.
 # Note that currently only a few functions use this mechanism, because it is
-# enough to make the test-suite pass with Python 2.4. However, it may prove
+# enough to make the tests-suite pass with Python 2.4. However, it may prove
 # necessary to use this same mechanism in other places as well in the future.
 class upcast_out(object):
     def __new__(self, *types):

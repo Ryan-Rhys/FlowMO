@@ -4,7 +4,7 @@ import sys
 import unittest
 
 import numpy
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 from nose.plugins.skip import SkipTest
 from nose.tools import assert_raises
 
@@ -309,7 +309,7 @@ def test_opt_gpujoin_onlyajoin():
 
     assert numpy.all(f() == numpy.concatenate([_a, _b], axis=1))
 
-    # test mixed dtype
+    # tests mixed dtype
     _b = numpy.asarray([[5, 6, 7], [8, 9, 10]], dtype='float64')
     b = theano.tensor.constant(_b)
 
@@ -648,7 +648,7 @@ def test_local_gpu_elemwise_0():
     assert sum(isinstance(node.op, tensor.Elemwise) for node in topo) == 1
     utt.assert_allclose(f(a_v, b_v, c_v), a_v + b_v + c_v)
 
-    # Now test with the composite already on the cpu before we move it
+    # Now tests with the composite already on the cpu before we move it
     # to the gpu
     a_s = theano.scalar.int8()
     b_s = theano.scalar.float32()
@@ -872,8 +872,8 @@ class Test_GpuReshape(test_opt.Test_Reshape):
 
 
 def test_local_abstractconv_gemm():
-    """ We test it here as this is the optimization only that we test.
-    This test gh-4036"""
+    """ We tests it here as this is the optimization only that we tests.
+    This tests gh-4036"""
     image = tensor.ftensor4()
     W = tensor.ftensor4()
     conv = tensor.nnet.conv2d(image,

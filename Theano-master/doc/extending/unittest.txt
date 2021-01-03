@@ -46,19 +46,19 @@ example:
     class MyTestCase(unittest.TestCase):
         def test0(self):
             pass
-            # test passes cleanly
+            # tests passes cleanly
 
         def test1(self):
             self.assertTrue(2+2 == 5)
-            # raises an exception, causes test to fail
+            # raises an exception, causes tests to fail
 
         def test2(self):
             assert 2+2 == 5
-            # causes error in test (basically a failure, but counted separately)
+            # causes error in tests (basically a failure, but counted separately)
 
         def test2(self):
             assert 2+2 == 4
-            # this test has the same name as a previous one,
+            # this tests has the same name as a previous one,
             # so this is the one that runs.
 
 
@@ -210,7 +210,7 @@ generators -- more on this later)
     
     class TestTensorDot(unittest.TestCase):
         def setUp(self):
-            # data which will be used in various test methods
+            # data which will be used in various tests methods
             self.avals = numpy.array([[1,5,3],[2,4,1]])
             self.bvals = numpy.array([[2,3,1,8],[4,2,1,1],[1,4,8,5]])
 

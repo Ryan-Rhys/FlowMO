@@ -6,7 +6,7 @@ import theano.misc.pycuda_init
 
 if not theano.misc.pycuda_init.pycuda_available:  # noqa
     from nose.plugins.skip import SkipTest
-    raise SkipTest("Pycuda not installed. Skip test of theano op with pycuda "
+    raise SkipTest("Pycuda not installed. Skip tests of theano op with pycuda "
                    "code.")
 
 if cuda.cuda_available is False:  # noqa

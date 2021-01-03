@@ -15,7 +15,7 @@ if __name__ == '__main__':
     opts, args = getopt.getopt(
         sys.argv[1:],
         'o:f:',
-        ['rst', 'help', 'nopdf', 'cache', 'check', 'test'])
+        ['rst', 'help', 'nopdf', 'cache', 'check', 'tests'])
     options.update(dict([x, y or True] for x, y in opts))
     if options['--help']:
         print('Usage: %s [OPTIONS] [files...]' % sys.argv[0])
@@ -23,7 +23,7 @@ if __name__ == '__main__':
         print('  --cache: use the doctree cache')
         print('  --rst: only compile the doc (requires sphinx)')
         print('  --nopdf: do not produce a PDF file from the doc, only HTML')
-        print('  --test: run all the code samples in the documentaton')
+        print('  --tests: run all the code samples in the documentaton')
         print('  --check: treat warnings as errors')
         print('  --help: this help')
         print('If one or more files are specified after the options then only '
@@ -31,7 +31,7 @@ if __name__ == '__main__':
               'processed. Specifying files will implies --cache.')
         sys.exit(0)
 
-    if not(options['--rst'] or options['--test']):
+    if not(options['--rst'] or options['--tests']):
         # Default is now rst
         options['--rst'] = True
 
@@ -92,7 +92,7 @@ if __name__ == '__main__':
             except IOError as e:
                 print('IOError:', e)
 
-    if options['--test']:
+    if options['--tests']:
         mkdir("doc")
         sys.path[0:0] = [os.path.join(throot, 'doc')]
         call_sphinx('doctest', '.')

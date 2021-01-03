@@ -145,9 +145,9 @@ AddConfigVar(
     """
     Context map for multi-gpu operation. Format is a
     semicolon-separated list of names and device names in the
-    'name->dev_name' format. An example that would map name 'test' to
+    'name->dev_name' format. An example that would map name 'tests' to
     device 'cuda0' and name 'test2' to device 'opencl0:0' follows:
-    "test->cuda0;test2->opencl0:0".
+    "tests->cuda0;test2->opencl0:0".
 
     Invalid context names are 'cpu', 'cuda*' and 'opencl*'
     """, ContextsParam(), in_c_key=False)
@@ -383,7 +383,7 @@ except OSError:
 if rc != 0:
     param = ""
 
-# On Mac we test for 'clang++' and use it by default
+# On Mac we tests for 'clang++' and use it by default
 if sys.platform == 'darwin':
     try:
         rc = call_subprocess_Popen(['clang++', '-v'])
@@ -747,7 +747,7 @@ AddConfigVar(
     ("If 'True', the __eval__ of a Theano variable will return its test_value "
      "when this is available. This has the practical conseguence that, e.g., "
      "in debugging `my_var` will print the same as `my_var.tag.test_value` "
-     "when a test value is defined."),
+     "when a tests value is defined."),
     BoolParam(False),
     in_c_key=False)
 
@@ -992,7 +992,7 @@ AddConfigVar('DebugMode.check_preallocated_output',
 
 AddConfigVar('DebugMode.check_preallocated_output_ndim',
              ('When testing with "strided" preallocated output memory, '
-              'test all combinations of strides over that number of '
+              'tests all combinations of strides over that number of '
               '(inner-most) dimensions. You may want to reduce that number '
               'to reduce memory or time usage, but it is advised to keep a '
               'minimum of 2.'),
@@ -1172,7 +1172,7 @@ def default_blas_ldflags():
             lib_path = os.path.join(sys.base_prefix, subsub)
             if not os.path.exists(lib_path):
                 # Old logic to find the path. I don't think we still
-                # need it, but I don't have the time to test all
+                # need it, but I don't have the time to tests all
                 # installation configuration. So I keep this as a fall
                 # back in case the current expectation don't work.
 
@@ -1271,7 +1271,7 @@ def default_blas_ldflags():
     # Even if we could not detect what was used for numpy, or if these
     # libraries are not found, most Linux systems have a libblas.so
     # readily available. We try to see if that's the case, rather
-    # than disable blas. To test it correctly, we must load a program.
+    # than disable blas. To tests it correctly, we must load a program.
     # Otherwise, there could be problem in the LD_LIBRARY_PATH.
     return try_blas_flag(['-lblas'])
 

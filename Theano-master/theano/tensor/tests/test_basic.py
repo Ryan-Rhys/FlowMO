@@ -145,7 +145,7 @@ def get_numeric_types(with_int=True, with_float=True, with_complex=False,
 
     Note that when `only_theano_types` is True we could simply return the list
     of types defined in the `scalar` module. However with this function we can
-    test more unique dtype objects, and in the future we may use it to
+    tests more unique dtype objects, and in the future we may use it to
     automatically detect new data types introduced in numpy.
     """
     if only_theano_types:
@@ -155,7 +155,7 @@ def get_numeric_types(with_int=True, with_float=True, with_complex=False,
     def is_within(cls1, cls2):
         # Return True if scalars defined from `cls1` are within the hierarchy
         # starting from `cls2`.
-        # The third test below is to catch for instance the fact that
+        # The third tests below is to catch for instance the fact that
         # one can use ``dtype=numpy.number`` and obtain a float64 scalar, even
         # though `numpy.number` is not under `numpy.floating` in the class
         # hierarchy.
@@ -286,20 +286,20 @@ def makeTester(name, op, expected, checks=None, good=None, bad_build=None,
         test_memmap = _test_memmap
 
         def setUp(self):
-            # Verify that the test's name is correctly set.
+            # Verify that the tests's name is correctly set.
             # Some tests reuse it outside this module.
             if self.check_name:
                 eval(self.__class__.__module__ + '.' + self.__class__.__name__)
 
             # We keep a list of temporary files created in add_memmap_values,
-            # to remove them at the end of the test.
+            # to remove them at the end of the tests.
             self.tmp_files = []
 
         def add_memmap_values(self, val_dict):
             # If test_memmap is True, we create a temporary file
             # containing a copy of the data passed in the "val_dict" dict,
             # then open it as a memmapped array, and we can use the result as a
-            # new test value.
+            # new tests value.
             if not self.test_memmap:
                 return val_dict
 
@@ -463,14 +463,14 @@ def makeTester(name, op, expected, checks=None, good=None, bad_build=None,
 
                 # Add tester return a ValueError. Should we catch only this
                 # one?
-                # TODO: test that only this one is raised and catch only this
+                # TODO: tests that only this one is raised and catch only this
                 # one or the subset that get raised.
                 self.assertRaises(Exception, f, [])
 
         def test_grad(self):
             if skip:
                 raise SkipTest(skip)
-            # Disable old warning that may be triggered by this test.
+            # Disable old warning that may be triggered by this tests.
             backup = config.warn.sum_div_dimshuffle_bug
             config.warn.sum_div_dimshuffle_bug = False
             try:
@@ -609,9 +609,9 @@ def makeBroadcastTester(op, expected, checks=None, name=None, **kwargs):
         checks = {}
     if name is None:
         name = str(op)
-    # Here we ensure the test name matches the name of the variable defined in
-    # this script. This is needed to properly identify the test e.g. with the
-    # --with-id option of nosetests, or simply to rerun a specific test that
+    # Here we ensure the tests name matches the name of the variable defined in
+    # this script. This is needed to properly identify the tests e.g. with the
+    # --with-id option of nosetests, or simply to rerun a specific tests that
     # failed.
     capitalize = False
     if name.startswith('Elemwise{') and name.endswith(',no_inplace}'):
@@ -656,7 +656,7 @@ _good_broadcast_binary_normal = dict(
     dtype_mixup_2=(randint(2, 3), rand(2, 3)),
     complex1=(randcomplex(2, 3), randcomplex(2, 3)),
     complex2=(randcomplex(2, 3), rand(2, 3)),
-    # Disabled as we test the case where we reuse the same output as the
+    # Disabled as we tests the case where we reuse the same output as the
     # first inputs.
     # complex3=(rand(2,3),randcomplex(2,3)),
     empty=(numpy.asarray([], dtype=config.floatX),
@@ -678,7 +678,7 @@ _grad_broadcast_binary_normal = dict(
     #empty=(numpy.asarray([]), numpy.asarray([1]))
     # complex1=(randcomplex(2,3),randcomplex(2,3)),
     # complex2=(randcomplex(2,3),rand(2,3)),
-    # Disabled as we test the case where we reuse the same output as the
+    # Disabled as we tests the case where we reuse the same output as the
     # first inputs.
     # complex3=(rand(2,3),randcomplex(2,3)),
     )
@@ -1146,7 +1146,7 @@ _grad_broadcast_unary_0_2_no_complex = dict(
         )
 
 # inplace ops when the input is integer and the output is float*
-# don't have a well defined behavior. We don't test that case.
+# don't have a well defined behavior. We don't tests that case.
 
 AbsTester = makeBroadcastTester(op=tensor.abs_,
                                   expected=lambda x: abs(x),
@@ -1186,7 +1186,7 @@ IntDivTester = makeBroadcastTester(
     op=tensor.int_div,
     expected=lambda x, y: check_floatX((x, y), x // y),
     good=_good_broadcast_div_mod_normal_float,
-    # I don't test the grad as the output is always an integer
+    # I don't tests the grad as the output is always an integer
     # (this is not a continuous output).
 #    grad=_grad_broadcast_div_mod_normal,
     )
@@ -1196,7 +1196,7 @@ IntDivInplaceTester = makeBroadcastTester(
     op=inplace.int_div_inplace,
     expected=lambda x, y: check_floatX((x, y), x // y),
     good=_good_broadcast_div_mod_normal_float_inplace,
-    # I don't test the grad as the output is always an integer
+    # I don't tests the grad as the output is always an integer
     # (this is not a continuous output).
 #    grad=_grad_broadcast_div_mod_normal,
     inplace=True
@@ -1231,7 +1231,7 @@ FloorTester = makeBroadcastTester(op=tensor.floor,
         good=_good_broadcast_unary_normal_no_complex,
         # XXX: why does grad of floor not give huge values at
         #      the integer points in the 'corner_case' in
-        #      _grad_broadcast_unary_normal?  It seems this test should fail,
+        #      _grad_broadcast_unary_normal?  It seems this tests should fail,
         #      yet it does not...
         grad=_grad_broadcast_unary_normal)
 
@@ -1517,7 +1517,7 @@ _good_broadcast_unary_tan = dict(
     int8=[numpy.arange(-3, 4, dtype='int8')],
     complex=(randc128_ranged(-3.14, 3.14, (2, 3)),),
     empty=(numpy.asarray([], dtype=config.floatX),),)
-# We do not want to test around the discontinuity.
+# We do not want to tests around the discontinuity.
 _grad_broadcast_unary_tan = dict(normal=(rand_ranged(-1.5, 1.5, (2, 3)),),
                                  shifted=(rand_ranged(1.6, 4.6, (2, 3)),))
 
@@ -1670,7 +1670,7 @@ ArctanhInplaceTester = makeBroadcastTester(
     inplace=True)
 
 
-# We can't test it if scipy is not installed!
+# We can't tests it if scipy is not installed!
 # Precomputing the result is brittle(it have been broken!)
 # As if we do any modification to random number here,
 # The input random number will change and the output!
@@ -2254,7 +2254,7 @@ class ApplyDefaultTestOp(theano.Op):
 
 class TestAsTensorVariable(unittest.TestCase):
     """
-    Unit test for ensuring that as_tensor_variable handles Apply objects
+    Unit tests for ensuring that as_tensor_variable handles Apply objects
     correctly and removes leading broadcastable dimensions when possible.
     """
     def setUp(self):
@@ -2796,23 +2796,23 @@ def test_batched_tensordot():
 
 
 def test_tensor_values_eq_approx():
-    # test, inf, -inf and nan equal themself
+    # tests, inf, -inf and nan equal themself
     a = numpy.asarray([-numpy.inf, -1, 0, 1, numpy.inf, numpy.nan])
     assert TensorType.values_eq_approx(a, a)
 
-    # test inf, -inf don't equal themself
+    # tests inf, -inf don't equal themself
     b = numpy.asarray([numpy.inf, -1, 0, 1, numpy.inf, numpy.nan])
     assert not TensorType.values_eq_approx(a, b)
     b = numpy.asarray([-numpy.inf, -1, 0, 1, -numpy.inf, numpy.nan])
     assert not TensorType.values_eq_approx(a, b)
 
-    # test allow_remove_inf
+    # tests allow_remove_inf
     b = numpy.asarray([numpy.inf, -1, 0, 1, 5, numpy.nan])
     assert TensorType.values_eq_approx(a, b, allow_remove_inf=True)
     b = numpy.asarray([numpy.inf, -1, 0, 1, 5, 6])
     assert not TensorType.values_eq_approx(a, b, allow_remove_inf=True)
 
-    # test allow_remove_nan
+    # tests allow_remove_nan
     b = numpy.asarray([numpy.inf, -1, 0, 1, 5, numpy.nan])
     assert not TensorType.values_eq_approx(a, b, allow_remove_nan=False)
     b = numpy.asarray([-numpy.inf, -1, 0, 1, numpy.inf, 6])
@@ -2845,7 +2845,7 @@ def test_nan_inf_constant_signature():
             y = constant(test_constants[j])
             assert (x.signature() == y.signature()) == (i == j)
 
-    # Also test that nan !=0 and nan != nan.
+    # Also tests that nan !=0 and nan != nan.
     x = tensor.scalar()
     mode = get_default_mode()
     if isinstance(mode, theano.compile.debugmode.DebugMode):
@@ -2973,7 +2973,7 @@ class T_max_and_argmax(unittest.TestCase):
 
     def test_arg_grad(self):
         """
-        The test checks that the gradient of argmax(x).sum() is 0
+        The tests checks that the gradient of argmax(x).sum() is 0
         """
 
         x = matrix()
@@ -3181,7 +3181,7 @@ class T_argmin_argmax(unittest.TestCase):
         n = as_tensor_variable(data)
         n.name = 'n'
 
-        # test grad of argmin
+        # tests grad of argmin
         utt.verify_grad(lambda v: argmin(v, axis=-1), [data])
 
         utt.verify_grad(lambda v: argmin(v, axis=[0]), [data])
@@ -3202,7 +3202,7 @@ class T_argmin_argmax(unittest.TestCase):
         data = rand(2, 3)
         n = as_tensor_variable(data)
 
-        # test grad of argmax
+        # tests grad of argmax
         utt.verify_grad(lambda v: argmax(v, axis=-1), [data])
 
         utt.verify_grad(lambda v: argmax(v, axis=[0]), [data])
@@ -3342,7 +3342,7 @@ class T_min_max(unittest.TestCase):
             z = z.reshape(data.shape)
             assert numpy.all(max_grad_data == z)
 
-        # test grad of max
+        # tests grad of max
         # axis is the last one
         utt.verify_grad(lambda v: max(v, axis=-1), [data])
 
@@ -3376,7 +3376,7 @@ class T_min_max(unittest.TestCase):
             z = z.reshape(data.shape)
             assert numpy.all(min_grad_data == z)
 
-        # test grad of min
+        # tests grad of min
         # axis is the last one
         utt.verify_grad(lambda v: min(v, axis=-1), [data])
 
@@ -3394,7 +3394,7 @@ class T_min_max(unittest.TestCase):
         """
         Test the gradient when we have multiple axis at the same time.
 
-        This not implemented, so we disable the test. See ticket:
+        This not implemented, so we disable the tests. See ticket:
         http://www.assembla.com/spaces/theano/tickets/511
         """
         data = rand(2, 3)
@@ -3461,7 +3461,7 @@ class T_GetVectorLength(unittest.TestCase):
         # Test neg start
         assert len(list(x.shape[-1:4])) == 1
         assert len(list(x.shape[-6:4])) == 4
-        # test neg stop
+        # tests neg stop
         assert len(list(x.shape[1:-2])) == 1
         assert len(list(x.shape[1:-1])) == 2
 
@@ -3572,7 +3572,7 @@ class T_Join_and_Split(unittest.TestCase):
         event when the scalar are simple int type.'''
         a = tensor.iscalar('a')
         b = tensor.lscalar('b')
-        # test when the constant is the first element.
+        # tests when the constant is the first element.
         # The first element is used in a special way
         s = stack([10, a, b, numpy.int8(3)])
         f = function([a, b], s, mode=self.mode)
@@ -3676,8 +3676,8 @@ class T_Join_and_Split(unittest.TestCase):
         assert numpy.allclose(Hb_v, 0.)
 
     def test_join_concatenate_one_element(self):
-        ''' Fast test of concatenate as this is an alias for join.
-        also test that we remove the Join op if there is only 1 input'''
+        ''' Fast tests of concatenate as this is an alias for join.
+        also tests that we remove the Join op if there is only 1 input'''
         m = tensor.fmatrix()
         c = tensor.concatenate([m])
         f = theano.function(inputs=[m], outputs=[c],
@@ -4156,7 +4156,7 @@ class T_Join_and_Split(unittest.TestCase):
             f()
 
     def test_rebroadcast(self):
-        # Regression test for a crash that used to happen when rebroadcasting.
+        # Regression tests for a crash that used to happen when rebroadcasting.
         x = tensor.TensorType(self.floatX, [False, False, True])()
         u = tensor.TensorType(self.floatX, [False, False, True])()
         # This line used to crash.
@@ -4445,7 +4445,7 @@ class test_bitwise(unittest.TestCase):
             v = fn(l, r)
             self.assertTrue(numpy.all(v == (operator.xor(l, r))), (l, r, v))
             v = gn(l, r)
-            # test the in-place stuff
+            # tests the in-place stuff
             self.assertTrue(numpy.all(l == numpy.asarray([0, 1, 1, 0])), l)
 
     def test_and(self):
@@ -4571,7 +4571,7 @@ class T_mean(unittest.TestCase):
             self.fail()
 
     def test0(self):
-        # Simple test...
+        # Simple tests...
         x = tensor.vector()
         f = theano.function([x], tensor.mean(x))
         data = rand(50)
@@ -4638,7 +4638,7 @@ class test_matinv(unittest.TestCase):
         ones = numpy.ones((3, 3), dtype=config.floatX)
 
         myssd0 = numpy.sum((x * w - ones) ** 2.0)
-        # we want at least a test that is not too fast. So we make one here.
+        # we want at least a tests that is not too fast. So we make one here.
         for i in xrange(100):
             gw = 2 * (x * w - ones) * x  # derivative of dMSE/dw
             myssd = numpy.sum((x * w - ones) ** 2)
@@ -4861,7 +4861,7 @@ class t_dot(unittest.TestCase):
         #
         def val_for(r):
             if r.dtype.startswith('complex'):
-                # We want to test complex at the same time, so we give a value
+                # We want to tests complex at the same time, so we give a value
                 # To the imaginary component.
                 # This strange way of doing things is the only way that worked
                 # on numpy 1.4.1
@@ -5031,7 +5031,7 @@ class test_grad(unittest.TestCase):
         and a single variable if it is passed a single variable.
         pylearn2 depends on theano behaving this way. This functionality has been
         added three times and erroneously removed twice. If you do anything that
-        requires changing this test or making it fail you are almost certainly
+        requires changing this tests or making it fail you are almost certainly
         making a common mistake, NOT fixing something. """
 
         X = tensor.matrix()
@@ -5109,7 +5109,7 @@ class T_reshape(utt.InferShapeTester, utt.TestOptimizationMixin):
                               opt.Shape_i, DimShuffle, theano.tensor.Elemwise)):
         self.shared = shared
         self.op = op
-        # The tag canonicalize is needed for the shape test in FAST_COMPILE
+        # The tag canonicalize is needed for the shape tests in FAST_COMPILE
         self.mode = mode
         self.ignore_topo = ignore_topo
         super(T_reshape, self).__init__(name)
@@ -5166,7 +5166,7 @@ class T_reshape(utt.InferShapeTester, utt.TestOptimizationMixin):
         assert numpy.all(f(numpy.asarray([0, 1, 2, 3, 4, 5])) ==
                          numpy.asarray([[0, 1, 2], [3, 4, 5]]))
 
-        # test that it works without inplace operations
+        # tests that it works without inplace operations
         a_val = numpy.asarray([0, 1, 2, 3, 4, 5])
         a_val_copy = numpy.asarray([0, 1, 2, 3, 4, 5])
         b_val = numpy.asarray([[0, 1, 2], [3, 4, 5]])
@@ -5175,7 +5175,7 @@ class T_reshape(utt.InferShapeTester, utt.TestOptimizationMixin):
         assert numpy.all(f_sub(a_val, b_val) == 0.0)
         assert numpy.all(a_val == a_val_copy)
 
-        # test that it works with inplace operations
+        # tests that it works with inplace operations
         a_val = theano._asarray([0, 1, 2, 3, 4, 5], dtype='float64')
         a_val_copy = theano._asarray([0, 1, 2, 3, 4, 5], dtype='float64')
         b_val = theano._asarray([[0, 1, 2], [3, 4, 5]], dtype='float64')
@@ -5189,10 +5189,10 @@ class T_reshape(utt.InferShapeTester, utt.TestOptimizationMixin):
             return Reshape(2)(v, theano._asarray([2, 3], dtype='int32'))
         utt.verify_grad(just_vals, [a_val], mode=self.mode)
 
-        # test infer_shape
+        # tests infer_shape
         self._compile_and_check([a], [c], (a_val,), self.op)
 
-        # test broadcast flag for constant value of 1
+        # tests broadcast flag for constant value of 1
         c = reshape(b, (b.shape[0], b.shape[1], 1))
         f = self.function([b], c)
         assert numpy.all(f(numpy.asarray([[0, 1, 2], [3, 4, 5]])) ==
@@ -5496,32 +5496,32 @@ def test_tile():
             f = function([x], tile(x, reps_, ndim_))
             assert numpy.all( f(x_) == numpy.tile(x_, [1, 1] + reps_))
            
-        # error raising test: ndim not specified when reps is vector
+        # error raising tests: ndim not specified when reps is vector
         reps = ivector()
         numpy.testing.assert_raises(ValueError, tile, x, reps)
 
-        # error raising test: not a integer
+        # error raising tests: not a integer
         for reps in [2.5, fscalar(), fvector()]:
             numpy.testing.assert_raises(ValueError, tile, x, reps)
         
-        # error raising test: the dimension of reps exceeds 1
+        # error raising tests: the dimension of reps exceeds 1
         reps = imatrix()
         numpy.testing.assert_raises(ValueError, tile, x, reps)
 
-        # error raising test: ndim is not None, ndim < x.ndim
+        # error raising tests: ndim is not None, ndim < x.ndim
         # 3 cases below (reps is list/tensor.scalar/tensor.vector):
         for reps in [[2,3,4], iscalar(), ivector()]:
             if k > 1:
                 ndim = k-1
                 numpy.testing.assert_raises(ValueError, tile, x, reps, ndim)
         
-        # error raising test: reps is list, len(reps) > ndim
+        # error raising tests: reps is list, len(reps) > ndim
         r = [2, 3, 4, 5, 6]
         reps = r[:k+1]
         ndim = k
         numpy.testing.assert_raises(ValueError, tile, x, reps, ndim)
 
-        # error raising test: 
+        # error raising tests:
         # reps is tensor.vector and len(reps_value) > ndim,
         # reps_value is the real value when excuting the function.
         reps = ivector()
@@ -5544,14 +5544,14 @@ def test_tile_grad():
 
     rng = numpy.random.RandomState(utt.fetch_seed())
 
-    # test vector
+    # tests vector
     grad_tile(vector('x'), [3], rng.randn(5).astype(config.floatX))
-    # test matrix
+    # tests matrix
     grad_tile(matrix('x'), [3, 4], rng.randn(2, 3).astype(config.floatX))
-    # test tensor3
+    # tests tensor3
     grad_tile(tensor3('x'), [3, 4, 5],
               rng.randn(2, 4, 3).astype(config.floatX))
-    # test tensor4
+    # tests tensor4
     grad_tile(tensor4('x'), [3, 4, 5, 6],
               rng.randn(2, 4, 3, 5).astype(config.floatX))
 
@@ -6227,7 +6227,7 @@ class test_tensordot(unittest.TestCase):
         # Test matrix-matrix
         amat = fmatrix()
         bmat = dmatrix()
-              # We let at float64 to test mix of float32 and float64.
+              # We let at float64 to tests mix of float32 and float64.
         axes = 1
         aval = rand(4, 5).astype('float32')
         bval = rand(5, 3)
@@ -6347,7 +6347,7 @@ class T_sum(unittest.TestCase):
 
 @dec.skipif(
         isinstance(get_default_mode(), theano.compile.debugmode.DebugMode),
-        ("This test fails in DEBUG_MODE, but the generated code is OK. "
+        ("This tests fails in DEBUG_MODE, but the generated code is OK. "
          "It is actually a problem of DEBUG_MODE, see #626."))
 def test_default():
     x, y = scalars('xy')
@@ -6360,7 +6360,7 @@ def test_default():
 
 @dec.skipif(
         isinstance(get_default_mode(), theano.compile.debugmode.DebugMode),
-        ("This test fails in DEBUG_MODE, but the generated code is OK. "
+        ("This tests fails in DEBUG_MODE, but the generated code is OK. "
          "It is actually a problem of DEBUG_MODE, see #626."))
 def test_default_state():
     x, y = scalars('xy')
@@ -6378,7 +6378,7 @@ def test_default_state():
 
 def test_autocast():
     backup_config = config.cast_policy
-    # Call test functions for all possible values of `config.cast_policy`.
+    # Call tests functions for all possible values of `config.cast_policy`.
     for autocast_cfg in (
             'custom',
             #'numpy', # Commented out until it is implemented properly.
@@ -6518,7 +6518,7 @@ class test_arithmetic_cast(unittest.TestCase):
     """
     Test output types of basic arithmeric operations (* / + - //).
 
-    We only test the behavior for `config.cast_policy` set to either 'numpy' or
+    We only tests the behavior for `config.cast_policy` set to either 'numpy' or
     'numpy+floatX': the 'custom' behavior is (at least partially) tested in
     `_test_autocast_custom`.
     """
@@ -6541,13 +6541,13 @@ class test_arithmetic_cast(unittest.TestCase):
             warnings.filterwarnings('ignore', message='Division of two integer',
                                     category=DeprecationWarning)
         try:
-            for cfg in ('numpy+floatX', ):  # Used to test 'numpy' as well.
+            for cfg in ('numpy+floatX', ):  # Used to tests 'numpy' as well.
                 config.cast_policy = cfg
                 for op in (operator.add, operator.sub, operator.mul,
                            operator_div, operator.floordiv):
                     for a_type in dtypes:
                         for b_type in dtypes:
-                            # Note that we do not test division between
+                            # Note that we do not tests division between
                             # integers if it is forbidden.
                             # Theano deals with integer division in its own
                             # special way (depending on `config.int_division`).
@@ -6555,7 +6555,7 @@ class test_arithmetic_cast(unittest.TestCase):
                                     op is operator_div and
                                     a_type in tensor.discrete_dtypes and
                                     b_type in tensor.discrete_dtypes)
-                            # We will test all meaningful combinations of
+                            # We will tests all meaningful combinations of
                             # scalar and array operations.
                             for combo in (
                                           ('scalar', 'scalar'),
@@ -6723,7 +6723,7 @@ class test_broadcast(unittest.TestCase):
 
     def test_unbroadcast_addbroadcast(self):
         """
-        test that the unbroadcast fct don't insert not needed broadcast
+        tests that the unbroadcast fct don't insert not needed broadcast
         and fuse consecutive Rebroadcast op
         """
 
@@ -6817,7 +6817,7 @@ def test_len():
 
 def test_mod():
     """
-    We add this test as not all language and C implementation give the same
+    We add this tests as not all language and C implementation give the same
     sign to the result. This check that the c_code of `Mod` is implemented
     as Python. That is what we want.
     """
@@ -6850,7 +6850,7 @@ def test_divmod():
 
 def test_mod_compile():
     """
-    This test generate an Elemwise of Composite as:
+    This tests generate an Elemwise of Composite as:
         Elemwise{
             Composite{
                 Composite{
@@ -6968,7 +6968,7 @@ class T_get_scalar_constant_value(unittest.TestCase):
                 assert get_scalar_constant_value(c[i, j]) == c.value[i, j]
 
     def test_numpy_array(self):
-        # Regression test for crash when called on a numpy array.
+        # Regression tests for crash when called on a numpy array.
         assert get_scalar_constant_value(numpy.array(3)) == 3
         self.assertRaises(
                 tensor.NotScalarConstantError,
@@ -7005,7 +7005,7 @@ class T_get_scalar_constant_value(unittest.TestCase):
         assert get_scalar_constant_value(s) == 4
 
     def test_elemwise(self):
-        # We test only for a few elemwise, the list of all supported
+        # We tests only for a few elemwise, the list of all supported
         # elemwise are in the fct.
         c = theano.tensor.constant(numpy.random.rand())
         s = c + 1
@@ -7029,7 +7029,7 @@ class T_get_scalar_constant_value(unittest.TestCase):
 
 class T_as_tensor_variable(unittest.TestCase):
     """
-    We test that ticket #649 stay fixed.
+    We tests that ticket #649 stay fixed.
     We should not allow as_tensor_variable to accept True or False
     But it should upcast an ndrarray of bool to uint8
     """
@@ -7084,7 +7084,7 @@ class test_size(unittest.TestCase):
         assert y.size == function([x], x.size)(y)
 
     def test_shared(self):
-        # NB: we also test higher order tensors at the same time.
+        # NB: we also tests higher order tensors at the same time.
         y = numpy.zeros((1, 2, 3, 4), dtype=config.floatX)
         x = theano.shared(y)
         assert y.size == function([], x.size)()
@@ -7645,7 +7645,7 @@ class TestInferShape(utt.InferShapeTester):
         #                        [adtens4_val, [1, 3, 10, 4]], Reshape)
 
         # Tile op is deprecated so the tile function doesn't use it
-        # anymore, we'll test here the op directly
+        # anymore, we'll tests here the op directly
         advec = dvector()
         advec_val = rand(5)
         aivec_val = [3]
@@ -7696,7 +7696,7 @@ class TestTensorInstanceMethods(unittest.TestCase):
         X, Y = self.vars
         x, y = self.vals
         # numpy.clip gives unexpected values when min > max,
-        # so we have to make sure that min <= max in that test,
+        # so we have to make sure that min <= max in that tests,
         # otherwise it randomly fails.
         Z = X.clip(Y - 0.5, Y + 0.5)
         z = x.clip(y - 0.5, y + 0.5)
@@ -7738,7 +7738,7 @@ class TestTensorInstanceMethods(unittest.TestCase):
         x, _ = self.vals
         # std() is implemented as theano tree and does not pass its
         # args directly to numpy. This sometimes results in small
-        # difference, so we use allclose test.
+        # difference, so we use allclose tests.
         assert_allclose(X.std().eval({X: x}), x.std())
 
     def test_repeat(self):

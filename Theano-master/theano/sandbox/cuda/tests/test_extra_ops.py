@@ -1,4 +1,4 @@
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 from __future__ import absolute_import, print_function, division
 import itertools
 
@@ -59,7 +59,7 @@ class TestGpuCumsum(theano.tensor.tests.test_extra_ops.TestCumsumOp):
                         slice(None, None, -1),      # Negative strides
                         ]
 
-            # Cartesian product of all slicings to test.
+            # Cartesian product of all slicings to tests.
             for slicing in itertools.product(slicings, repeat=x.ndim):
                 f = theano.function([x], cumsum(x[slicing], axis=axis),
                                     mode=self.mode)
@@ -82,7 +82,7 @@ class TestGpuCumsum(theano.tensor.tests.test_extra_ops.TestCumsumOp):
                         slice(None, None, -1),      # Negative strides
                         ]
 
-            # Cartesian product of all slicings to test.
+            # Cartesian product of all slicings to tests.
             for slicing in itertools.product(slicings, repeat=x.ndim):
                 f = theano.function([x], cumsum(x[slicing], axis=axis),
                                     mode=self.mode)
@@ -105,7 +105,7 @@ class TestGpuCumsum(theano.tensor.tests.test_extra_ops.TestCumsumOp):
                         slice(None, None, -1),      # Negative strides
                         ]
 
-            # Cartesian product of all slicings to test.
+            # Cartesian product of all slicings to tests.
             for slicing in itertools.product(slicings, repeat=x.ndim):
                 f = theano.function([x], cumsum(x[slicing], axis=axis),
                                     mode=self.mode)

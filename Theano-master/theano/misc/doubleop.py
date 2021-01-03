@@ -13,7 +13,7 @@ class DoubleOp(theano.Op):
         values doubled.
 
     :note:
-        this is a test note
+        this is a tests note
 
     :seealso:
         You can use the elemwise op to replace this example.

@@ -221,7 +221,7 @@ class test_diag(unittest.TestCase):
     (1) and (2) are tested by test_alloc_diag and test_extract_diag
     respectively.
 
-    test_diag test makes sure that linalg.diag instantiates
+    test_diag tests makes sure that linalg.diag instantiates
     the right op based on the dimension of the input.
     """
     def __init__(self, name, mode=None, shared=tensor._shared,
@@ -240,7 +240,7 @@ class test_diag(unittest.TestCase):
         g = alloc_diag(x)
         f = theano.function([x], g)
 
-        # test "normal" scenario (5x5 matrix) and special cases of 0x0 and 1x1
+        # tests "normal" scenario (5x5 matrix) and special cases of 0x0 and 1x1
         for shp in [5, 0, 1]:
             m = rng.rand(shp).astype(self.floatX)
             v = numpy.diag(m)
@@ -272,13 +272,13 @@ class test_diag(unittest.TestCase):
         tensor.verify_grad(alloc_diag, [x], rng=rng)
 
     def test_diag(self):
-        # test that it builds a matrix with given diagonal when using
+        # tests that it builds a matrix with given diagonal when using
         # vector inputs
         x = theano.tensor.vector()
         y = diag(x)
         assert y.owner.op.__class__ == AllocDiag
 
-        # test that it extracts the diagonal when using matrix input
+        # tests that it extracts the diagonal when using matrix input
         x = theano.tensor.matrix()
         y = extract_diag(x)
         assert y.owner.op.__class__ == ExtractDiag

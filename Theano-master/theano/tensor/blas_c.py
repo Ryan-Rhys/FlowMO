@@ -629,7 +629,7 @@ def check_force_gemv_init():
         speed. Occasionally the memory contains values that are
         equivalent to NaN in which case the product beta*y contains
         NaN's for correctly implemented BLAS libraries. In this
-        situation, since we are introducing the NaN's, we need to test
+        situation, since we are introducing the NaN's, we need to tests
         whether the BLAS performs correctly. If it *does*, i.e. it
         actually performs the multiplication beta*y which will result
         in NaN's in the result, then we need intialize the memory to

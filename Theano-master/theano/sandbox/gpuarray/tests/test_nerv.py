@@ -19,7 +19,7 @@ def test_gemm16_swap():
     m2 = matrix(dtype='float16')
     m32 = matrix(dtype='float32')
 
-    # test that we don't try to replace anything but matrix x matrix in float16
+    # tests that we don't try to replace anything but matrix x matrix in float16
     f = function([v, m], dot(v, m), mode=mode_with_gpu)
     assert len([node for node in f.maker.fgraph.apply_nodes
                 if isinstance(node.op, Gemm16)]) == 0

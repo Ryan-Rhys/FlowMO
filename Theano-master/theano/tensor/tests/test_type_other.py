@@ -1,4 +1,4 @@
-""" This file don't test everything. It only test one past crash error."""
+""" This file don't tests everything. It only tests one past crash error."""
 from __future__ import absolute_import, print_function, division
 import theano
 from theano.gof import Constant

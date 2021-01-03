@@ -40,7 +40,7 @@ def check_uniform_basic(shape_as_symbolic, dim_as_symbolic=False):
         variable rather than known at compile-time.
 
     dim_as_symbolic : boolean
-        If `True`, test the case that an element of the shape
+        If `True`, tests the case that an element of the shape
         tuple is a Theano symbolic. Irrelevant if `shape_as_symbolic`
         is `True`.
     """
@@ -108,7 +108,7 @@ def check_normal_basic(shape_as_symbolic, dim_as_symbolic=False):
         variable rather than known at compile-time.
 
     dim_as_symbolic : boolean
-        If `True`, test the case that an element of the shape
+        If `True`, tests the case that an element of the shape
         tuple is a Theano symbolic. Irrelevant if `shape_as_symbolic`
         is `True`.
     """

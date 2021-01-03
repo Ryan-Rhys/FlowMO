@@ -65,12 +65,12 @@ class TaskDataLoader:
 def transform_data(X_train, y_train, X_test, y_test, n_components=None, use_pca=False):
     """
     Apply feature scaling, dimensionality reduction to the data. Return the standardised and low-dimensional train and
-    test sets together with the scaler object for the target values.
+    tests sets together with the scaler object for the target values.
 
     :param X_train: input train data
     :param y_train: train labels
-    :param X_test: input test data
-    :param y_test: test labels
+    :param X_test: input tests data
+    :param y_test: tests labels
     :param n_components: number of principal components to keep when use_pca = True
     :param use_pca: Whether or not to use PCA
     :return: X_train_scaled, y_train_scaled, X_test_scaled, y_test_scaled, y_scaler

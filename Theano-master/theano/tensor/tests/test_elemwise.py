@@ -48,7 +48,7 @@ class test_DimShuffle(unittest_tools.InferShapeTester):
             e = self.op(ib, shuffle)(x)
             f = copy(linker).accept(FunctionGraph([x], [e])).make_function()
             assert f(numpy.ones(xsh, dtype=self.dtype)).shape == zsh
-            # test that DimShuffle.infer_shape work correctly
+            # tests that DimShuffle.infer_shape work correctly
             x = self.type(self.dtype, ib)('x')
             e = self.op(ib, shuffle)(x)
             f = copy(linker).accept(FunctionGraph([x],
@@ -78,7 +78,7 @@ class test_DimShuffle(unittest_tools.InferShapeTester):
 
     def test_c_or_py(self):
         # Shape op don't have C code.
-        # But This will test DimShuffle c code
+        # But This will tests DimShuffle c code
         self.with_linker(gof.OpWiseCLinker())
 
     def test_infer_shape(self):
@@ -152,7 +152,7 @@ class test_reduce_axes(unittest.TestCase):
 
 
 class test_Broadcast(unittest.TestCase):
-    # this is to allow other types to reuse this class to test their ops
+    # this is to allow other types to reuse this class to tests their ops
     type = TensorType
     op = Elemwise
 
@@ -199,7 +199,7 @@ class test_Broadcast(unittest.TestCase):
 
             unittest_tools.assert_allclose(f(xv, yv), zv)
 
-            # test Elemwise.infer_shape
+            # tests Elemwise.infer_shape
             # the Shape op don't implement c_code!
             if isinstance(linker, gof.PerformLinker):
                 x = type('float64', [(entry == 1) for entry in xsh])('x')
@@ -229,7 +229,7 @@ class test_Broadcast(unittest.TestCase):
             f(xv, yv)
 
             self.assertTrue((xv == zv).all())
-            # test Elemwise.infer_shape
+            # tests Elemwise.infer_shape
             # the Shape op don't implement c_code!
             if isinstance(linker, gof.PerformLinker):
                 x = type('float64', [(entry == 1) for entry in xsh])('x')
@@ -251,7 +251,7 @@ class test_Broadcast(unittest.TestCase):
 
     def test_c(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
         self.with_linker(gof.CLinker(), self.cop, self.ctype, self.rand_cval)
 
     def test_perform_inplace(self):
@@ -260,13 +260,13 @@ class test_Broadcast(unittest.TestCase):
 
     def test_c_inplace(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
         self.with_linker_inplace(gof.CLinker(), self.cop, self.ctype,
                                  self.rand_cval)
 
     def test_fill(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
         x = self.ctype('float64', [0, 0])('x')
         y = self.ctype('float64', [1, 1])('y')
         for linker, op in zip(self.linkers, [self.op, self.cop]):
@@ -291,7 +291,7 @@ class test_Broadcast(unittest.TestCase):
 
     def test_weird_strides(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
         x = self.ctype('float64', [0, 0, 0, 0, 0])('x')
         y = self.ctype('float64', [0, 0, 0, 0, 0])('y')
         for linker, op in zip(self.linkers, [self.op, self.cop]):
@@ -304,7 +304,7 @@ class test_Broadcast(unittest.TestCase):
 
     def test_same_inputs(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
         x = self.ctype('float64', [0, 0])('x')
         for linker, op in zip(self.linkers, [self.op, self.cop]):
             e = op(scalar.add)(x, x)
@@ -508,7 +508,7 @@ class test_CAReduce(unittest_tools.InferShapeTester):
     @attr('slow')
     def test_c(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
 
         for dtype in ["floatX", "complex64", "complex128", "int8", "uint8"]:
             self.with_linker(gof.CLinker(), scalar.add, dtype=dtype)
@@ -528,7 +528,7 @@ class test_CAReduce(unittest_tools.InferShapeTester):
     @attr('slow')
     def test_c_nan(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
         for dtype in ["floatX", "complex64", "complex128"]:
             self.with_linker(gof.CLinker(), scalar.add, dtype=dtype,
                              test_nan=True)
@@ -718,7 +718,7 @@ class test_Prod(unittest.TestCase):
         fn_debug(a)
 
     def test_pickle_bug(self):
-        # Regression test for bug fixed in 24d4fd291054.
+        # Regression tests for bug fixed in 24d4fd291054.
         o = Prod()
         s = pickle.dumps(o, protocol=-1)
         o = pickle.loads(s)
@@ -753,7 +753,7 @@ class test_IsInf_IsNan(unittest.TestCase):
             for x in self.test_vals:
                 if ((x.ndim == 0 and input is not self.scalar) or
                     (x.ndim == 1 and input is not self.vector)):
-                    # We only test with the appropriate input type.
+                    # We only tests with the appropriate input type.
                     continue
                 t_out = theano_isfunc(x)
                 n_out = numpy_isfunc(x)
@@ -1175,7 +1175,7 @@ class TestElemwise(unittest_tools.InferShapeTester):
 
 
 def test_gt_grad():
-    """A user test that failed.
+    """A user tests that failed.
 
     Something about it made Elemwise.grad return something that was
     too complicated for get_scalar_constant_value to recognize as being 0, so
@@ -1213,7 +1213,7 @@ if __name__ == '__main__':
 
 def test_clip_grad():
 
-    # test the gradient of clip
+    # tests the gradient of clip
     def func(x, y, z):
         return theano.tensor.clip(x, y, z)
     # use an x value less than y, an x value between y and z, and an x value
@@ -1224,7 +1224,7 @@ def test_clip_grad():
 
 def test_clip_grad_int():
 
-    # test that integers don't crash clip gradient
+    # tests that integers don't crash clip gradient
     x = tensor.iscalar()
     y = tensor.iscalar()
     z = tensor.iscalar()
@@ -1234,7 +1234,7 @@ def test_clip_grad_int():
 
 def test_not_implemented_elemwise_grad():
     """
-    Regression test for unimplemented gradient in an Elemwise Op.
+    Regression tests for unimplemented gradient in an Elemwise Op.
     """
 
     class TestOp(scalar.ScalarOp):

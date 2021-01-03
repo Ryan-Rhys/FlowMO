@@ -207,7 +207,7 @@ class test_grad(unittest.TestCase):
 
     def test_grad_duplicate_input(self):
 
-        # test that the grad works when a variable
+        # tests that the grad works when a variable
         # appears in more than one place in a node's input list
 
         def output(x):
@@ -221,7 +221,7 @@ class test_grad(unittest.TestCase):
 
     def test_grad_quadratic(self):
 
-        # test the gradient on a tiny graph
+        # tests the gradient on a tiny graph
 
         def cost(x, A):
             return theano.tensor.dot(x, theano.tensor.dot(A, x))
@@ -235,7 +235,7 @@ class test_grad(unittest.TestCase):
 
     def test_grad_quadratic_vector(self):
 
-        # test the gradient on a small graph
+        # tests the gradient on a small graph
 
         def output(x, A):
             return theano.tensor.dot(x * x, A)
@@ -249,7 +249,7 @@ class test_grad(unittest.TestCase):
 
     def test_grad_cubic(self):
 
-        # test the gradient on a bigger graph
+        # tests the gradient on a bigger graph
 
         def cost(x, A):
             return theano.tensor.dot(x * x, theano.tensor.dot(A, x))
@@ -263,7 +263,7 @@ class test_grad(unittest.TestCase):
 
     def test_grad_grad_quadratic(self):
 
-        # test the gradient on a graph constructed using the gradient
+        # tests the gradient on a graph constructed using the gradient
 
         def output(x, A):
             orig_cost = theano.tensor.dot(x, theano.tensor.dot(A, x))
@@ -278,7 +278,7 @@ class test_grad(unittest.TestCase):
 
     def test_grad_grad_cubic(self):
 
-        # test the gradient on a bigger graph constructed using the gradient
+        # tests the gradient on a bigger graph constructed using the gradient
 
         def output(x, A):
             orig_cost = theano.tensor.dot(x * x, theano.tensor.dot(A, x))
@@ -354,7 +354,7 @@ class test_grad(unittest.TestCase):
 
     def test_disconnected_nan(self):
 
-        # test that connection_pattern can prevent getting NaN
+        # tests that connection_pattern can prevent getting NaN
 
         # Op1 has two outputs, f and g
         # x is connected to f but not to g
@@ -497,7 +497,7 @@ def test_dxdx():
     # I use an integer in this case because people keep changing this
     # gradient to be 0 on integers but according to our interpretation
     # of the gradient as defined in the Op contract, it should be 1.
-    # If you feel the need to change this unit test you are probably
+    # If you feel the need to change this unit tests you are probably
     # modifying the Op contract and should definitely get the approval
     # of multiple people on theano-dev.
 

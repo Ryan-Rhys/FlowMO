@@ -21,7 +21,7 @@ def main(path, task, representation, use_pca, test_set_size):
     :param task: str specifying the task. One of ['Photoswitch', 'ESOL', 'FreeSolv', 'Lipophilicity']
     :param representation: str specifying the molecular representation. One of [fingerprints, 'fragments', 'fragprints']
     :param use_pca: bool. If True apply PCA to perform Principal Components Regression.
-    :param test_set_size: float in range [0, 1] specifying fraction of dataset to use as test set
+    :param test_set_size: float in range [0, 1] specifying fraction of dataset to use as tests set
     """
 
     if representation == 'SMILES':
@@ -41,7 +41,7 @@ def main(path, task, representation, use_pca, test_set_size):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_set_size, random_state=42)
 
     if task != 'Photoswitch':
-        # Artificially create a 80/10/10 train/validation/test split discarding the validation set.
+        # Artificially create a 80/10/10 train/validation/tests split discarding the validation set.
         split_in_two = int(len(y_test) / 2)
         X_test = X_test[0:split_in_two]
         y_test = y_test[0:split_in_two]
@@ -150,7 +150,7 @@ if __name__ == '__main__':
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
                         help='If True apply PCA to perform Principal Components Regression.')
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
-                        help='float in range [0, 1] specifying fraction of dataset to use as test set')
+                        help='float in range [0, 1] specifying fraction of dataset to use as tests set')
 
     args = parser.parse_args()
 

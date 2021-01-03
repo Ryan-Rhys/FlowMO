@@ -85,7 +85,7 @@ def git_version():
     # still needed; it is inherited. This was originally
     # an hg_version function borrowed from NumPy's setup.py.
     # I'm leaving it in for now because I don't have enough other
-    # environments to test in to be confident that it is safe to remove.
+    # environments to tests in to be confident that it is safe to remove.
     def _minimal_ext_cmd(cmd):
         # construct minimal environment
         env = {}
@@ -170,7 +170,7 @@ def do_setup():
               'theano.misc': ['*.sh'],
               'theano.d3viz' : ['html/*','css/*','js/*']
           },
-          scripts=['bin/theano-cache', 'bin/theano-nose', 'bin/theano-test'],
+          scripts=['bin/theano-cache', 'bin/theano-nose', 'bin/theano-tests'],
           keywords=' '.join([
               'theano', 'math', 'numerical', 'symbolic', 'blas',
               'numpy', 'gpu', 'autodiff', 'differentiation'

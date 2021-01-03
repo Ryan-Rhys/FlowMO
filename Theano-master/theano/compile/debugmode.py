@@ -1269,7 +1269,7 @@ def _get_preallocated_maps(node, thunk, prealloc_modes, def_val,
             del f_cont_outputs
 
     # We assume that the different outputs of a same Op will behave
-    # independently, and there is no need to test over all combinations
+    # independently, and there is no need to tests over all combinations
     # of outputs (the time taken is prohibitive).
     # When all outputs on a certain dimension are broadcastable, the Op
     # can assume that the shape is 1 on that dimension, and stride testing
@@ -1315,7 +1315,7 @@ def _get_preallocated_maps(node, thunk, prealloc_modes, def_val,
         # dimensions, and some ops can have tens of outputs. To prevent
         # tests from lasting days, we use the same strides for all
         # dimensions but the last check_ndim ones.
-        # Moreover, to avoid memory problems, we do not test with strides
+        # Moreover, to avoid memory problems, we do not tests with strides
         # 2 and -2 on those dimensions.
         step_signs_list = []
         for b in out_broadcastable[-check_ndim:]:
@@ -1335,7 +1335,7 @@ def _get_preallocated_maps(node, thunk, prealloc_modes, def_val,
                 strided = {}
 
                 # First, the dimensions above check_ndim, then the other ones
-                # Do not test with 2 or -2 for dimensions above check_ndim
+                # Do not tests with 2 or -2 for dimensions above check_ndim
                 steps = [step_signs[0]] * len(out_broadcastable[:-check_ndim])
                 steps += [s * step_size for s in step_signs[1:]]
 
@@ -1938,7 +1938,7 @@ class _Linker(gof.link.LocalLinker):
                         storage_map[r][0] = None
                         r_vals_initialized.append(r)
 
-                # store preallocated outputs in another map, and test
+                # store preallocated outputs in another map, and tests
                 # the thunks on them as output storages.
                 init_outputs = {}
                 for r in storage_map:

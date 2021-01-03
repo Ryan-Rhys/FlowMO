@@ -3,10 +3,10 @@
 
  Tests for the R operator / L operator
 
- For the list of op with r op defined, with or without missing test
+ For the list of op with r op defined, with or without missing tests
  see this file: doc/library/tensor/basic.txt
 
- For function to automatically test your Rop implementation, look at
+ For function to automatically tests your Rop implementation, look at
  the docstring of the functions: check_mat_rop_lop, check_rop_lop,
  check_nondiff_rop,
 
@@ -24,7 +24,7 @@ from theano.tests.unittest_tools import SkipTest
 from theano.tensor.nnet import conv, conv2d
 
 '''
-Special Op created to test what happens when you have one op that is not
+Special Op created to tests what happens when you have one op that is not
 differentiable in the computational graph
 '''
 
@@ -53,7 +53,7 @@ break_op = BreakRop()
 
 
 class RopLop_checker(unittest.TestCase):
-    """ Don't peform any test, but provide the function to test the
+    """ Don't peform any tests, but provide the function to tests the
     Rop to class that inherit from it."""
 
     def setUp(self):
@@ -71,7 +71,7 @@ class RopLop_checker(unittest.TestCase):
 
     def check_nondiff_rop(self, y):
         """ If your op is not differentiable(so you can't define Rop)
-        test that an error is raised."""
+        tests that an error is raised."""
         raised = False
         try:
             tensor.Rop(y, self.x, self.v)
@@ -92,14 +92,14 @@ class RopLop_checker(unittest.TestCase):
                           Jacobian). It should be a tuple of ints.
 
         If the Op has more than 1 input, one of them must be mx, while
-        others must be shared variables / constants. We will test only
+        others must be shared variables / constants. We will tests only
         against the input self.mx, so you must call
         check_mat_rop_lop/check_rop_lop for the other inputs.
 
         We expect all inputs/outputs have dtype floatX.
 
-        If you want to test an Op with an output matrix, add a sum
-        after the Op you want to test.
+        If you want to tests an Op with an output matrix, add a sum
+        after the Op you want to tests.
         """
         vx = numpy.asarray(self.rng.uniform(size=self.mat_in_shape),
                            theano.config.floatX)
@@ -383,7 +383,7 @@ class test_RopLop(RopLop_checker):
         f(mval, vval, m_val, v_val)
 
     def test_Rop_dot_bug_18Oct2013_Jeremiah(self):
-        # This test refers to a bug reported by Jeremiah Lowin on 18th Oct
+        # This tests refers to a bug reported by Jeremiah Lowin on 18th Oct
         # 2013. The bug consists when through a dot operation there is only
         # one differentiable path (i.e. there is no gradient wrt to one of
         # the inputs).

@@ -2,7 +2,7 @@
 This file is an example of view the memory allocated by pycuda in a GpuArray
 in a CudaNdarray to be able to use it in Theano.
 
-This also serve as a test for the function: cuda_ndarray.from_gpu_pointer
+This also serve as a tests for the function: cuda_ndarray.from_gpu_pointer
 """
 from __future__ import absolute_import, print_function, division
 
@@ -29,7 +29,7 @@ import pycuda.gpuarray
 
 
 def test_pycuda_only():
-    """Run pycuda only example to test that pycuda works."""
+    """Run pycuda only example to tests that pycuda works."""
     from pycuda.compiler import SourceModule
     mod = SourceModule("""
 __global__ void multiply_them(float *dest, float *a, float *b)

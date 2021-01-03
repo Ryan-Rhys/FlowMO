@@ -158,7 +158,7 @@ class TestSumDiffOp(utt.InferShapeTester):
         x = tensor.dmatrix()
         y = tensor.dmatrix()
 
-        # adapt the choice of the next instruction to the op under test
+        # adapt the choice of the next instruction to the op under tests
 
         self._compile_and_check([x, y], self.op_class()(x, y),
                                 [numpy.random.rand(5, 6),

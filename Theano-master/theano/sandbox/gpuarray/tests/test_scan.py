@@ -90,7 +90,7 @@ class T_Scan(TestCase):
         assert not any([isinstance(node.op, GpuFromHost)
                         for node in scan_node_topo])
 
-    # This second version test the second case in the optimizer to the gpu.
+    # This second version tests the second case in the optimizer to the gpu.
     def test_one_sequence_one_output_weights_gpu2(self):
         def f_rnn(u_t, x_tm1, W_in, W):
             return u_t * W_in + x_tm1 * W
@@ -150,7 +150,7 @@ class T_Scan(TestCase):
         assert not any([isinstance(node.op, GpuFromHost)
                         for node in scan_node_topo])
 
-    # This third test checks that scan can deal with a mixture of dtypes as
+    # This third tests checks that scan can deal with a mixture of dtypes as
     # outputs when is running on GPU
     def test_gpu3_mixture_dtype_outputs(self):
         def f_rnn(u_t, x_tm1, W_in, W):
@@ -237,6 +237,6 @@ class T_Scan(TestCase):
                                allow_input_downcast=True,
                                mode=mode_with_gpu)
 
-        # I leave this to tested by debugmode, this test was anyway
-        # more of does the graph compile kind of test
+        # I leave this to tested by debugmode, this tests was anyway
+        # more of does the graph compile kind of tests
         my_f()

@@ -22,7 +22,7 @@ def test_pydotprint_cond_highlight():
     I did them to help debug stuff.
     """
 
-    # Skip test if pydot is not available.
+    # Skip tests if pydot is not available.
     if not theano.printing.pydot_imported:
         raise SkipTest('pydot not available')
 
@@ -49,7 +49,7 @@ def test_pydotprint_cond_highlight():
 
 
 def test_pydotprint_return_image():
-    # Skip test if pydot is not available.
+    # Skip tests if pydot is not available.
     if not theano.printing.pydot_imported:
         raise SkipTest('pydot not available')
 
@@ -67,7 +67,7 @@ def test_pydotprint_variables():
     It make sure the code run.
     """
 
-    # Skip test if pydot is not available.
+    # Skip tests if pydot is not available.
     if not theano.printing.pydot_imported:
         raise SkipTest('pydot not available')
 
@@ -98,7 +98,7 @@ def test_pydotprint_long_name():
 
     """
 
-    # Skip test if pydot is not available.
+    # Skip tests if pydot is not available.
     if not theano.printing.pydot_imported:
         raise SkipTest('pydot not available')
 
@@ -117,7 +117,7 @@ def test_pydotprint_long_name():
 def test_pydotprint_profile():
     """Just check that pydotprint does not crash with ProfileMode."""
 
-    # Skip test if pydot is not available.
+    # Skip tests if pydot is not available.
     if not theano.printing.pydot_imported:
         raise SkipTest('pydot not available')
 
@@ -168,10 +168,10 @@ def test_debugprint():
     mode = theano.compile.get_default_mode().including('fusion')
     g = theano.function([A, B, D, E], G, mode=mode)
 
-    # just test that it work
+    # just tests that it work
     debugprint(G)
 
-    # test ids=int
+    # tests ids=int
     s = StringIO()
     debugprint(G, file=s, ids='int')
     s = s.getvalue()
@@ -192,7 +192,7 @@ def test_debugprint():
 
     assert s == reference
 
-    # test ids=CHAR
+    # tests ids=CHAR
     s = StringIO()
     debugprint(G, file=s, ids='CHAR')
     s = s.getvalue()
@@ -213,7 +213,7 @@ def test_debugprint():
 
     assert s == reference
 
-    # test ids=CHAR, stop_on_name=True
+    # tests ids=CHAR, stop_on_name=True
     s = StringIO()
     debugprint(G, file=s, ids='CHAR', stop_on_name=True)
     s = s.getvalue()
@@ -232,7 +232,7 @@ def test_debugprint():
 
     assert s == reference
 
-    # test ids=
+    # tests ids=
     s = StringIO()
     debugprint(G, file=s, ids='')
     s = s.getvalue()
@@ -252,7 +252,7 @@ def test_debugprint():
 
     assert s == reference
 
-    # test print_storage=True
+    # tests print_storage=True
     s = StringIO()
     debugprint(g, file=s, ids='', print_storage=True)
     s = s.getvalue()
@@ -721,7 +721,7 @@ def test_scan_debugprint5():
 
 
 def test_printing_scan():
-    # Skip test if pydot is not available.
+    # Skip tests if pydot is not available.
     if not theano.printing.pydot_imported:
         raise SkipTest('pydot not available')
 

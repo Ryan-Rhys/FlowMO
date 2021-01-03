@@ -715,7 +715,7 @@ class TestDownsampleFactorMax(utt.InferShapeTester):
                 utt.assert_allclose(output_val, numpy_output_val)
 
 # removed as already tested in test_max_pool_2d_2D
-# This make test in debug mode too slow.
+# This make tests in debug mode too slow.
 #                def mp(input):
 #                    return pool_2d(input, maxpoolshp, ignore_border)
 #                utt.verify_grad(mp, [imval], rng=rng)
@@ -742,7 +742,7 @@ class TestDownsampleFactorMax(utt.InferShapeTester):
                 utt.assert_allclose(output_val, numpy_output_val)
 
 # removed as already tested in test_max_pool_2d_2D
-# This make test in debug mode too slow.
+# This make tests in debug mode too slow.
 #                def mp(input):
 #                    return pool_2d(input, maxpoolshp, ignore_border)
 #                utt.verify_grad(mp, [imval], rng=rng)

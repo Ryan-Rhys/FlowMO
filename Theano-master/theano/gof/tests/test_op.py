@@ -72,14 +72,14 @@ MyOp = MyOp()
 
 class NoInputOp(Op):
 
-    """An Op to test the corner-case of an Op with no input."""
+    """An Op to tests the corner-case of an Op with no input."""
     __props__ = ()
 
     def make_node(self):
-        return Apply(self, [], [MyType('test')()])
+        return Apply(self, [], [MyType('tests')()])
 
     def perform(self, node, inputs, output_storage):
-        output_storage[0][0] = 'test Op no input'
+        output_storage[0][0] = 'tests Op no input'
 
 
 class StructOp(Op):
@@ -134,11 +134,11 @@ class TestOp:
         x = NoInputOp()()
         f = theano.function([], x)
         rval = f()
-        assert rval == 'test Op no input'
+        assert rval == 'tests Op no input'
 
     def test_op_struct(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
         sop = StructOp()
         c = sop(theano.tensor.constant(0))
         mode = None

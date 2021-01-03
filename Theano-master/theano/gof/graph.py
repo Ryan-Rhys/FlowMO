@@ -407,9 +407,9 @@ class Variable(Node):
             return "<%s>" % str(self.type)
 
     def __repr_test_value__(self):
-        """Return a repr of the test value.
+        """Return a repr of the tests value.
 
-        Return a printable representation of the test value. It can be
+        Return a printable representation of the tests value. It can be
         overridden by classes with non printable test_value to provide a
         suitable representation of the test_value.
         """
@@ -1129,7 +1129,7 @@ def is_same_graph(var1, var2, givens=None, debug=False):
         If True, then an exception is raised when we are in a situation where
         the `equal_computations` implementation cannot be called.
         This parameter is intended to be used in tests only, to make sure we
-        properly test both implementations.
+        properly tests both implementations.
 
     Examples
     --------

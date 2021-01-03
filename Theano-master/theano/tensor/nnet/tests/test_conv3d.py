@@ -18,7 +18,7 @@ from nose.plugins.skip import SkipTest
 
 floatX = theano.config.floatX
 
-# TODO: each individual test method should seed rng with utt.fetch_seed()
+# TODO: each individual tests method should seed rng with utt.fetch_seed()
 #      as it is right now, setUp does the seeding, so if you run just
 #      a subset of the tests they will do different things than if you
 #      run all of them
@@ -32,15 +32,15 @@ class DummyConv3D:
     along a parametrically defined line, with 0 being at VwbVals
     Direction of the line is chosen randomly at construction
     The reason for locking the inputs to lie on this line is so that the
-    verify_grad will not need to test hundreds of variables. Disadvantage
+    verify_grad will not need to tests hundreds of variables. Disadvantage
     is we can't be certain that all of them are correct, advantange is that
-    this random projection lets us test lots of variables very quickly """
+    this random projection lets us tests lots of variables very quickly """
 
     def __init__(self, rng, VWbVals, d):
         """
         param: rng    Random number generator used to pick direction of the
             line
-        param: VWbVals    tuple containing values to test V,W,b around
+        param: VWbVals    tuple containing values to tests V,W,b around
         param: d    shared variable for d, the stride
         """
 
@@ -67,7 +67,7 @@ class DummyConvGrad3D:
         """
         param: rng    Random number generator used to pick direction of the
             line
-        param: VWbVals    tuple containing values to test V,W,b around
+        param: VWbVals    tuple containing values to tests V,W,b around
         param: d    shared variable for d, the stride
         """
 
@@ -92,7 +92,7 @@ class DummyConvTransp3D:
         """
         param: rng    Random number generator used to pick direction of the
             line
-        param: VWbVals    tuple containing values to test V,W,b around
+        param: VWbVals    tuple containing values to tests V,W,b around
         param: d    shared variable for d, the stride
         """
 

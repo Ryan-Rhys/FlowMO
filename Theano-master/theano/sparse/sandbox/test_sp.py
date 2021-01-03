@@ -57,7 +57,7 @@ class TestSP(unittest.TestCase):
                             imshp, ss, bias=bias, mode=conv_mode)
                     f = function([kerns, bias, input], output, mode=mode)
 
-                    # now test with real values
+                    # now tests with real values
                     img2d = numpy.arange(bsize * numpy.prod(imshp)).reshape(( \
                                                             bsize,) + imshp)
                     img1d = img2d.reshape(bsize, -1)
@@ -97,11 +97,11 @@ class TestSP(unittest.TestCase):
 
                     assert (temp < 1e-5).all()
 
-                    # test downward propagation -- symbolic stuff
+                    # tests downward propagation -- symbolic stuff
                     #vis = tensor.grad(output, input, output)
                     #downprop = function([kerns,input], vis, mode=mode)
                     #visval = downprop(filters,img1d)
-                    # test downward propagation -- reference implementation
+                    # tests downward propagation -- reference implementation
                     #pshape = (img1d.shape[0],numpy.prod(outshp[1:]),numpy.prod(kshp))
                     #patchstack = numpy.zeros(pshape)
                     # for bi in numpy.arange(pshape[0]): # batch index

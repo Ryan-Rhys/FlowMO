@@ -30,7 +30,7 @@ class TestCGer(TestCase, TestOptimizationMixin):
 
     def setUp(self, dtype='float64'):
         if theano.config.blas.ldflags == "":
-            raise SkipTest("This test is useful only when Theano"
+            raise SkipTest("This tests is useful only when Theano"
                            " is directly linked to blas.")
 
         self.dtype = dtype
@@ -114,7 +114,7 @@ class TestCGemv(TestCase, TestOptimizationMixin):
     """
     def setUp(self, dtype='float64'):
         if theano.config.blas.ldflags == "":
-            raise SkipTest("This test is useful only when Theano"
+            raise SkipTest("This tests is useful only when Theano"
                            " is directly linked to blas.")
         self.dtype = dtype
         self.mode = theano.compile.get_default_mode().including('fast_run')
@@ -191,7 +191,7 @@ class TestCGemv(TestCase, TestOptimizationMixin):
             )
 
     def t_gemv1(self, m_shp):
-        ''' test vector2 + dot(matrix, vector1) '''
+        ''' tests vector2 + dot(matrix, vector1) '''
         rng = numpy.random.RandomState(unittest_tools.fetch_seed())
         v1 = theano.shared(numpy.array(rng.uniform(size=(m_shp[1],)),
                                        dtype='float32'))
@@ -209,7 +209,7 @@ class TestCGemv(TestCase, TestOptimizationMixin):
         topo = [n.op for n in f.maker.fgraph.toposort()]
         assert topo == [CGemv(inplace=False)], topo
 
-        # test the inplace version
+        # tests the inplace version
         g = theano.function([], [],
                 updates=[(v2, v2 + theano.dot(m, v1))],
                 mode=self.mode)
@@ -291,7 +291,7 @@ class TestCGemvFloat32(TestCase, BaseGemv, TestOptimizationMixin):
 
     def setUp(self):
         if theano.config.blas.ldflags == "":
-            raise SkipTest("This test is useful only when Theano"
+            raise SkipTest("This tests is useful only when Theano"
                            " is directly linked to blas.")
 
 
@@ -303,7 +303,7 @@ class TestCGemvFloat64(TestCase, BaseGemv, TestOptimizationMixin):
 
     def setUp(self):
         if theano.config.blas.ldflags == "":
-            raise SkipTest("This test is useful only when Theano"
+            raise SkipTest("This tests is useful only when Theano"
                            " is directly linked to blas.")
 
 

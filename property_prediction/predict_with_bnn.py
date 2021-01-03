@@ -23,8 +23,8 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
     :param task: str specifying the task. One of ['Photoswitch', 'ESOL', 'FreeSolv', 'Lipophilicity']
     :param representation: str specifying the molecular representation. One of ['SMILES, fingerprints, 'fragments', 'fragprints']
     :param use_pca: bool. If True apply PCA to perform Principal Components Regression.
-    :param n_trials: int specifying number of random train/test splits to use
-    :param test_set_size: float in range [0, 1] specifying fraction of dataset to use as test set
+    :param n_trials: int specifying number of random train/tests splits to use
+    :param test_set_size: float in range [0, 1] specifying fraction of dataset to use as tests set
     :param use_rmse_conf: bool specifying whether to compute the rmse confidence-error curves or the mae confidence-
     error curves. True is the option for rmse.
     :param precompute_repr: bool indicating whether to precompute representations or not.
@@ -55,7 +55,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
 
     # We pre-allocate arrays for plotting confidence-error curves
 
-    _, _, _, y_test = train_test_split(X, y, test_size=test_set_size, random_state=42)  # To get test set size
+    _, _, _, y_test = train_test_split(X, y, test_size=test_set_size, random_state=42)  # To get tests set size
 
     # Photoswitch dataset requires 80/20 splitting. Other datasets are 80/10/10.
 
@@ -89,7 +89,7 @@ def main(path, task, representation, use_pca, n_trials, test_set_size, use_rmse_
 
             if task != 'Photoswitch':
 
-                # Artificially create a 80/10/10 train/validation/test split discarding the validation set.
+                # Artificially create a 80/10/10 train/validation/tests split discarding the validation set.
                 split_in_two = int(len(y_test)/2)
                 X_test = X_test[0:split_in_two]
                 y_test = y_test[0:split_in_two]
@@ -281,9 +281,9 @@ if __name__ == '__main__':
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
                         help='If True apply PCA to perform Principal Components Regression.')
     parser.add_argument('-n', '--n_trials', type=int, default=5,
-                        help='int specifying number of random train/test splits to use')
+                        help='int specifying number of random train/tests splits to use')
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
-                        help='float in range [0, 1] specifying fraction of dataset to use as test set')
+                        help='float in range [0, 1] specifying fraction of dataset to use as tests set')
     parser.add_argument('-rms', '--use_rmse_conf', type=bool, default=True,
                         help='bool specifying whether to compute the rmse confidence-error curves or the mae '
                              'confidence-error curves. True is the option for rmse.')

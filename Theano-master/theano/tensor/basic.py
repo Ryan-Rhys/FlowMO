@@ -327,7 +327,7 @@ class autocast_float_as(object):
     behavior when `config.cast_policy` is set to 'custom'.
     If `config.cast_policy` is not 'custom', an exception is raised.
     This class might be convenient in some code, but it definitely
-    helps to test the autocasting mechanism.
+    helps to tests the autocasting mechanism.
 
     Examples
     --------
@@ -461,7 +461,7 @@ if int(config.tensor.cmp_sloppy) > 1:
     # "theano.tensor.basic.float32_atol = ..."
 
     # When config.tensor.cmp_sloppy>1 we are even more sloppy. This is
-    # useful to test the GPU as they don't use extended precision and
+    # useful to tests the GPU as they don't use extended precision and
     # this cause some difference bigger then the normal sloppy.
     float16_atol = 5e-3
     float16_rtol = 1e-2
@@ -481,8 +481,8 @@ elif int(config.tensor.cmp_sloppy):
     float64_rtol = 1e-4
     float64_atol = 1e-3
 else:
-    # If you change those value in test don't forget to put them back
-    # when the test end.  Don't forget the case when the test fail.
+    # If you change those value in tests don't forget to put them back
+    # when the tests end.  Don't forget the case when the tests fail.
     float16_atol = 5e-4
     float16_rtol = 5e-4
 
@@ -680,7 +680,7 @@ def get_scalar_constant_value(orig_v, elemwise=True,
                 # TODO: implement the case where we take a scalar in a matrix
                 assert len(v.owner.op.idx_list) == v.owner.inputs[0].ndim
 
-                # Needed to make better graph in this test in
+                # Needed to make better graph in this tests in
                 # theano/tensor/tests/test_sharedvar.py:
                 # test_shared_options.test_specify_shape_partial
                 if ((v.owner.inputs[0].owner and
@@ -5495,14 +5495,14 @@ class Dot(Op):
                 iv0 = gof.op.get_test_value(inputs[0])
             except AttributeError:
                 gof.op.missing_test_message(
-                    'first input passed to Dot.R_op has no test value')
+                    'first input passed to Dot.R_op has no tests value')
                 debugger_available = False
 
             try:
                 iv1 = gof.op.get_test_value(inputs[1])
             except AttributeError:
                 gof.op.missing_test_message(
-                    'second input passed to Dot.R_op has no test value')
+                    'second input passed to Dot.R_op has no tests value')
                 debugger_available = False
 
             if eval_points[0]:
@@ -5511,7 +5511,7 @@ class Dot(Op):
                 except AttributeError:
                     gof.op.missing_test_message(
                         'first eval point passed to Dot.R_op '
-                        'has no test value')
+                        'has no tests value')
                     debugger_available = False
             if eval_points[1]:
                 try:
@@ -5519,7 +5519,7 @@ class Dot(Op):
                 except AttributeError:
                     gof.op.missing_test_message(
                         'second eval point passed to Dot.R_op '
-                        'has no test value')
+                        'has no tests value')
                     debugger_available = False
 
         if debugger_available:

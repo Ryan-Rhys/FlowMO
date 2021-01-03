@@ -90,7 +90,7 @@ class GpuElemwise(GpuKernelBase, HideC, Elemwise):
 
             fake_node = Apply(self.scalar_op, [i() for i in scal_ins],
                               [o() for o in scal_out])
-            code = self.scalar_op.c_support_code_apply(fake_node, "test")
+            code = self.scalar_op.c_support_code_apply(fake_node, "tests")
             if code:
                 raise SupportCodeError(code)
         except MethodNotDefined:
@@ -672,7 +672,7 @@ class GpuCAReduceCuda(GpuKernelBase, HideC, CAReduceDtype):
         """
         # If we don't even have the right method, we certainly
         # don't support the C code
-        # (This is the test that used to be implemented by
+        # (This is the tests that used to be implemented by
         # local_gpu_sum)
         pattern = (''.join(str(i) for i in self.reduce_mask))
         if not hasattr(self, 'c_code_reduce_%s' % pattern):

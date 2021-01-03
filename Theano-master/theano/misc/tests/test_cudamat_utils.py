@@ -5,7 +5,7 @@ from theano.misc.cudamat_utils import cudamat_available
 
 if not cudamat_available:  # noqa
     from nose.plugins.skip import SkipTest
-    raise SkipTest("gnumpy not installed. Skip test of theano op with pycuda "
+    raise SkipTest("gnumpy not installed. Skip tests of theano op with pycuda "
                    "code.")
 
 from theano.misc.cudamat_utils import (cudandarray_to_cudamat,

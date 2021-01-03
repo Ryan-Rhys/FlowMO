@@ -40,7 +40,7 @@ The full documentation can be found in the library: :ref:`Scan <lib_scan>`.
   results, updates = theano.scan(lambda v: T.tanh(T.dot(v, W) + b_sym), sequences=X)
   compute_elementwise = theano.function(inputs=[X, W, b_sym], outputs=results)
 
-  # test values
+  # tests values
   x = np.eye(2, dtype=theano.config.floatX)
   w = np.ones((2, 2), dtype=theano.config.floatX)
   b = np.ones((2), dtype=theano.config.floatX)
@@ -79,7 +79,7 @@ The full documentation can be found in the library: :ref:`Scan <lib_scan>`.
             sequences=[Y, P[::-1]], outputs_info=[X])
   compute_seq = theano.function(inputs=[X, W, Y, U, P, V], outputs=results)
 
-  # test values
+  # tests values
   x = np.zeros((2), dtype=theano.config.floatX)
   x[1] = 1
   w = np.ones((2, 2), dtype=theano.config.floatX)
@@ -125,7 +125,7 @@ The full documentation can be found in the library: :ref:`Scan <lib_scan>`.
   results, updates = theano.scan(lambda x_i: T.sqrt((x_i ** 2).sum()), sequences=[X])
   compute_norm_lines = theano.function(inputs=[X], outputs=results)
 
-  # test value
+  # tests value
   x = np.diag(np.arange(1, 6, dtype=theano.config.floatX), 1)
   print(compute_norm_lines(x))
 
@@ -150,7 +150,7 @@ The full documentation can be found in the library: :ref:`Scan <lib_scan>`.
   results, updates = theano.scan(lambda x_i: T.sqrt((x_i ** 2).sum()), sequences=[X.T])
   compute_norm_cols = theano.function(inputs=[X], outputs=results)
 
-  # test value
+  # tests value
   x = np.diag(np.arange(1, 6, dtype=theano.config.floatX), 1)
   print(compute_norm_cols(x))
 
@@ -179,7 +179,7 @@ The full documentation can be found in the library: :ref:`Scan <lib_scan>`.
   result = results[-1]
   compute_trace = theano.function(inputs=[X], outputs=result)
 
-  # test value
+  # tests value
   x = np.eye(5, dtype=theano.config.floatX)
   x[0] = np.arange(5, dtype=theano.config.floatX)
   print(compute_trace(x))
@@ -213,7 +213,7 @@ The full documentation can be found in the library: :ref:`Scan <lib_scan>`.
                       n_steps=n_sym, outputs_info=[dict(initial=X, taps=[-2, -1])])
   compute_seq2 = theano.function(inputs=[X, U, V, W, b_sym, n_sym], outputs=results)
 
-  # test values
+  # tests values
   x = np.zeros((2, 2), dtype=theano.config.floatX) # the initial value must be able to return x[-2]
   x[1, 1] = 1
   w = 0.5 * np.ones((2, 2), dtype=theano.config.floatX)
@@ -273,7 +273,7 @@ The full documentation can be found in the library: :ref:`Scan <lib_scan>`.
   results, updates = theano.scan(lambda i: T.grad(y[i], v), sequences=[T.arange(y.shape[0])])
   compute_jac_t = theano.function([A, v], results, allow_input_downcast=True) # shape (d_out, d_in)
 
-  # test values
+  # tests values
   x = np.eye(5, dtype=theano.config.floatX)[0]
   w = np.eye(5, 3, dtype=theano.config.floatX)
   w[2] = np.ones((3), dtype=theano.config.floatX)

@@ -41,7 +41,7 @@ def test_dnn_conv_desc_merge():
 
 
 def test_dnn_conv_merge():
-    # This test that we merge correctly multiple dnn_conv.
+    # This tests that we merge correctly multiple dnn_conv.
     if not dnn.dnn_available(test_ctx_name):
         raise SkipTest(dnn.dnn_available.msg)
     img_shp = [2, 5, 6, 8]
@@ -77,7 +77,7 @@ def test_dnn_conv_merge():
 
 
 def test_dnn_conv_inplace():
-    """This test that we have inplace work correctly even when
+    """This tests that we have inplace work correctly even when
     GpuAllocEmpty get merged together.
 
     """
@@ -228,7 +228,7 @@ def test_pooling():
                 # Not implemented
                 continue
 
-            # This test the CPU grad + opt + GPU implemtentation
+            # This tests the CPU grad + opt + GPU implemtentation
             def fn(x):
                 return pool_2d(x, (ws, ws), ignore_border=True,
                                padding=pad, mode=mode)
@@ -855,8 +855,8 @@ class test_SoftMax(test_nnet.test_SoftMax):
                     ]) == 0)
 
     def test_log_softmax(self):
-        # This is a test for an optimization that depends on CuDNN v3 or
-        # more recent. Don't test if the CuDNN version is too old.
+        # This is a tests for an optimization that depends on CuDNN v3 or
+        # more recent. Don't tests if the CuDNN version is too old.
         if dnn.version() < 3000:
             raise SkipTest("Log-softmax is only in cudnn v3+")
 
@@ -896,8 +896,8 @@ class test_SoftMax(test_nnet.test_SoftMax):
         # Test that the op LogSoftmax is correctly replaced by the op
         # DnnSoftmax with the 'log' mode.
 
-        # This is a test for an optimization that depends on CuDNN v3 or
-        # more recent. Don't test if the CuDNN version is too old.
+        # This is a tests for an optimization that depends on CuDNN v3 or
+        # more recent. Don't tests if the CuDNN version is too old.
         if dnn.version() < 3000:
             raise SkipTest("Log-softmax is only in cudnn v3+")
 

@@ -33,7 +33,7 @@ class BlockSparse_Gemv_and_Outer(
         self.gemv_class = GpuSparseBlockGemv
         self.outer_class = GpuSparseBlockOuter
 
-    # This test is temporarily disabled since we disabled the output_merge
+    # This tests is temporarily disabled since we disabled the output_merge
     # and alpha_merge optimizations for blocksparse due to brokeness.
     # Re-enable when those are re-added.
     def Xtest_blocksparse_grad_merge(self):

@@ -116,14 +116,14 @@ class RecordMode(Mode):
     numpy ndarrays it receives as inputs and produces as output.
 
     Example:
-       # We use RecordMode to test that the computation of a function is
+       # We use RecordMode to tests that the computation of a function is
        identical. Create a Record object and use it to initialize a
        RecordMode object.
        output = cStringIO.StringIO()
        record = Record(file_object=output, replay=False)
        record_mode = RecordMode(record)
 
-       # Then compile and call the function you wish to test, which uses
+       # Then compile and call the function you wish to tests, which uses
        # Apply nodes with record_mode as first parameter to record all the
        # computations to file. For example, call a Theano function with the
        # RecordMode object.
@@ -137,7 +137,7 @@ class RecordMode(Mode):
        playback = Record(file_object=output, replay=True)
        playback_mode = RecordMode(playback)
 
-       # Compile and call the function to test again with record_mode as
+       # Compile and call the function to tests again with record_mode as
        # first parameter. An exception will be thrown if the recorded
        # computations are not identical between the two runs.
        x = theano.tensor.dscalar()

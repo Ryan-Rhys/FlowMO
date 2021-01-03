@@ -18,7 +18,7 @@ mode_wo_cudnn = mode_with_gpu.excluding("cudnn")
 
 def test_GpuCrossentropySoftmaxArgmax1HotWithBias():
     """
-    This is basic test for GpuCrossentropySoftmaxArgmax1HotWithBias
+    This is basic tests for GpuCrossentropySoftmaxArgmax1HotWithBias
 
     We check that we loop when their is too much threads
 
@@ -36,7 +36,7 @@ def test_GpuCrossentropySoftmaxArgmax1HotWithBias():
 
     b = T.fvector('b')
 
-    # we precompute the dot with big shape before to allow the test of
+    # we precompute the dot with big shape before to allow the tests of
     # GpuCrossentropySoftmax1HotWithBiasDx to don't fail with the error
     # (the launch timed out and was terminated) on GPU card not
     # powerful enough. We need the big shape to check for corner
@@ -83,7 +83,7 @@ def test_GpuCrossentropySoftmaxArgmax1HotWithBias():
 
 def test_GpuCrossentropySoftmax1HotWithBiasDx():
     """
-    This is basic test for GpuCrossentropySoftmax1HotWithBiasDx
+    This is basic tests for GpuCrossentropySoftmax1HotWithBiasDx
 
     We check that we loop when their is too much threads
 
@@ -154,7 +154,7 @@ def test_softmax_with_bias_float64():
 
 def softmax_with_bias_unittest_template(dtypeInput, dtypeBias):
     """
-    This is a basic test for GpuSoftmaxWithBias.
+    This is a basic tests for GpuSoftmaxWithBias.
 
     We check that we loop when there are too many blocks.
 
@@ -182,7 +182,7 @@ def softmax_with_bias_unittest_template(dtypeInput, dtypeBias):
         utt.assert_allclose(out, gout)
 
     cmp(2, 5)
-    # we need to test n>32*1024 to check that we make the block loop.
+    # we need to tests n>32*1024 to check that we make the block loop.
     cmp(2 << 15, 5)
     cmp(4074, 400)
     cmp(784, 784)
@@ -212,7 +212,7 @@ def test_softmax_float64():
 
 def softmax_unittest_template(dtypeInput):
     """
-    This is basic test for GpuSoftmax.
+    This is basic tests for GpuSoftmax.
 
     We check that we loop when their is too much block
     We use slower code when there isn't enough shared memory
@@ -233,7 +233,7 @@ def softmax_unittest_template(dtypeInput):
         gout = f_gpu(data)
         utt.assert_allclose(out, gout)
 
-    # we need to test n>32*1024 to check that we make the block loop.
+    # we need to tests n>32*1024 to check that we make the block loop.
     cmp(2, 5)
     cmp(2 << 15, 5)
     cmp(4074, 400)
@@ -263,7 +263,7 @@ class test_SoftMax(unittest.TestCase):
         cmp
     ):
         """
-        This is basic test for GpuSoftmax and GpuDnnSoftmax
+        This is basic tests for GpuSoftmax and GpuDnnSoftmax
 
         We check that we loop when there is too much block
         We use slower code when there isn't enough shared memory
@@ -275,7 +275,7 @@ class test_SoftMax(unittest.TestCase):
         f_gpu = theano.function([x_gpu], f_gpu_z_out, mode=self.mode)
         self._check_types(f, f_gpu, T.nnet.Softmax, self.gpu_op)
 
-        # we need to test n>32*1024 to check that we make the block loop.
+        # we need to tests n>32*1024 to check that we make the block loop.
         cmp(1, 5, f, f_gpu)
         cmp(2, 5, f, f_gpu)
         cmp(10, 5, f, f_gpu)

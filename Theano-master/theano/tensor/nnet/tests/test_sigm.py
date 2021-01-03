@@ -265,7 +265,7 @@ class T_sigmoid_opts(unittest.TestCase):
         """
         Test the core function doing the `sigm_times_exp` optimization.
 
-        It is easier to test different graph scenarios this way than by
+        It is easier to tests different graph scenarios this way than by
         compiling a theano function.
         """
         x, y, z, t = tensor.vectors('x', 'y', 'z', 't')
@@ -398,7 +398,7 @@ class T_softplus_opts(unittest.TestCase):
         assert isinstance(topo[1].op.scalar_op, theano.scalar.Neg)
         f(numpy.random.rand(54, 11).astype(config.floatX))
 
-        # Same test with a flatten
+        # Same tests with a flatten
         out = T.log(1 - T.flatten(sigmoid(x)))
         f = theano.function([x], out, mode=self.m)
         assert hasattr(f.maker.fgraph.outputs[0].tag, 'trace')
@@ -410,7 +410,7 @@ class T_softplus_opts(unittest.TestCase):
         assert isinstance(topo[2].op.scalar_op, theano.scalar.Neg)
         f(numpy.random.rand(54, 11).astype(config.floatX))
 
-        # Same test with a reshape
+        # Same tests with a reshape
         out = T.log(1 - sigmoid(x).reshape([x.size]))
         f = theano.function([x], out, mode=self.m)
         topo = f.maker.fgraph.toposort()

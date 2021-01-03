@@ -25,7 +25,7 @@ def test_get_diagonal_subtensor_view(wrap=lambda a: a):
     x = wrap(x)
     xv01 = get_diagonal_subtensor_view(x, 0, 1)
 
-    # test that it works in 2d
+    # tests that it works in 2d
     assert numpy.all(numpy.asarray(xv01) == [[12, 9, 6, 3], [16, 13, 10, 7]])
 
     x = numpy.arange(24).reshape(4, 3, 2)

@@ -218,7 +218,7 @@ class test_ifelse(unittest.TestCase, utt.TestOptimizationMixin):
         assert numpy.all(outs_0[3] == 1.)
 
     def test_multiple_out_crash(self):
-        # This test failed up to commit 2faeb62c38
+        # This tests failed up to commit 2faeb62c38
         p0 = self.shared(numpy.asarray(numpy.random.random([4, 8]),
                                        dtype=self.dtype))
         p1 = self.shared(numpy.asarray(numpy.random.random(8),
@@ -470,14 +470,14 @@ class test_ifelse(unittest.TestCase, utt.TestOptimizationMixin):
 
     def test_grad_test_values(self):
         """
-        Regression test for test values of `ifelse` gradient.
+        Regression tests for tests values of `ifelse` gradient.
         """
         backup = theano.config.compute_test_value
         theano.config.compute_test_value = 'raise'
         try:
             x = tensor.scalar('x')
             x.tag.test_value = 1
-            # Used to crash due to undefined test value.
+            # Used to crash due to undefined tests value.
             tensor.grad(ifelse(0, x, x), x)
         finally:
             theano.config.compute_test_value = backup

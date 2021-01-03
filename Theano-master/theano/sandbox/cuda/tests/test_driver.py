@@ -2,7 +2,7 @@ from __future__ import absolute_import, print_function, division
 import numpy
 import theano
 
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 try:
     from nose.plugins.skip import SkipTest
     import theano.sandbox.cuda as cuda_ndarray
@@ -24,7 +24,7 @@ else:
 
 def test_nvidia_driver1():
     """ Some nvidia driver give bad result for reduction
-        This execute some reduction test to ensure it run correctly
+        This execute some reduction tests to ensure it run correctly
     """
     a = numpy.random.rand(10000).astype("float32")
     A = cuda.shared_constructor(a)
@@ -89,5 +89,5 @@ def test_nvcc_cast():
             "Installing CUDA 7.0 (or more recent) should fix the problem.")
 
 
-# TODO make sure the test_nvidia_driver test are executed when we make manually
+# TODO make sure the test_nvidia_driver tests are executed when we make manually
 # a CudaNdarray like this: cuda.CudaNdarray.zeros((5,4))

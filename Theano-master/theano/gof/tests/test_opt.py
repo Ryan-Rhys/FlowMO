@@ -188,7 +188,7 @@ class TestPatternOptimizer:
         assert str(g) == "[Op2(Op1(Op2(Op1(Op2(Op1(x))))))]"
 
     def test_ambiguous(self):
-        # this test should always work with TopoOptimizer and the
+        # this tests should always work with TopoOptimizer and the
         # ignore_newtrees flag set to False. Behavior with ignore_newtrees
         # = True or with other NavigatorOptimizers may differ.
         x, y, z = inputs()

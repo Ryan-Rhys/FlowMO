@@ -29,11 +29,11 @@ def makeSharedTester(shared_constructor_,
                      name=None,
                      ):
     """
-    This is a generic fct to allow reusing the same test function
+    This is a generic fct to allow reusing the same tests function
     for many shared variable of many types.
 
     :param shared_constructor_: The shared variable constructor to use
-    :param dtype_: The dtype of the data to test
+    :param dtype_: The dtype of the data to tests
     :param get_value_borrow_true_alias_: Should a get_value(borrow=True) return the internal object
     :param shared_borrow_true_alias_: Should shared(val,borrow=True) reuse the val memory space
     :param set_value_borrow_true_alias_: Should set_value(val,borrow=True) reuse the val memory space
@@ -52,7 +52,7 @@ def makeSharedTester(shared_constructor_,
     :param op_by_matrix_: When we do inplace operation on the an internal type object, should we do it with a scalar or a matrix of the same value.
     :param name: This string is used to set the returned class' __name__
                  attribute. This is needed for nosetests to properly tag the
-                 test with its correct name, rather than use the generic
+                 tests with its correct name, rather than use the generic
                  SharedTester name. This parameter is mandatory (keeping the
                  default None value will raise an error), and must be set to
                  the name of the variable that will hold the returned class.
@@ -250,7 +250,7 @@ def makeSharedTester(shared_constructor_,
                 values_to_div = self.internal_type(numpy.ones(x.shape, dtype=dtype)/2)
                 assert self.test_internal_type(values_to_div)
 
-            # test if that theano shared variable optimize set_value(borrow=True)
+            # tests if that theano shared variable optimize set_value(borrow=True)
             get_x = x_shared.get_value(borrow=True)
             assert get_x is not x_orig  # borrow=False to shared_constructor
             get_x /= values_to_div
@@ -262,7 +262,7 @@ def makeSharedTester(shared_constructor_,
                 assert x is not get_x
             assert numpy.allclose(self.ref_fct(numpy.asarray(x_orig)/.5), self.ref_fct(x))
 
-            # test optimized get set value on the gpu(don't pass data to the cpu)
+            # tests optimized get set value on the gpu(don't pass data to the cpu)
             get_x = x_shared.get_value(borrow=True, return_internal_type=True)
             assert get_x is not x_orig  # borrow=False to shared_constructor
             assert self.test_internal_type(get_x)
@@ -274,7 +274,7 @@ def makeSharedTester(shared_constructor_,
             assert self.test_internal_type(x)
             assert x is get_x
 
-            # TODO test Out.
+            # TODO tests Out.
         def test_shared_do_alias(self):
             dtype = self.dtype
             if dtype is None:
@@ -310,8 +310,8 @@ def makeSharedTester(shared_constructor_,
 
         def test_inplace_set_value(self):
             """
-            We test that if the SharedVariable implement it we do inplace set_value
-            We also test this for partial inplace modification when accessing the internal of theano.
+            We tests that if the SharedVariable implement it we do inplace set_value
+            We also tests this for partial inplace modification when accessing the internal of theano.
             """
             dtype = self.dtype
             if dtype is None:
@@ -510,7 +510,7 @@ def makeSharedTester(shared_constructor_,
                 self.assertRaises(AssertionError, shape_constant_fct)
 
         def test_specify_shape_inplace(self):
-            # test that specify_shape don't break inserting inplace op
+            # tests that specify_shape don't break inserting inplace op
 
             dtype = self.dtype
             if dtype is None:
@@ -540,7 +540,7 @@ def makeSharedTester(shared_constructor_,
             #assert all(node.op.inplace for node in topo if node.op.__class__.__name__ == "StructuredDot")
             s_shared_specify = tensor.specify_shape(s_shared, s_shared.get_value(borrow=True).shape)
 
-            # now test with the specify shape op in the output
+            # now tests with the specify shape op in the output
             f = theano.function([], s_shared.shape,
                                 updates=[(s_shared, theano.dot(a_shared, b_shared)
                                          + s_shared_specify)])
@@ -551,7 +551,7 @@ def makeSharedTester(shared_constructor_,
                 assert sum([node.op.__class__.__name__ in ["Gemm", "GpuGemm", "StructuredDot"] for node in topo]) == 1
                 assert all(node.op == tensor.blas.gemm_inplace for node in topo if isinstance(node.op, tensor.blas.Gemm))
                 assert all(node.op.inplace for node in topo if node.op.__class__.__name__ == "GpuGemm")
-            # now test with the specify shape op in the inputs and outputs
+            # now tests with the specify shape op in the inputs and outputs
             a_shared = tensor.specify_shape(a_shared,
                     a_shared.get_value(borrow=True).shape)
             b_shared = tensor.specify_shape(b_shared,
@@ -620,6 +620,6 @@ test_shared_options = makeSharedTester(
 
 
 def test_scalar_shared_options():
-    # Simple test to make sure we do not loose that fonctionality.
+    # Simple tests to make sure we do not loose that fonctionality.
     theano.shared(value=0., name='lk', borrow=True)
     theano.shared(value=numpy.float32(0.), name='lk', borrow=True)

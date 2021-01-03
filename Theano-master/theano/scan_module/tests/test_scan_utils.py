@@ -160,7 +160,7 @@ class TestMapVariables(unittest.TestCase):
         for m, n in itertools.combinations(range(10), 2):
             assert f(m, n, outer=0.5) == [m + n, m - n]
 
-        # test that the unsupported case of replacement with a shared
+        # tests that the unsupported case of replacement with a shared
         # variable with updates crashes
         shared.update = shared + 1
         self.assertRaises(NotImplementedError,

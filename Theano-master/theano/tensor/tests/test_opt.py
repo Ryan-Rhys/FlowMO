@@ -367,7 +367,7 @@ class test_canonize(unittest.TestCase):
         Test with and without DimShuffle
         """
         raise SkipTest("Current implementation of Canonizer does not "
-                       "implement all cases. Skip the corresponding test.")
+                       "implement all cases. Skip the corresponding tests.")
 
         shp = (5, 5)
         fx, fy, fz = fmatrices('xyz')
@@ -461,7 +461,7 @@ class test_canonize(unittest.TestCase):
 
     @attr('slow')
     def test_multiple_case(self):
-        """ test those case take from the comment in Canonizer
+        """ tests those case take from the comment in Canonizer
         x / x -> 1
         (x * y) / x -> y
         x / y / x -> 1 / y
@@ -499,7 +499,7 @@ class test_canonize(unittest.TestCase):
         opt = opt.excluding(
             'local_elemwise_fusion')
         mode = mode.__class__(linker=mode.linker, optimizer=opt)
-        # test x / x -> 1
+        # tests x / x -> 1
         for id, (g, sym_inputs, val_inputs, out_dtype) in enumerate([(fx/fx, [fx], [fxv], 'float32'),
                                                        (dx/dx, [dx], [dxv], 'float64'),
                                                        (fv/fv, [fv], [fvv], 'float32'),
@@ -521,7 +521,7 @@ class test_canonize(unittest.TestCase):
                 assert isinstance(topo[2].op, tensor.Alloc)
             assert(out_dtype == out.dtype)
 
-        # test (x * y) / x -> y
+        # tests (x * y) / x -> y
         for id, (g, sym_inputs, val_inputs, nb_elemwise, out_dtype) in enumerate([
                                                        ((dx*dy)/dx, [dx, dy], [dxv, dyv], 0, 'float64'),
                                                        ((fx*fy)/fx, [fx, fy], [fxv, fyv], 0, 'float32'),
@@ -544,7 +544,7 @@ class test_canonize(unittest.TestCase):
                     assert isinstance(node.op, Shape_i)
                 assert isinstance(topo[-1].op, tensor.Alloc)
 
-        # test x / y / x -> 1 / y
+        # tests x / y / x -> 1 / y
         for id, (g, sym_inputs, val_inputs, nb_elemwise, out_dtype) in enumerate([
                                                        ((dx/dy)/dx, [dx, dy], [dxv, dyv], 1, 'float64'),
                                                        ((fx/fy)/fx, [fx, fy], [fxv, fyv], 1, 'float32'),
@@ -569,7 +569,7 @@ class test_canonize(unittest.TestCase):
                 theano.scalar.basic.Inv, theano.scalar.basic.TrueDiv))
             assert(out_dtype == out.dtype)
 
-        # test (a / b) * (b / c) * (c / d) -> a / d
+        # tests (a / b) * (b / c) * (c / d) -> a / d
         for id, (g, sym_inputs, val_inputs, out_dtype) in enumerate([
                                                        ((dx / dy) * (dy / dz) * (dz / dw), [dx, dy, dz, dw], [dxv, dyv, dzv, dwv], 'float64'),
                                                        ((fx / fy) * (fy / fz) * (fz / fw), [fx, fy, fz, fw], [fxv, fyv, fzv, fwv], 'float32'),
@@ -594,7 +594,7 @@ class test_canonize(unittest.TestCase):
             assert len(topo[0].inputs) == 2
             assert(out_dtype == out.dtype)
 
-        # test (2.0 * x) / (4.0 * y) -> (0.5 * x) / y
+        # tests (2.0 * x) / (4.0 * y) -> (0.5 * x) / y
         for id, (g, sym_inputs, val_inputs, out_dtype) in enumerate([
                                                        (((2.0*dx)/(4.0*dy)), [dx, dy], [dxv, dyv], 'float64'),
                                                        (((2.0*fx)/(4.0*fy)), [fx, fy], [fxv, fyv], {'custom': 'float32', 'numpy+floatX': config.floatX, 'numpy': 'float64'}),
@@ -623,7 +623,7 @@ class test_canonize(unittest.TestCase):
             assert len(topo[1].inputs) == 2
             assert(out_dtype == out.dtype)
 
-        # test 2 * x / 2 -> x
+        # tests 2 * x / 2 -> x
         for id, (g, sym_inputs, val_inputs, out_dtype) in enumerate([
                                                        ((2*dx)/2, [dx], [dxv], 'float64'),
                                                        ((2*fx)/2, [fx], [fxv], {'custom': 'float32', 'numpy+floatX': config.floatX, 'numpy': 'float64'}),
@@ -641,7 +641,7 @@ class test_canonize(unittest.TestCase):
             topo[0].op == deep_copy_op
             assert(out_dtype == out.dtype)
 
-        # test x / abs(x) -> sign(x)
+        # tests x / abs(x) -> sign(x)
         for id, (g, sym_inputs, val_inputs, out_dtype) in enumerate([
                                                        (dx/abs(dx), [dx], [0.5-dxv], 'float64'),
                                                        (fx/abs(fx), [fx], [0.5-fxv], 'float32'),
@@ -658,7 +658,7 @@ class test_canonize(unittest.TestCase):
             assert(out_dtype == out.dtype)
             assert len(f.maker.fgraph.toposort()) == 1
 
-        # test (2*x) / (3*abs(x)) -> sign(x)
+        # tests (2*x) / (3*abs(x)) -> sign(x)
         for id, (g, sym_inputs, val_inputs, out_dtype) in enumerate([
                 ((2 * dx) / (3 * abs(dx)), [dx], [0.5 - dxv], 'float64'),
                 ((2 * fx) / (3 * abs(fx)), [fx], [0.5 - fxv],
@@ -683,7 +683,7 @@ class test_canonize(unittest.TestCase):
 
     def test_abs_mul_div(self):
         """
-        test that if we have
+        tests that if we have
         4 * x / abs(2*x) it get simplifier during canonicalisation.
         """
 
@@ -725,7 +725,7 @@ class test_canonize(unittest.TestCase):
 
     def test_multiple_case_that_fail(self):
         raise SkipTest("Current implementation of Canonizer does not "
-                       "implement all cases. Skip the corresponding test.")
+                       "implement all cases. Skip the corresponding tests.")
 
         shp = (4, 4)
         fx, fy, fz = fmatrices('xyz')
@@ -745,8 +745,8 @@ class test_canonize(unittest.TestCase):
         opt = opt.excluding(
             'local_elemwise_fusion')
         mode = mode.__class__(linker=mode.linker, optimizer=opt)
-# test fail!
-        # test x / y / z -> x / (y * z)
+# tests fail!
+        # tests x / y / z -> x / (y * z)
         for (g, sym_inputs, val_inputs, out_dtype) in [
                                                        ((dx/dy)/dz, [dx, dy, dz], [dxv, dyv, dzv], 'float64'),
                                                        ((fx/fy)/fz, [fx, fy, fz], [fxv, fyv, fzv], 'float32')
@@ -764,7 +764,7 @@ class test_canonize(unittest.TestCase):
             assert len(topo[0].inputs) == 1
             assert(out_dtype == out.dtype)
 
-        # test x / (y / z) -> (x * z) / y
+        # tests x / (y / z) -> (x * z) / y
         for (g, sym_inputs, val_inputs, out_dtype) in [
                                                        (dx/(dy/dz), [dx, dy, dz], [dxv, dyv, dzv], 'float64'),
                                                        (fx/(fy/fz), [fx, fy, fz], [fxv, fyv, fzv], 'float32')
@@ -783,13 +783,13 @@ class test_canonize(unittest.TestCase):
             assert(out_dtype == out.dtype)
 
     def test_dont_merge_if_multiple_client(self):
-        """ test those case take from the comment in Canonizer
+        """ tests those case take from the comment in Canonizer
         """
         raise SkipTest("Not implemented")
 
     def test_canonicalize_nan(self):
         """
-        Regression test for bug in canonicalization of NaN values.
+        Regression tests for bug in canonicalization of NaN values.
 
         This bug caused an infinite loop which was caught by the equilibrium
         optimizer, resulting in an error log message.
@@ -803,7 +803,7 @@ class test_canonize(unittest.TestCase):
             f = theano.function([x], x + numpy.nan)
         finally:
             logging.getLogger('theano.gof.opt').removeHandler(handler)
-        # Ideally this test would only catch the maxed out equilibrium
+        # Ideally this tests would only catch the maxed out equilibrium
         # optimizer error message, but to be safe in case this message
         # is modified in the future, we assert that there is no error
         # at all.
@@ -952,7 +952,7 @@ class test_fusion(unittest.TestCase):
                 fxv * fyv + fzv + fyv, 'float32'),
             (fx*fy*fz*fw+fx+fy+fz+fw, (fw, fx, fy, fz), (fwv, fxv,
                 fyv, fzv), 1, fxv*fyv*fzv*fwv+fxv+fyv+fzv+fwv, 'float32'),  # 15
-            # test with constant
+            # tests with constant
             ((fw+fx)+(fy+fz) + 2., (fw, fx, fy, fz), (fwv, fxv, fyv, fzv),
                 1, fwv+fxv+fyv+fzv+2, 'float32'),
             (((fw+fx)+2.+fy)+fz, (fw, fx, fy, fz), (fwv, fxv, fyv, fzv),
@@ -974,8 +974,8 @@ class test_fusion(unittest.TestCase):
                 1, fwv+fxv+dwv+fzv+2, 'float64'),
             (2+(fw+fx)+(fy+dw), (fw, fx, fy, dw), (fwv, fxv, fyv, dwv),
                 1, fwv+fxv+fyv+dwv+2, 'float64'),  # 25
-            # test when their is other op then elemwise.
-            # the good output for the next test.
+            # tests when their is other op then elemwise.
+            # the good output for the next tests.
 #            (Pdb) p f.maker.fgraph.toposort()
 #[Elemwise{add,no_inplace}(w, x), Sum(Elemwise{add,no_inplace}.0), InplaceDimShuffle{x,x}(Sum.0), Elemwise{Composite{_impls=[<function <lambda> at 0x2c5c8c0>], nin=4, _c_code={
 # npy_float32 V%(id)s_tmp1;
@@ -987,7 +987,7 @@ class test_fusion(unittest.TestCase):
 #, nout=1, fgraph=[add(add(<float32>, <float32>), add(<float32>, <float32>))]}}(InplaceDimShuffle{x,x}.0, Elemwise{add,no_inplace}.0, y, z)]
             ((fwx.sum())+(fwx)+(fy+fz), (fw, fx, fy, fz), (fwv, fxv,
                 fyv, fzv), 4, (fwv+fxv).sum()+fwv+fxv+fyv+fzv, 'float32'),
-            # test other elemwise op
+            # tests other elemwise op
             (fx+fy+tensor.cos(fz), (fx, fy, fz), (fxv, fyv, fzv), 1,
                 fxv+fyv+numpy.cos(fzv), 'float32'),
             (fx+fy+tensor.cosh(fz), (fx, fy, fz), (fxv, fyv, fzv), 1,
@@ -1092,7 +1092,7 @@ class test_fusion(unittest.TestCase):
                 out_dtype = out_dtype[config.cast_policy]
             if (gpu and (out_dtype != 'float32' or
                          any(i.dtype != 'float32' for i in g.owner.inputs))):
-                print("Skip test %d as the gpu code currently supports only float32" % id)
+                print("Skip tests %d as the gpu code currently supports only float32" % id)
                 continue
             print("new cases", id)
 
@@ -1288,7 +1288,7 @@ class test_fusion(unittest.TestCase):
         # Follow up. Clinker do the same... second cause?
         mode2 = copy.copy(compile.get_default_mode())
         mode2._optimizer = mode2._optimizer.excluding('local_elemwise_fusion')
-        print("test with linker", str(mode1.linker))
+        print("tests with linker", str(mode1.linker))
         times1 = self.do(mode1, shared_fn, shp, gpu=gpu, nb_repeat=nb_repeat,
                          assert_len_topo=False, slice=s)
         times2 = self.do(mode2, shared_fn, shp, gpu=gpu, nb_repeat=nb_repeat,
@@ -1437,10 +1437,10 @@ class test_fusion(unittest.TestCase):
 
 
 class TimesN(theano.scalar.basic.UnaryScalarOp):
-    """Used in test TestCompositeCodegen
+    """Used in tests TestCompositeCodegen
 
     Must be outside of the class, otherwise, the c cache code can't
-    pickle this class and this cause stuff printing during test.
+    pickle this class and this cause stuff printing during tests.
     """
     def __eq__(self, other):
         return super(TimesN, self).__eq__(other) and self.n == other.n
@@ -1583,11 +1583,11 @@ def test_log_add():
     assert numpy.isfinite(f([10000], [10000]))
     assert numpy.allclose(f([10000], [10000]), 10000 + numpy.log1p(1))
 
-    # test that it give the same result when it don't overflow
+    # tests that it give the same result when it don't overflow
     f([10], [10])  # don't causes overflow
     assert numpy.allclose(f([10], [10]), 10 + numpy.log1p(1))
 
-    # test that it also works with more than two args, (this currently fails)
+    # tests that it also works with more than two args, (this currently fails)
     x = dvector()
     y = dvector()
     f = function([x, y], T.log(T.exp(x) + T.exp(y) + T.exp(x - y) + T.exp(
@@ -1600,35 +1600,35 @@ def test_log_add():
         raise SkipTest("log(add(exp)) is not stabilized when adding "
                        "more than 2 elements, see #623")
 
-    # TODO: test that the optimization works in the presence of broadcasting.
+    # TODO: tests that the optimization works in the presence of broadcasting.
 
-    # TODO: (write and) test that the optimization works with Sum in addition to working with Add.
+    # TODO: (write and) tests that the optimization works with Sum in addition to working with Add.
 
 
 def test_local_useless_slice():
-    # test a simple matrix
+    # tests a simple matrix
     x = tensor.matrix('x')
     mode_unopt = compile.get_default_mode().excluding("local_useless_slice")
     mode_opt = compile.get_default_mode().including("local_useless_slice")
 
-    # test with and without the useless slice
+    # tests with and without the useless slice
     o = 2 * x[0, :]
     f_unopt = theano.function([x], o, mode=mode_unopt)
     f_opt = theano.function([x], o, mode=mode_opt)
     test_inp = numpy.random.randint(-10, 10, (4, 4)).astype('float32')
     assert all(f_opt(test_inp)  == f_unopt(test_inp)),\
            "The optimization caused a mismatch in the result"
-    # test to see if the slice is truely gone
+    # tests to see if the slice is truely gone
     apply_node = f_opt.maker.fgraph.toposort()[0]
     subtens = apply_node.op
     assert not any(isinstance(idx, slice) for idx in subtens.idx_list), "Slice should be gone"
 
-    # Now test that the stack trace is copied over properly,
+    # Now tests that the stack trace is copied over properly,
     # before before and after optimization.
     assert hasattr(f_unopt.outputs[0].variable.tag, 'trace')
     assert hasattr(f_opt.outputs[0].variable.tag, 'trace')
 
-    # test a 4d tensor
+    # tests a 4d tensor
     z = tensor.tensor4('z')
     o2 = z[1, :, :, 1]
     o3 = z[0, :, :, :]
@@ -1644,7 +1644,7 @@ def test_local_useless_slice():
     subtens = apply_node.op
     assert not any(isinstance(idx, slice) for idx in subtens.idx_list)
 
-    # Finally, test that the stack trace is copied over properly,
+    # Finally, tests that the stack trace is copied over properly,
     # before before and after optimization.
     assert hasattr(f_opt_check.outputs[0].variable.tag, 'trace')
     assert hasattr(f_opt_check_apply.outputs[0].variable.tag, 'trace')
@@ -1709,7 +1709,7 @@ def test_local_useless_subtensor():
         prog = f.maker.fgraph.toposort()
         assert prog[0].op == tensor.exp
         assert len(prog) == 1
-        f([[0, 1, 2], [3, 4, 5]])  # let debugmode test something
+        f([[0, 1, 2], [3, 4, 5]])  # let debugmode tests something
 
     x_c = tensor.specify_shape(x, (2, 3))
     # Test constant
@@ -1731,7 +1731,7 @@ def test_local_useless_subtensor():
             assert len(prog) == 2, dims
         else:
             assert any([isinstance(node.op, Subtensor) for node in prog])
-        f([[0, 1, 2], [3, 4, 5]])  # let debugmode test something
+        f([[0, 1, 2], [3, 4, 5]])  # let debugmode tests something
 
     # Test Variable
     for idx, (dims, res) in enumerate([
@@ -1754,7 +1754,7 @@ def test_local_useless_subtensor():
             assert len(prog) == 1, dims
         else:
             assert any([isinstance(node.op, Subtensor) for node in prog])
-        f([[0, 1, 2], [3, 4, 5]])  # let debugmode test something
+        f([[0, 1, 2], [3, 4, 5]])  # let debugmode tests something
     # Test mix Variable and Constant
     # Currently not supported
     for idx, (dims, res) in enumerate([
@@ -1769,7 +1769,7 @@ def test_local_useless_subtensor():
             assert len(prog) == 1, dims
         else:
             assert any([isinstance(node.op, Subtensor) for node in prog])
-        f([[0, 1, 2], [3, 4, 5]])  # let debugmode test something
+        f([[0, 1, 2], [3, 4, 5]])  # let debugmode tests something
 
     # Test scalar variable
     s = scal.int32('s')
@@ -1808,7 +1808,7 @@ def test_local_useless_subtensor():
         else:
             assert any([isinstance(node.op, AdvancedSubtensor1)
                         for node in prog])
-        f([[0, 1, 2], [3, 4, 5]])  # let debugmode test something
+        f([[0, 1, 2], [3, 4, 5]])  # let debugmode tests something
 
 
 class test_local_subtensor_make_vector(unittest.TestCase):
@@ -1886,7 +1886,7 @@ class test_local_subtensor_lift(unittest.TestCase):
             self.assertTrue(hasattr(output.variable.tag, 'trace'))
 
     def test0(self):
-        # basic test that the Op works
+        # basic tests that the Op works
         x = tensor.matrix('x')
         f = function([x], tensor.exp(x)[0], mode=mode_opt)
 
@@ -1896,7 +1896,7 @@ class test_local_subtensor_lift(unittest.TestCase):
         assert isinstance(prog[0].op, tensor.Subtensor)  # first subtensor
         assert prog[1].op == tensor.exp
         assert len(prog) == 2
-        f([[0, 1], [2, 3]])  # let debugmode test something
+        f([[0, 1], [2, 3]])  # let debugmode tests something
 
     def test0b(self):
         # as test0, but we reuse the output of the elemwise
@@ -1911,10 +1911,10 @@ class test_local_subtensor_lift(unittest.TestCase):
         assert isinstance(prog[1].op, tensor.Subtensor)  # first subtensor
         assert isinstance(prog[2].op, DeepCopyOp)
         assert len(prog) == 3
-        f([[0, 1], [2, 3]])  # let debugmode test something
+        f([[0, 1], [2, 3]])  # let debugmode tests something
 
     def test1(self):
-        # basic test that the optimization work with scalar broadcasted
+        # basic tests that the optimization work with scalar broadcasted
         x = tensor.matrix('x')
         y = tensor.scalar('y')
         z = tensor.matrix('z')
@@ -1930,7 +1930,7 @@ class test_local_subtensor_lift(unittest.TestCase):
                           Composite)  # Composite{add,add}
         assert len(prog) == 4
         f([[0, 1], [2, 3]], 4, [[4, 5], [6, 7]])
-              # let debugmode test something
+              # let debugmode tests something
 
     def test2(self):
         # as 1, but take a slice
@@ -1949,10 +1949,10 @@ class test_local_subtensor_lift(unittest.TestCase):
                           Composite)  # Composite{add,add}
         assert len(prog) == 4
         f([[0, 1], [2, 3]], 4, [[4, 5], [6, 7]])
-              # let debugmode test something
+              # let debugmode tests something
 
     def test3(self):
-        # basic test that the optimization does work with broadcasting
+        # basic tests that the optimization does work with broadcasting
         # for unary elemwise.
         y = tensor.vector('y')
         f = function([y], tensor.exp(y.dimshuffle(0, 'x'))[0], mode=mode_opt)
@@ -1964,10 +1964,10 @@ class test_local_subtensor_lift(unittest.TestCase):
         assert isinstance(prog[1].op, tensor.Subtensor)
         assert prog[2].op == tensor.exp
         assert len(prog) == 3
-        f([4, 5])  # let debugmode test something
+        f([4, 5])  # let debugmode tests something
 
     def test4(self):
-        # basic test that the optimization doesn't work with broadcasting
+        # basic tests that the optimization doesn't work with broadcasting
         # ... It *could* be extended to,
         # ... but right now it doesn't, so it shouldn't try.
         x = tensor.matrix('x')
@@ -1982,10 +1982,10 @@ class test_local_subtensor_lift(unittest.TestCase):
         assert isinstance(prog[2].op, tensor.Subtensor)  # first subtensor
         assert prog[3].op == inplace.exp_inplace
         assert len(prog) == 4
-        f([[0, 1], [2, 3]], [4, 5])  # let debugmode test something
+        f([[0, 1], [2, 3]], [4, 5])  # let debugmode tests something
 
     def test5(self):
-        # test that we don't lift when we reuse the output of the
+        # tests that we don't lift when we reuse the output of the
         # elemwise for other computation.
         x = tensor.matrix('x')
         y = tensor.vector('y')
@@ -2001,10 +2001,10 @@ class test_local_subtensor_lift(unittest.TestCase):
         assert prog[2].op == tensor.add
         assert isinstance(prog[3].op, tensor.Subtensor)  # first subtensor
         assert len(prog) == 4
-        f([[0, 1], [2, 3]], [4, 5])  # let debugmode test something
+        f([[0, 1], [2, 3]], [4, 5])  # let debugmode tests something
 
     def test6(self):
-        # basic test that the optimization works with a scalar as input,
+        # basic tests that the optimization works with a scalar as input,
         # and a scalar as output (no broadcasting of the scalar needed).
         # The optimization used to fail and display an ERROR message.
 
@@ -2019,13 +2019,13 @@ class test_local_subtensor_lift(unittest.TestCase):
         # Composite{add,exp}
         assert isinstance(prog[1].op.scalar_op, theano.scalar.Composite)
         assert len(prog) == 2
-        f([1, 2, 3], 4)  # let debugmode test something
+        f([1, 2, 3], 4)  # let debugmode tests something
 
     def test7(self):
-        # test that Subtensor(Rebroadcast(x)) gets optimized into
+        # tests that Subtensor(Rebroadcast(x)) gets optimized into
         # Rebroadcast(Subtensor(x)).
 
-        # test basic case
+        # tests basic case
         x = tensor.matrix('x')
         xval = numpy.random.rand(1, 10).astype(config.floatX)
         assert x.broadcastable == (False, False)
@@ -2109,7 +2109,7 @@ class test_local_subtensor_merge(unittest.TestCase):
 
                 if idx < x_s[0] and x_s[0] > 0:
                     # The first subtensor is non-empty, so it makes sense
-                    f(x_val)  # let debugmode test something
+                    f(x_val)  # let debugmode tests something
                 else:
                     # A non-empty subtensor of an empty one should be
                     # an IndexError
@@ -2140,7 +2140,7 @@ class test_local_subtensor_merge(unittest.TestCase):
             for idx in xrange(-9, 8):
                 if (idx < x_s[0]) and (x_s[0] > 0):
                     # The first subtensor is non-empty
-                    f(x_val, idx)  # let debugmode test something
+                    f(x_val, idx)  # let debugmode tests something
                 else:
                     self.assertRaises(IndexError, f, x_val, idx)
                     self.assertRaises(IndexError, g, x_val, idx)
@@ -2168,7 +2168,7 @@ class test_local_subtensor_merge(unittest.TestCase):
                 x_val = self.rng.uniform(size=x_s).astype(config.floatX)
                 if (idx < x_s[0]) and (idx >= -x_s[0]):
                     # The first subtensor is non-empty, so it makes sense
-                    f(x_val)  # let debugmode test something
+                    f(x_val)  # let debugmode tests something
                 else:
                     # A non-empty subtensor of an empty one should be
                     # an IndexError
@@ -2197,7 +2197,7 @@ class test_local_subtensor_merge(unittest.TestCase):
             x_val = self.rng.uniform(size=x_s).astype(config.floatX)
 
             for idx in xrange(-x_s[0], x_s[0]):
-                f(x_val, idx)  # let debugmode test something
+                f(x_val, idx)  # let debugmode tests something
             for idx in (list(range(x_s[0], 9)) + list(range(-9, -x_s[0]))):
                 self.assertRaises(IndexError, f, x_val, idx)
                 self.assertRaises(IndexError, g, x_val, idx)
@@ -2220,7 +2220,7 @@ class test_local_subtensor_merge(unittest.TestCase):
 
             for x_s in self.x_shapes:
                 x_val = self.rng.uniform(size=x_s).astype(config.floatX)
-                f(x_val)  # let debugmode test something
+                f(x_val)  # let debugmode tests something
 
     def test_scalar3(self):
         # var[::-1][:int] -> var[-1]
@@ -2242,7 +2242,7 @@ class test_local_subtensor_merge(unittest.TestCase):
         for x_s in self.x_shapes:
             x_val = self.rng.uniform(size=x_s).astype(config.floatX)
             for idx in xrange(-7, 7):
-                f(x_val, idx)  # let debugmode test something
+                f(x_val, idx)  # let debugmode tests something
 
     def test_const4(self):
         # var[const1::][:const2]
@@ -2263,7 +2263,7 @@ class test_local_subtensor_merge(unittest.TestCase):
 
                 for x_s in self.x_shapes:
                     x_val = self.rng.uniform(size=x_s).astype(config.floatX)
-                    f(x_val)  # let debugmode test something
+                    f(x_val)  # let debugmode tests something
 
     def test_scalar4(self):
         # var[int1:][:int2]
@@ -2287,7 +2287,7 @@ class test_local_subtensor_merge(unittest.TestCase):
             x_val = self.rng.uniform(size=x_s).astype(config.floatX)
             for idx1 in xrange(-11, 11):
                 for idx2 in xrange(-11, 11):
-                    f(x_val, idx1, idx2)  # let debugmode test something
+                    f(x_val, idx1, idx2)  # let debugmode tests something
 
     def test_const_general(self):
         # Some cases of merge: shape, (start, stop, step) of first,
@@ -2375,7 +2375,7 @@ class test_local_subtensor_merge(unittest.TestCase):
         if theano.config.mode == "FAST_COMPILE":
             nops = 2
 
-        # test 1)
+        # tests 1)
         y = x[3:6, 2:6, 1:7][1]
         fun = theano.function([x], y)
         val = fun(data)
@@ -2383,7 +2383,7 @@ class test_local_subtensor_merge(unittest.TestCase):
         assert len([n for n in fun.maker.fgraph.toposort()
                     if isinstance(n.op, Subtensor)]) == nops
 
-        # test 2)
+        # tests 2)
         y = x[2, 3][1]
         fun = theano.function([x], y)
         val = fun(data)
@@ -2391,7 +2391,7 @@ class test_local_subtensor_merge(unittest.TestCase):
         assert len([n for n in fun.maker.fgraph.toposort()
                     if isinstance(n.op, Subtensor)]) == nops
 
-        # test 3)
+        # tests 3)
         y = x[3:6, 2, 1:7][1]
         fun = theano.function([x], y)
         val = fun(data)
@@ -2480,7 +2480,7 @@ class test_local_subtensor_merge(unittest.TestCase):
         scalar_ranges = [b1r, e1r, s1r, b2r, e2r, s2r]
 
         # For each case, we will build a graph, function, and list of values
-        # Then, we test it on each input shape.
+        # Then, we tests it on each input shape.
         for none_pos in none_positions:
             slice_inputs = []
             input_vars = []
@@ -2540,7 +2540,7 @@ class test_local_subtensor_merge(unittest.TestCase):
         scalar_ranges = [b_r, e_r, s_r, i_r]
 
         # For each case, we will build a graph, function, and list of values
-        # Then, we test it on each input shape.
+        # Then, we tests it on each input shape.
         for none_pos in none_positions:
             slice_inputs = []
             input_vars = []
@@ -2669,11 +2669,11 @@ class test_local_adv_sub1_adv_inc_sub1(unittest.TestCase):
             inc = tensor.set_subtensor(x[idx], y)
             o = inc[idx]
             f = theano.function([x, y, idx], o, self.mode)
-            # test wrong index
+            # tests wrong index
             for i in [dx.shape[0], -dx.shape[0] - 1]:
                 self.assertRaises((AssertionError, IndexError),
                                   f, dx, dy, [i, i])
-            # test wrong shape
+            # tests wrong shape
             self.assertRaises((AssertionError, ValueError),
                               f, dx, dy, [1])
 
@@ -2868,7 +2868,7 @@ class Test_alloc_zero(unittest.TestCase):
                     assert numpy.all([not isinstance(n.op, tensor.Dot) for n in
                                       f.maker.fgraph.toposort()])
 
-                    # test that we don't remove shape errors
+                    # tests that we don't remove shape errors
                     self.assertRaises((ValueError, AssertionError), f,
                                       _e1[1], _e2[2])
                     self.assertRaises((ValueError, AssertionError), f,
@@ -2903,7 +2903,7 @@ def test_local_IncSubtensor_serialize():
                                     tensor.AdvancedIncSubtensor1))
                         for inp in a.inputs])
 
-    # Now test that the stack trace is copied over properly,
+    # Now tests that the stack trace is copied over properly,
     # if we return the gradients. We need to use same mode as before.
     f = theano.function([i, j, t], dW, mode=mode)
     assert hasattr(f.outputs[0].variable.tag, 'trace')
@@ -2936,7 +2936,7 @@ def test_local_set_to_inc_subtensor():
 
     utt.assert_allclose(r1, r2)
 
-    # Finally, test that the stack trace is copied over properly,
+    # Finally, tests that the stack trace is copied over properly,
     # before before and after optimization.
     assert hasattr(f1.outputs[0].variable.tag, 'trace')
     assert hasattr(f2.outputs[0].variable.tag, 'trace')
@@ -2979,7 +2979,7 @@ def test_local_subtensor_of_dot():
     f = theano.function([m1, m2, idx], theano.dot(m1, m2)[1:4, :, idx:, idx], mode=mode)
     assert test_equality(f(d1, d2, 1), numpy.dot(d1, d2)[1:4, :, 1:, 1])
 
-    # Now test that the stack trace is copied over properly,
+    # Now tests that the stack trace is copied over properly,
     # if we return the gradients. We need to use same mode as before.
     assert hasattr(f.outputs[0].variable.tag, 'trace')
 
@@ -3191,7 +3191,7 @@ class Test_local_elemwise_alloc(unittest.TestCase):
 def test_local_subtensor_of_alloc():
 
     # DebugMode should detect if something goes wrong.
-    # test shape combination of odd and event shape.
+    # tests shape combination of odd and event shape.
     for shape in [(3, 5), (4, 6), (3, 8), (4, 7),
                   (1, 5), (5, 1)]:
         x = tensor.tensor(dtype=theano.config.floatX,
@@ -3291,7 +3291,7 @@ def test_local_fill_useless():
 
 class Test_local_useless_elemwise_comparison(unittest.TestCase):
     def test_local_useless_elemwise_comparison(self):
-        # TODO: test each case individually.
+        # TODO: tests each case individually.
         # The following case is what made me discover those cases.
         X = T.matrix('X')
         Y = T.vector('Y')
@@ -3538,7 +3538,7 @@ class Test_local_useless_alloc(unittest.TestCase):
         op_classes = [node.op.__class__ for node in f.maker.fgraph.toposort()]
         print(op_classes)
 
-        # We are supposed to test if tensr.Alloc is not in op_classes,
+        # We are supposed to tests if tensr.Alloc is not in op_classes,
         # but since the proper proper optimization is not currently
         # implemented it will fail. Once the correct optimization is in place,
         # we have to change the following we should not see tensor.Alloc
@@ -3727,7 +3727,7 @@ class test_shapeoptimizer(unittest.TestCase):
         return mx
 
     def test_broadcasted_dims(self):
-        # This test a case that caused a crash during optimization
+        # This tests a case that caused a crash during optimization
         shp = (1, 1, 1, 1)
         rng = numpy.random.RandomState(utt.fetch_seed())
         a = shared(rng.rand(*shp).astype(config.floatX))
@@ -3740,7 +3740,7 @@ class test_shapeoptimizer(unittest.TestCase):
         f()
 
     def test_constant_merge(self):
-        """This test the error in gh-1122 that is a caused by the
+        """This tests the error in gh-1122 that is a caused by the
         combination of merge optimizer and ShapeFeature.
         """
         x = tensor.constant([0, 0])
@@ -3817,7 +3817,7 @@ class test_shapeoptimizer(unittest.TestCase):
         assert identity_noshape not in g_ops
         assert identity_shape not in g_ops
 
-        # test multiple level of op without infer_shape
+        # tests multiple level of op without infer_shape
         ins_x3 = identity_noshape(identity_noshape(identity_noshape(x)))
         h = theano.function([x], ins_x3.shape, mode=mode)
         xval = rng.randn(6, 1, 2).astype(config.floatX)
@@ -3838,7 +3838,7 @@ class test_shapeoptimizer(unittest.TestCase):
 
     def test_no_cycle(self):
         # Optimizing this graph resulted in a cycle, see gh-1549
-        # This test depends on cuda
+        # This tests depends on cuda
         import theano.sandbox.cuda as cuda
         if not cuda.cuda_available:
             raise SkipTest("cuda not available")
@@ -3847,7 +3847,7 @@ class test_shapeoptimizer(unittest.TestCase):
 
         # This pickle file has undergone manual surgery due to changes
         # in scan and may or may not run correctly.  It does passes
-        # the test below.
+        # the tests below.
         pkl_filename = os.path.join(os.path.dirname(theano.__file__),
                                     'tensor', 'tests', 'shape_opt_cycle.pkl')
         # Due to incompatibilities between python 2 and 3 in the format
@@ -4010,7 +4010,7 @@ def test_local_mul_specialize():
 class T_Tile(unittest.TestCase):
     def test_local_useless_tile(self):
         # Tile op is deprecated so the tile function doesn't use it
-        # anymore, we'll test here the op directly
+        # anymore, we'll tests here the op directly
         v = T.vector()
         m = T.matrix()
         mode = None
@@ -4329,7 +4329,7 @@ class T_func_inverse(unittest.TestCase):
 
     def test(self):
         """
-        test optimization for consecutive functional inverses
+        tests optimization for consecutive functional inverses
         """
 
         dx = numpy.random.rand(5, 4).astype("float32")
@@ -4591,7 +4591,7 @@ class T_local_erfc(unittest.TestCase):
             raise SkipTest("erfc need a c++ compiler or scipy")
 
     def test_local_one_minus_erfc(self):
-        """ test opt: 1-erfc(x) => erf(x) and -erfc(x)+1 => erf(x)
+        """ tests opt: 1-erfc(x) => erf(x) and -erfc(x)+1 => erf(x)
         """
         val = numpy.asarray([-30, -3, -2, -1, 0, 1, 2, 3, 30],
              dtype=config.floatX)
@@ -4617,7 +4617,7 @@ class T_local_erfc(unittest.TestCase):
         print(f(val))
 
     def test_local_erf_neg_minus_one(self):
-        """ test opt: (-1)+erfc(-x)=>erf(x)"""
+        """ tests opt: (-1)+erfc(-x)=>erf(x)"""
         val = numpy.asarray([-30, -3, -2, -1, 0, 1, 2, 3, 30],
              dtype=config.floatX)
         x = T.vector('x')
@@ -4701,33 +4701,33 @@ class T_local_erfc(unittest.TestCase):
         assert all(numpy.isfinite(f(val)))
         assert f.maker.fgraph.outputs[0].dtype == theano.config.floatX
 
-        # test with a different mul constant
+        # tests with a different mul constant
         f = theano.function([x], T.mul(T.exp(T.neg(T.sqr(x))), -
             10.12837917) / T.erfc(x), mode=mode)
         assert len(f.maker.fgraph.apply_nodes) == 23, len(f.maker.fgraph.apply_nodes)
         assert f.maker.fgraph.outputs[0].dtype == theano.config.floatX
         assert all(numpy.isfinite(f(val)))
 
-        # test that we work without the mul
+        # tests that we work without the mul
         f = theano.function([x], T.exp(T.neg(T.sqr(x))) / T.erfc(x), mode=mode)
         assert len(f.maker.fgraph.apply_nodes) == 22, len(f.maker.fgraph.apply_nodes)
         assert f.maker.fgraph.outputs[0].dtype == theano.config.floatX
         assert all(numpy.isfinite(f(val)))
 
-        # test that we don't work if x!=y
+        # tests that we don't work if x!=y
         f = theano.function([x, y], T.exp(T.neg(T.sqr(x))) / T.erfc(
             y), mode=mode)
         assert len(f.maker.fgraph.apply_nodes) == 5, len(f.maker.fgraph.apply_nodes)
         assert f.maker.fgraph.outputs[0].dtype == theano.config.floatX
         f(val, val - 3)
 
-        # test that we work without the sqr and neg
+        # tests that we work without the sqr and neg
         f = theano.function([x], T.exp(T.mul(-1, x, x)) / T.erfc(x), mode=mode)
         assert len(f.maker.fgraph.apply_nodes) == 21, len(f.maker.fgraph.apply_nodes)
         assert f.maker.fgraph.outputs[0].dtype == theano.config.floatX
         assert all(numpy.isfinite(f(val)))
 
-        # test that it work correctly if x is x*2 in the graph.
+        # tests that it work correctly if x is x*2 in the graph.
         f = theano.function([x], T.grad(T.log(T.erfc(2 * x)).sum(),
              x), mode=mode)
         assert len(f.maker.fgraph.apply_nodes) == 23, len(f.maker.fgraph.apply_nodes)
@@ -4747,7 +4747,7 @@ class T_local_erfc(unittest.TestCase):
             # this error. This happen in an intermediate step that don't show
             # in the final result.
 
-            # Showing this test error is a duplicate of the one in test_local_log_erfc. We hide it.
+            # Showing this tests error is a duplicate of the one in test_local_log_erfc. We hide it.
             pass
         else:
             assert all(numpy.isfinite(f(val)))
@@ -4854,7 +4854,7 @@ class test_local_useless_switch(unittest.TestCase):
 
 
     def test_broadcast1(self):
-        # test switch(cst, matrix, row)
+        # tests switch(cst, matrix, row)
         x = theano.tensor.matrix('x', dtype='int32')
         y = theano.tensor.vector('y', dtype='int64')
 
@@ -4876,7 +4876,7 @@ class test_local_useless_switch(unittest.TestCase):
         assert numpy.all(f(vx, vy) == vy)
 
     def test_broadcast2(self):
-        # test switch(cst, vector, matrix)
+        # tests switch(cst, vector, matrix)
 
         # This case is not optimized for now.
         x = theano.tensor.vector('x', dtype='int32')
@@ -4899,7 +4899,7 @@ class test_local_useless_switch(unittest.TestCase):
         assert numpy.all(f(vx, vy) == vy)
 
     def test_broadcast3(self):
-        # test switch(matrix, same_vector, same_vector)
+        # tests switch(matrix, same_vector, same_vector)
 
         x = theano.tensor.matrix('x', dtype='int32')
         y = theano.tensor.vector('y', dtype='int64')
@@ -5040,19 +5040,19 @@ class T_local_sum_prod(unittest.TestCase):
     def test_local_sum_prod_all_to_none(self):
         a = T.tensor3()
         input = numpy.arange(3 * 4 * 5, dtype=config.floatX).reshape(3, 4, 5)
-        # test sum
+        # tests sum
         f = theano.function([a], a.sum(), mode=self.mode)
         assert len(f.maker.fgraph.apply_nodes) == 1
         assert numpy.allclose(f(input), input.sum())
-        # test prod
+        # tests prod
         f = theano.function([a], a.prod(), mode=self.mode)
         assert len(f.maker.fgraph.apply_nodes) == 1
         assert numpy.allclose(f(input), input.prod())
-        # test sum
+        # tests sum
         f = theano.function([a], a.sum([0, 1, 2]), mode=self.mode)
         assert len(f.maker.fgraph.apply_nodes) == 1
         assert numpy.allclose(f(input), input.sum())
-        # test prod
+        # tests prod
         f = theano.function([a], a.prod([0, 1, 2]), mode=self.mode)
         assert len(f.maker.fgraph.apply_nodes) == 1
         assert numpy.allclose(f(input), input.prod())
@@ -5130,7 +5130,7 @@ class T_local_sum_prod(unittest.TestCase):
         finally:
             config.warn.sum_sum_bug = backup
 
-        # test prod
+        # tests prod
         for d, dd in dims:
             expected = my_prod(input, d, dd)
             f = theano.function([a], a.prod(d).prod(dd), mode=self.mode)
@@ -5149,7 +5149,7 @@ class T_local_sum_prod(unittest.TestCase):
         assert numpy.allclose(f(input), input.prod())
         assert len(f.maker.fgraph.apply_nodes) == 1
 
-        # test sum prod don't get opt.
+        # tests sum prod don't get opt.
         for d, dd in dims:
             expected = my_sum_prod(input, d, dd)
             f = theano.function([a], a.sum(d).prod(dd), mode=self.mode)
@@ -5178,7 +5178,7 @@ class T_local_sum_prod(unittest.TestCase):
         for t_like, n_like, nb_nodes in [(tensor.zeros_like, numpy.zeros_like, (1, 3, 3, 2)),
                                        (tensor.ones_like, numpy.ones_like, (5, 5, 5, 6))]:
 
-            # test sum
+            # tests sum
             f = theano.function([a], t_like(a).sum(None), mode=mode)
             assert numpy.allclose(f(input), n_like(input).sum())
             assert len(f.maker.fgraph.apply_nodes) == nb_nodes[0]
@@ -5202,7 +5202,7 @@ class T_local_sum_prod(unittest.TestCase):
                 assert topo[-1].op == T.alloc
                 assert not any([isinstance(node.op, T.Sum) for node in topo])
 
-            # test prod
+            # tests prod
             f = theano.function([a], t_like(a).prod(None), mode=mode)
             assert numpy.allclose(f(input), n_like(input).prod())
             #assert len(f.maker.fgraph.apply_nodes) == nb_nodes[0]
@@ -5246,7 +5246,7 @@ class T_local_sum_prod(unittest.TestCase):
         """
         Test that local_sum_sum works when combining two sums on an int8 array.
 
-        This is a regression test for ticket gh-356.
+        This is a regression tests for ticket gh-356.
         """
         x = tensor.tensor3(dtype='int8')
         y = x.sum(axis=0).sum(axis=1)
@@ -5689,7 +5689,7 @@ class TestMakeVector(utt.InferShapeTester):
 
 
 def test_local_join_1():
-    # test for vector
+    # tests for vector
     a = tensor.vector('a')
     s = tensor.stack([a])
     f = function([a], s, mode=mode_opt)
@@ -5699,7 +5699,7 @@ def test_local_join_1():
     assert len([n for n in e if isinstance(n.op, Join)]) == 0
     assert f.maker.fgraph.outputs[0].dtype == config.floatX
 
-    # test for matrix join(0,a)
+    # tests for matrix join(0,a)
     a = tensor.matrix('a')
     s = join(0, a)
     f = function([a], s, mode=mode_opt)
@@ -5709,7 +5709,7 @@ def test_local_join_1():
     assert len([n for n in e if isinstance(n.op, Join)]) == 0
     assert f.maker.fgraph.outputs[0].dtype == config.floatX
 
-    # test for matrix join(1,a)
+    # tests for matrix join(1,a)
     s = join(1, a)
     f = function([a], s, mode=mode_opt)
     val = f([[1]])
@@ -5718,7 +5718,7 @@ def test_local_join_1():
     assert len([n for n in e if isinstance(n.op, Join)]) == 0
     assert f.maker.fgraph.outputs[0].dtype == config.floatX
 
-    # test we don't apply when their is 2 inputs
+    # tests we don't apply when their is 2 inputs
     s = join(1, a, a)
     f = function([a], s, mode=mode_opt)
     val = f([[1]])
@@ -5729,7 +5729,7 @@ def test_local_join_1():
 
 
 def test_local_join_empty():
-    # test for vector, vector, empty to vector
+    # tests for vector, vector, empty to vector
     empty_vec = numpy.asarray([], dtype=config.floatX)
     a = tensor.vector('a')
     s = tensor.join(0, a, a, empty_vec)
@@ -5743,7 +5743,7 @@ def test_local_join_empty():
     assert f.maker.fgraph.outputs[0].dtype == config.floatX
 
 
-    # test for matrix join(1,a)
+    # tests for matrix join(1,a)
     empty_mat = numpy.asarray([[]], dtype=config.floatX)
     m = tensor.matrix('m')
     s = join(1, empty_mat, m, m, m)
@@ -5755,7 +5755,7 @@ def test_local_join_empty():
     assert all([not isinstance(n.op, Join) or len(n.inputs) == 4
                 for n in e if isinstance(n.op, Join)])
     assert f.maker.fgraph.outputs[0].dtype == config.floatX
-    # test for vector, vector, empty to matrix
+    # tests for vector, vector, empty to matrix
     # We can't optimize this case.
     s = tensor.stack([a, a, empty_vec])
     f = function([a], s, mode=mode_opt)
@@ -5766,7 +5766,7 @@ def test_local_join_empty():
     assert all([not isinstance(n.op, Join) or len(n.inputs) == 4
                 for n in e if isinstance(n.op, Join)])
     assert f.maker.fgraph.outputs[0].dtype == config.floatX
-    # test for matrix join(0,a)
+    # tests for matrix join(0,a)
     # We can't optimize this case.
     s = join(0, m, numpy.asarray([[2.]], dtype=config.floatX), m)
     f = function([m], s, mode=mode_opt)
@@ -5799,12 +5799,12 @@ def test_local_join_make_vector():
 
 
 def test_local_add_specialize():
-    # test of non-zero dimension
+    # tests of non-zero dimension
     a = tensor.vector()
     s = tensor.add(tensor.zeros_like(a))
     assert local_add_specialize.transform(s.owner)
 
-    # test of 0-d
+    # tests of 0-d
     a = tensor.scalar()
     s = tensor.add(tensor.zeros_like(a))
     assert local_add_specialize.transform(s.owner)
@@ -6007,7 +6007,7 @@ def test_local_upcast_elemwise_constant_inputs():
     f = function([s], [tensor.grad(x, s)])
     f([-42, -2.1, -1, -0.5, 0, 0.2, 1, 2, 12])
 
-    # This test a corner where the optimization should not be applied.
+    # This tests a corner where the optimization should not be applied.
     old = theano.config.floatX
     theano.config.floatX = 'float32'
     try:
@@ -6130,7 +6130,7 @@ class TestIntDivByOne(unittest.TestCase):
         assert len(divs) == 0
 
     def test2(self):
-        """Simple test case for removing dividing by 1"""
+        """Simple tests case for removing dividing by 1"""
         y = T.tensor4('y')
         z = y // 1
         f = theano.function([y], z, mode = self.mode)
@@ -6141,7 +6141,7 @@ class TestIntDivByOne(unittest.TestCase):
         assert len(divs) == 0
 
     def test3(self):
-        """Simple test case for removing dividing by a tensor of ones"""
+        """Simple tests case for removing dividing by a tensor of ones"""
         y = T.tensor4('y')
         z = y // numpy.ones((2,2,2,2))
         f = theano.function([y], z, mode=self.mode)

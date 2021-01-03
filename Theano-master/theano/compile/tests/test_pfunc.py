@@ -631,7 +631,7 @@ class Test_pfunc(unittest.TestCase):
         # both shared variables.
         # TODO: explain the above comment. By "not determined" does
         # this mean "not deterministic"?
-        # This test originally wrote the updates using dictionaries,
+        # This tests originally wrote the updates using dictionaries,
         # and iterating over the dictionary was not deterministic.
         # Is that all the comment above meant, or is the CVM intended
         # to add extra non-determinism? Or is the CVM meant to
@@ -705,12 +705,12 @@ class Test_aliasing_rules(unittest.TestCase):
 
     def test_sparse_input_aliasing_affecting_inplace_operations(self):
         ##
-        # Note this test will never fail because I am not aware of any
+        # Note this tests will never fail because I am not aware of any
         # inplace op on sparse variables
         try:
             import scipy.sparse as sp
         except ImportError:
-            # The variable enable_sparse will be used to disable the test file.
+            # The variable enable_sparse will be used to disable the tests file.
             pass
 
         from theano.sparse import enable_sparse
@@ -954,7 +954,7 @@ class Test_aliasing_rules(unittest.TestCase):
         f = pfunc([], [], updates=[(A, B[:, ::-1]), (B, A.T)])
         # theano.printing.debugprint(f)
         f()
-        # correctness (doesn't actually test the view...)
+        # correctness (doesn't actually tests the view...)
         assert numpy.all(data_of(A) == -.5)
         assert numpy.all(data_of(B) == +.5)
 

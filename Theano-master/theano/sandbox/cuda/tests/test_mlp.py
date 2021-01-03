@@ -23,7 +23,7 @@ if theano.config.mode not in ['FAST_RUN', 'Mode', 'ProfileMode']:
     raise SkipTest('Skip test_mlp when not in normal optimization mode as '
                    'otherwise it is too slow!')
 
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 if tcn.cuda_available == False:
     raise SkipTest('Optional package cuda disabled')
 

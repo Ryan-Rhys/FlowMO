@@ -77,7 +77,7 @@ class test_typed_list_type(unittest.TestCase):
 
     def test_filter_sanity_check(self):
         """
-        Simple test on typed list type filter
+        Simple tests on typed list type filter
         """
         myType = TypedListType(T.TensorType(theano.config.floatX,
                                             (False, False)))
@@ -142,7 +142,7 @@ class test_typed_list_type(unittest.TestCase):
 
     def test_nested_list_arg(self):
         """
-        test for the 'depth' optionnal argument
+        tests for the 'depth' optionnal argument
         """
         myNestedType = TypedListType(T.TensorType(theano.config.floatX,
                                                   (False, False)), 3)
@@ -157,7 +157,7 @@ class test_typed_list_type(unittest.TestCase):
 
     def test_get_depth(self):
         """
-        test case for get_depth utilitary function
+        tests case for get_depth utilitary function
         """
         myType = TypedListType(T.TensorType(theano.config.floatX,
                                             (False, False)))
@@ -169,7 +169,7 @@ class test_typed_list_type(unittest.TestCase):
 
     def test_comparison_uneven_nested(self):
         """
-        test for comparison between uneven nested list
+        tests for comparison between uneven nested list
         """
 
         myType = TypedListType(T.TensorType(theano.config.floatX,

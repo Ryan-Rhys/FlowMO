@@ -1,6 +1,6 @@
 from __future__ import absolute_import, print_function, division
 import time, copy, sys, unittest
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 from nose.plugins.skip import SkipTest
 
 import numpy
@@ -39,11 +39,11 @@ def test_host_to_device():
         c = numpy.asarray(b)
         assert numpy.all(a == c)
 
-        # test with float32 dtype
+        # tests with float32 dtype
         d = numpy.asarray(b, dtype='float32')
         assert numpy.all(a == d)
 
-        # test with not float32 dtype
+        # tests with not float32 dtype
         try:
             numpy.asarray(b, dtype='int8')
             assert False
@@ -111,7 +111,7 @@ def test_add_iadd_idiv():
             # print shape, 'adding ', a0.size, 'cpu', cpu_dt, 'advantage', advantage(cpu_dt, gpu_dt)
             assert numpy.allclose(asum,  numpy.asarray(bsum))
 
-        # test not contiguous version.
+        # tests not contiguous version.
         # should raise not implemented.
         a0 = a0_orig.copy()
         b0 = cuda_ndarray.CudaNdarray(a0)
@@ -141,7 +141,7 @@ def test_add_iadd_idiv():
                 t = True
             assert t
 
-        # test inplace version
+        # tests inplace version
         t0 = time.time()
         b0 += b1
         t1 = time.time()
@@ -159,7 +159,7 @@ def test_add_iadd_idiv():
         assert numpy.allclose(a0, numpy.asarray(b0))
         assert numpy.allclose(a0, (a0_orig + a1)/a1)
 
-        # test inplace version
+        # tests inplace version
         # for not contiguous input
         b0 += _b
         a0 += a1[..., ::-1]
@@ -223,7 +223,7 @@ def test_nvcc_bug():
     """
     The fct k_elemwise_unary_rowmajor_copy(used by cuda.copy()) in cuda_ndarray.cu
     is not well compiled with nvcc 3.0 and 3.1 beta. We found a workaround, so it
-    sould work correctly. Without the workaround, this test fail.
+    sould work correctly. Without the workaround, this tests fail.
     """
     shape = (5, 4)
     aa = theano._asarray(numpy.random.rand(*shape), dtype='float32')
@@ -464,12 +464,12 @@ def test_reshape():
             return
         assert False
 
-    # test working shapes
+    # tests working shapes
     for shape_1, shape_2 in shapelist:
         subtest(shape_1, shape_2, rng)
         subtest(shape_2, shape_1, rng)
 
-    # test shape combinations that should give error
+    # tests shape combinations that should give error
     for shape_1, shape_2 in bad_shapelist:
         bad_subtest(shape_1, shape_2, rng)
         bad_subtest(shape_2, shape_1, rng)
@@ -619,18 +619,18 @@ def test_mapping_getitem_w_int():
     _cmpf(_a, (10, 0, 0, 0))
     _cmpf(_a, -10)
 
-    # test with integer
+    # tests with integer
     _cmp(numpy.asarray(_a[1]), a[1])
     _cmp(numpy.asarray(_a[-1]), a[-1])
     _cmp(numpy.asarray(_a[numpy.int64(1)]), a[numpy.int64(1)])
     _cmp(numpy.asarray(_a[numpy.int64(-1)]), a[numpy.int64(-1)])
 
-    # test with slice
+    # tests with slice
     _cmp(numpy.asarray(_a[1:]), a[1:])
     _cmp(numpy.asarray(_a[1:2]), a[1:2])
     _cmp(numpy.asarray(_a[-1:1]), a[-1:1])
 
-    # test with tuple (mix slice, integer, numpy.int64)
+    # tests with tuple (mix slice, integer, numpy.int64)
     _cmp(numpy.asarray(_a[:, :, ::numpy.int64(-1), ::-1]), a[:, :, ::-1, ::-1])
     _cmp(numpy.asarray(_a[:, :, numpy.int64(1), -1]), a[:, :, 1, -1])
     _cmp(numpy.asarray(_a[:, :, ::-1, ::-1]), a[:, :, ::-1, ::-1])
@@ -675,7 +675,7 @@ def test_setitem_matrixscalar0():
     a[1, 1] = b
     assert numpy.allclose(a, numpy.asarray(_a))
 
-    # test direct transfert from numpy
+    # tests direct transfert from numpy
     _a[1, 1] = theano._asarray(888, dtype='float32')
     a[1, 1] = theano._asarray(888, dtype='float32')
     assert numpy.allclose(a, numpy.asarray(_a))
@@ -698,7 +698,7 @@ def test_setitem_matrixvector1():
     a[:, 1] = b
     assert numpy.allclose(a, numpy.asarray(_a))
 
-    # test direct transfert from numpy
+    # tests direct transfert from numpy
     _a[:, 1] =  b*100
     a[:, 1] =  b*100
     assert numpy.allclose(a, numpy.asarray(_a))
@@ -724,7 +724,7 @@ def test_setitem_matrix_tensor3():
     a[:, 1, 1] = b
     assert numpy.allclose(a, numpy.asarray(_a))
 
-    # test direct transfert from numpy
+    # tests direct transfert from numpy
     _a[:, 1, 1] = b*100
     a[:, 1, 1] = b*100
     assert numpy.allclose(a, numpy.asarray(_a))
@@ -756,7 +756,7 @@ def test_setitem_matrix_bad_shape():
         # print e
         assert True
 
-    # test direct transfert from numpy
+    # tests direct transfert from numpy
     try:
         # attempt to assign the ndarray b with setitem
         _a[1, 1, :] = b
@@ -783,7 +783,7 @@ def test_setitem_matrix_bad_ndim():
         # print e
         assert True
 
-    # test direct transfert from numpy
+    # tests direct transfert from numpy
     try:
         # attempt to assign the ndarray b with setitem
         _a[1, :, :] = b
@@ -801,7 +801,7 @@ def test_setitem_matrix_bad_type():
 
     b = theano._asarray([7, 8], dtype='float64')
 
-    # test direct transfert from numpy
+    # tests direct transfert from numpy
     try:
         # attempt to assign the ndarray b with setitem
         _a[1, :, :] = b
@@ -830,7 +830,7 @@ def test_setitem_assign_to_slice():
     a[:, :, 1][:, 1] = b
     assert numpy.allclose(a, numpy.asarray(_a))
 
-    # test direct transfert from numpy
+    # tests direct transfert from numpy
     _d = _a[1, :, :]
     _d[1, :] = b*10
     a[1, :, :][1, :] = b*10
@@ -838,7 +838,7 @@ def test_setitem_assign_to_slice():
 
 
 def test_setitem_broadcast():
-    # test scalar to vector without stride
+    # tests scalar to vector without stride
     a = numpy.arange(3)
     a = theano._asarray(a, dtype='float32')
     _a = cuda_ndarray.CudaNdarray(a)
@@ -849,7 +849,7 @@ def test_setitem_broadcast():
     a[:] = b.reshape((1,))
     assert numpy.allclose(numpy.asarray(_a), a)
 
-    # test vector to matrice without stride
+    # tests vector to matrice without stride
     a = numpy.arange(9)
     a.resize((3, 3))
     a = theano._asarray(a, dtype='float32')
@@ -861,7 +861,7 @@ def test_setitem_broadcast():
     a[:, :] = b.reshape((1, 3))
     assert numpy.allclose(numpy.asarray(_a), a)
 
-    # test vector to matrice with stride
+    # tests vector to matrice with stride
     a = numpy.arange(27)
     a.resize((3, 3, 3))
     a = theano._asarray(a, dtype='float32')
@@ -876,7 +876,7 @@ def test_setitem_broadcast():
 
 
 def test_setitem_broadcast_numpy():
-    # test scalar to vector without stride
+    # tests scalar to vector without stride
     a = numpy.arange(3)
     a = theano._asarray(a, dtype='float32')
     _a = cuda_ndarray.CudaNdarray(a)
@@ -886,7 +886,7 @@ def test_setitem_broadcast_numpy():
     a[:] = b.reshape((1,))
     assert numpy.allclose(numpy.asarray(_a), a)
 
-    # test vector to matrice without stride
+    # tests vector to matrice without stride
     a = numpy.arange(9)
     a.resize((3, 3))
     a = theano._asarray(a, dtype='float32')
@@ -897,7 +897,7 @@ def test_setitem_broadcast_numpy():
     a[:, :] = b.reshape((1, 3))
     assert numpy.allclose(numpy.asarray(_a), a)
 
-    # test vector to matrice with stride
+    # tests vector to matrice with stride
     a = numpy.arange(27)
     a.resize((3, 3, 3))
     a = theano._asarray(a, dtype='float32')
@@ -930,7 +930,7 @@ def test_setitem_rightvalue_ndarray_fails():
     a[:, :, 1] = b
     assert numpy.allclose(numpy.asarray(_a), a)
 
-    # test direct transfert from numpy to contiguous region
+    # tests direct transfert from numpy to contiguous region
     # attempt to assign the ndarray b with setitem
     # same number of dim
     mat = numpy.random.rand(4, 5).astype('float32')
@@ -946,12 +946,12 @@ def test_setitem_rightvalue_ndarray_fails():
     except ValueError as e:
         pass
 
-    # test direct transfert from numpy with broadcast
+    # tests direct transfert from numpy with broadcast
     _a[0, :, :] = b5
     a[0, :, :] = b5
     assert numpy.allclose(numpy.asarray(_a), a)
 
-    # test direct transfert from numpy to not contiguous region
+    # tests direct transfert from numpy to not contiguous region
     # attempt to assign the ndarray b with setitem
     _a[:, :, 2] = b
     a[:, :, 2] = b

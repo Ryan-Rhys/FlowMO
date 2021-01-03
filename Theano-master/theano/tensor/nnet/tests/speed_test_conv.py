@@ -214,8 +214,8 @@ def speed_multilayer_conv():
         unroll_patch = [True, False]
         
         bsize = 60  # batch size
-        imshp_start = (1, 48, 48)  # un square shape to test more corner case.
-        kshps = ([11, 12],)  # un square shape to test more corner case.
+        imshp_start = (1, 48, 48)  # un square shape to tests more corner case.
+        kshps = ([11, 12],)  # un square shape to tests more corner case.
         nkerns = [60]  # per output pixel
         ssizes = [(1, 1), ]  # (1,1)]#(2,2) bugged
         convmodes = ['valid', 'full']

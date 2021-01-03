@@ -272,7 +272,7 @@ class Config(object):
     lr = 0.001
 
 if 0:
-    # commenting out because this is not really a unit test
+    # commenting out because this is not really a unit tests
     # and it doesn't run correctly because of a deprecated call to cuda.use()
     def test_bench_elemwise(n_iter=1000, **kwargs):
         conf = Config()
@@ -280,7 +280,7 @@ if 0:
             setattr(conf, k, kwargs[k])
 
         if conf.use_gpu:
-            # Skip test if cuda_ndarray is not available.
+            # Skip tests if cuda_ndarray is not available.
             from nose.plugins.skip import SkipTest
             import theano.sandbox.cuda as cuda_ndarray
             if not cuda_ndarray.cuda_available:

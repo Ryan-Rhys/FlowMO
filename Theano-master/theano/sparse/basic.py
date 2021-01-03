@@ -159,7 +159,7 @@ def as_sparse_or_tensor_variable(x, name=None):
 
 def verify_grad_sparse(op, pt, structured=False, *args, **kwargs):
     """
-    Wrapper for theano.test.unittest_tools.py:verify_grad wich
+    Wrapper for theano.tests.unittest_tools.py:verify_grad wich
     converts sparse variables back and forth.
 
     Parameters

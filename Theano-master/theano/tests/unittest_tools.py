@@ -26,7 +26,7 @@ try:
 except ImportError:
     class SkipTest(Exception):
         """
-        Skip this test
+        Skip this tests
         """
 _logger = logging.getLogger("theano.tests.unittest_tools")
 
@@ -120,14 +120,14 @@ class TestOptimizationMixin(object):
     def assertFunctionContainsClassN(self, f, op, N):
         return self.assertFunctionContainsClass(f, op, min=N, max=N)
 
-    def SkipTest(self, msg='Skip this test'):
+    def SkipTest(self, msg='Skip this tests'):
         raise SkipTest(msg)
 
 
 # This object name should not start with Test.
 # Otherwise nosetests will execute it!
 class T_OpContractMixin(object):
-    # self.ops should be a list of instantiations of an Op class to test.
+    # self.ops should be a list of instantiations of an Op class to tests.
     # self.other_op should be an op which is different from every op
     other_op = T.add
 
@@ -198,7 +198,7 @@ class InferShapeTester(unittest.TestCase):
         warning when testing with such values.
 
         :param check_topo: If True, we check that the Op where removed
-            from the graph. False is useful to test not implemented case.
+            from the graph. False is useful to tests not implemented case.
 
         """
         mode = self.mode
@@ -329,8 +329,8 @@ def assert_allclose(val1, val2, rtol=None, atol=None):
 
 
 class AttemptManyTimes:
-    """Decorator for unit tests that forces a unit test to be attempted
-    multiple times. The test needs to pass a certain number of times for it to
+    """Decorator for unit tests that forces a unit tests to be attempted
+    multiple times. The tests needs to pass a certain number of times for it to
     be considered to have succeeded. If it doesn't pass enough times, it is
     considered to have failed.
 
@@ -353,22 +353,22 @@ class AttemptManyTimes:
     def __call__(self, fct):
 
         # Wrap fct in a function that will attempt to run it multiple
-        # times and return the result if the test passes enough times
+        # times and return the result if the tests passes enough times
         # of propagate the raised exception if it doesn't.
         @wraps(fct)
         def attempt_multiple_times(*args, **kwargs):
 
             # Keep a copy of the current seed for unittests so that we can use
-            # a different seed for every run of the decorated test and restore
+            # a different seed for every run of the decorated tests and restore
             # the original after
             original_seed = config.unittests.rseed
             current_seed = original_seed
 
             # If the decorator has received only one, unnamed, argument
             # and that argument has an atribute _testMethodName, it means
-            # that the unit test on which the decorator is used is in a test
+            # that the unit tests on which the decorator is used is in a tests
             # class. This means that the setup() method of that class will
-            # need to be called before any attempts to execute the test in
+            # need to be called before any attempts to execute the tests in
             # case it relies on data randomly generated in the class' setup()
             # method.
             if (len(args) == 1 and hasattr(args[0], "_testMethodName")):
@@ -380,12 +380,12 @@ class AttemptManyTimes:
             n_fail = 0
             n_success = 0
 
-            # Attempt to call the test function multiple times. If it does
+            # Attempt to call the tests function multiple times. If it does
             # raise any exception for at least one attempt, it passes. If it
             # raises an exception at every attempt, it fails.
             for i in range(self.n_attempts):
                 try:
-                    # Attempt to make the test use the current seed
+                    # Attempt to make the tests use the current seed
                     config.unittests.rseed = current_seed
                     if test_in_class and hasattr(class_instance, "setUp"):
                         class_instance.setUp()
@@ -406,7 +406,7 @@ class AttemptManyTimes:
                         raise
 
                 finally:
-                    # Clean up after the test
+                    # Clean up after the tests
                     config.unittests.rseed = original_seed
                     if test_in_class and hasattr(class_instance, "tearDown"):
                         class_instance.tearDown()

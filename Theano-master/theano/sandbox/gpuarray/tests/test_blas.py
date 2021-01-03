@@ -131,7 +131,7 @@ def test_hgemm_swap():
     m2 = tensor.matrix(dtype='float16')
     m32 = tensor.matrix(dtype='float32')
 
-    # test that we don't try to replace anything but matrix x matrix in float16
+    # tests that we don't try to replace anything but matrix x matrix in float16
     f = theano.function([v, m], tensor.dot(v, m), mode=mode_with_gpu)
     assert len([node for node in f.maker.fgraph.apply_nodes
                 if isinstance(node.op, GpuGemm)]) == 0

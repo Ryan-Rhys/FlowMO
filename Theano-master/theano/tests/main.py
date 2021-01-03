@@ -11,10 +11,10 @@ from numpy.testing.nosetester import NoseTester
 # Copyright (c) 2005-2011, NumPy Developers
 class TheanoNoseTester(NoseTester):
     """
-    Nose test runner.
+    Nose tests runner.
 
     This class enables running nose tests from inside Theano,
-    by calling theano.test().
+    by calling theano.tests().
     This version is more adapted to what we want than Numpy's one.
     """
 
@@ -23,7 +23,7 @@ class TheanoNoseTester(NoseTester):
         Generate argv for nosetest command
 
         :type verbose: int
-        :param verbose: Verbosity value for test outputs, in the range 1-10.
+        :param verbose: Verbosity value for tests outputs, in the range 1-10.
                         Default is 1.
 
         :type extra_argv: list
@@ -47,9 +47,9 @@ class TheanoNoseTester(NoseTester):
     def prepare_test_args(self, verbose=1, extra_argv=None, coverage=False,
                           capture=True, knownfailure=True):
         """
-        Prepare arguments for the `test` method.
+        Prepare arguments for the `tests` method.
 
-        Takes the same arguments as `test`.
+        Takes the same arguments as `tests`.
         """
         import nose.plugins.builtin
         # compile argv
@@ -80,7 +80,7 @@ class TheanoNoseTester(NoseTester):
         Run tests for module using nose.
 
         :type verbose: int
-        :param verbose: Verbosity value for test outputs, in the range 1-10.
+        :param verbose: Verbosity value for tests outputs, in the range 1-10.
                         Default is 1.
 
         :type extra_argv: list
@@ -127,14 +127,14 @@ class TheanoNoseTester(NoseTester):
 
         cwd = os.getcwd()
         if self.package_path in os.listdir(cwd):
-            # The tests give weird errors if the package to test is
+            # The tests give weird errors if the package to tests is
             # in current directory.
             raise RuntimeError((
                 "This function does not run correctly when, at the time "
                 "theano was imported, the working directory was theano's "
                 "parent directory. You should exit your Python prompt, change "
                 "directory, then launch Python again, import theano, then "
-                "launch theano.test()."))
+                "launch theano.tests()."))
 
         argv, plugins = self.prepare_test_args(verbose, extra_argv, coverage,
                                                capture, knownfailure)

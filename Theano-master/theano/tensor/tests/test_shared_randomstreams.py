@@ -421,7 +421,7 @@ class T_SharedRandomStreams(unittest.TestCase):
         assert numpy.allclose(val0, numpy_val0)
         assert numpy.allclose(val1, numpy_val1)
 
-        for i in range(10):  # every test has 50% chance of passing even with non-matching random states
+        for i in range(10):  # every tests has 50% chance of passing even with non-matching random states
             val2 = g()
             numpy_val2 = multinomial_rng.multinomial(n=1, pvals=[.5, .5])
             assert numpy.all(val2 == numpy_val2)
@@ -716,11 +716,11 @@ class T_SharedRandomStreams(unittest.TestCase):
         s_rng_True = shared(rng, borrow=True)
         s_rng_False = shared(rng, borrow=False)
 
-        # test borrow contract: that False means a copy must have been made
+        # tests borrow contract: that False means a copy must have been made
         assert s_rng_default.container.storage[0] is not rng
         assert s_rng_False.container.storage[0] is not rng
 
-        # test current implementation: that True means a copy was not made
+        # tests current implementation: that True means a copy was not made
         assert s_rng_True.container.storage[0] is rng
 
         # ensure that all the random number generators are in the same state
@@ -752,8 +752,8 @@ class T_SharedRandomStreams(unittest.TestCase):
         s_rng = shared(rng)
 
         # there is no special behaviour required of return_internal_type
-        # this test just ensures that the flag doesn't screw anything up
-        # by repeating the get_value_borrow test.
+        # this tests just ensures that the flag doesn't screw anything up
+        # by repeating the get_value_borrow tests.
         r_ = s_rng.container.storage[0]
         r_T = s_rng.get_value(borrow=True, return_internal_type=True)
         r_F = s_rng.get_value(borrow=False, return_internal_type=True)
@@ -789,7 +789,7 @@ class T_SharedRandomStreams(unittest.TestCase):
         """
         Test that when we have multiple random number generators, we do not alias
         the state_updates member. `state_updates` can be useful when attempting to
-        copy the (random) state between two similar theano graphs. The test is
+        copy the (random) state between two similar theano graphs. The tests is
         meant to detect a previous bug where state_updates was initialized as a
         class-attribute, instead of the __init__ function.
         """

@@ -110,9 +110,9 @@ class T_random_function(utt.InferShapeTester):
                     mutable=True)],
                 out2,
                 mode='FAST_RUN')  # DEBUG_MODE can't pass the id-based
-                                  # test below
+                                  # tests below
 
-        # test that the RandomState object stays the same from function call to
+        # tests that the RandomState object stays the same from function call to
         # function call, but that the values returned change from call to call.
 
         id0 = id(f[rng_R])
@@ -969,7 +969,7 @@ class T_random_function(utt.InferShapeTester):
         assert numpy.all(abs(val1) <= 1)
 
     def test_dtype_normal_uniform_687(self):
-        # Regression test for #687.
+        # Regression tests for #687.
         rng_R = random_state_type()
         assert uniform(rng_R, low=tensor.constant(0, dtype='float64'),
                        dtype='float32')[1].dtype == 'float32'

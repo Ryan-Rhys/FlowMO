@@ -870,7 +870,7 @@ def local_softmax_with_bias(node):
                     return
 
                 if sm_bias.type == node.outputs[0].type:
-                    # This condition is not always true. See the test
+                    # This condition is not always true. See the tests
                     # nnet/tests/test_nnet.py:T_SoftmaxWithBias.test_broadcast
                     return [sm_bias]
 

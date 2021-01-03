@@ -217,7 +217,7 @@ if cuda_available:
                 if getattr(e, 'errno', None) != errno.EEXIST or not ok():
                     raise
     try:
-        # This only test if the cuda driver is available and if there
+        # This only tests if the cuda driver is available and if there
         # is at least one GPU that support cuda. This do not select a
         # device.
         gpu_init()
@@ -241,7 +241,7 @@ class GpuOp(theano.gof.Op):
     used for the first time.
 
     It is defined in __init__.py so that it exists even when `cuda_available`
-    is False (this is necessary to avoid breaking the test suite).
+    is False (this is necessary to avoid breaking the tests suite).
 
     """
 
@@ -304,7 +304,7 @@ if ((err = cudnnCreate(&_handle)) != CUDNN_STATUS_SUCCESS) {
             if config.nvcc.compiler_bindir:
                 params.extend(['--compiler-bindir',
                                config.nvcc.compiler_bindir])
-            # Do not run here the test program. It would run on the
+            # Do not run here the tests program. It would run on the
             # default gpu, not the one selected by the user. If mixed
             # GPU are installed or if the GPUs are configured in
             # exclusive mode, this cause bad detection.
@@ -690,8 +690,8 @@ def handle_shared_float32(tf):
         assert (float32_shared_constructor not in
                 theano.compile.shared.constructors)
 
-# We can't test the driver during import here as this cause circular
-# import dependency. So we also test it in the file theano/__init__.py
+# We can't tests the driver during import here as this cause circular
+# import dependency. So we also tests it in the file theano/__init__.py
 if config.device.startswith('gpu'):
     use(device=config.device, force=config.force_device, test_driver=False)
 elif config.init_gpu_device.startswith('gpu'):

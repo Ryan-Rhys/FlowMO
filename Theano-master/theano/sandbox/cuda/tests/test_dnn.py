@@ -23,7 +23,7 @@ from theano.sandbox.cuda import float32_shared_constructor as shared
 
 from . import test_nnet
 
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 import theano.sandbox.cuda as cuda
 if not cuda.cuda_available:
     raise SkipTest('Optional package cuda disabled')
@@ -77,7 +77,7 @@ def test_dnn_conv_desc_merge():
 
 
 def test_dnn_conv_merge():
-    """This test that we merge correctly multiple dnn_conv.
+    """This tests that we merge correctly multiple dnn_conv.
 
     This can is more difficult due to GpuEmptyAlloc that aren't
     merged.
@@ -118,7 +118,7 @@ def test_dnn_conv_merge():
 
 
 def test_dnn_conv_inplace():
-    """This test that we have inplace work correctly even when
+    """This tests that we have inplace work correctly even when
     GpuAllocEmpty get merged together.
 
     """
@@ -291,7 +291,7 @@ def test_pooling():
                 # Not implemented
                 continue
 
-            # This test the CPU grad + opt + GPU implemtentation
+            # This tests the CPU grad + opt + GPU implemtentation
             def fn(x):
                 return pool_2d(x, (ws, ws), ignore_border=True,
                                padding=pad, mode=mode)
@@ -412,7 +412,7 @@ def test_old_pool_interface():
 
 
 def test_pooling3d():
-    # CuDNN 3d pooling requires CuDNN v3. Don't test if the CuDNN version is
+    # CuDNN 3d pooling requires CuDNN v3. Don't tests if the CuDNN version is
     # too old.
     if not cuda.dnn.dnn_available() or cuda.dnn.version() < (3000, 3000):
         raise SkipTest(cuda.dnn.dnn_available.msg)
@@ -640,8 +640,8 @@ class test_DnnSoftMax(test_nnet.test_SoftMax):
                     )]) == 0)
 
     def test_log_softmax(self):
-        # This is a test for an optimization that depends on CuDNN v3 or
-        # more recent. Don't test if the CuDNN version is too old.
+        # This is a tests for an optimization that depends on CuDNN v3 or
+        # more recent. Don't tests if the CuDNN version is too old.
         if cuda.dnn.version() < (3000, 3000):
             raise SkipTest("Log-softmax is only in cudnn v3+")
 
@@ -1378,7 +1378,7 @@ def get_conv3d_test_cases():
                    # The equivalent of this caused a crash with conv2d
                    [(1, 1, 1, 44800, 1), (6, 1, 1, 1, 1), (1, 1, 1)]]
 
-    # With border mode 'full', test with kernel bigger than image in some/all
+    # With border mode 'full', tests with kernel bigger than image in some/all
     # dimensions
     test_shapes_full = [[(6, 2, 2, 2, 2), (4, 2, 3, 1, 1), (1, 1, 1)],
                         [(6, 2, 2, 2, 2), (4, 2, 1, 3, 1), (1, 1, 1)],
@@ -1550,7 +1550,7 @@ def test_conv3d_bwd():
         res_ref = f_ref()
         res = f()
         # Needed for big size for some seed
-        # raise rtol to make the test pass with more seed.
+        # raise rtol to make the tests pass with more seed.
         utt.assert_allclose(res_ref[0], res[0], rtol=2e-5)
         utt.assert_allclose(res_ref[1], res[1], rtol=2e-5)
 

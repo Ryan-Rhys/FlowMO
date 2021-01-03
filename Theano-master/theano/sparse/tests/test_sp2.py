@@ -6,7 +6,7 @@ import numpy
 try:
     import scipy.sparse as sp
 except ImportError:
-    pass  # The variable enable_sparse will be used to disable the test file.
+    pass  # The variable enable_sparse will be used to disable the tests file.
 
 import theano
 from theano import config

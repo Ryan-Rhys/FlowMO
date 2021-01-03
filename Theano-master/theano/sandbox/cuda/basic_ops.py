@@ -638,7 +638,7 @@ class GpuCAReduce(GpuOp):
 
         # If we don't even have the right method, we certainly
         # don't support the C code
-        # (This is the test that used to be implemented by
+        # (This is the tests that used to be implemented by
         # local_gpu_sum)
         pattern = (''.join(str(i) for i in self.reduce_mask))
         if not hasattr(self, 'c_code_reduce_%s' % pattern):
@@ -4010,7 +4010,7 @@ gpu_contiguous = GpuContiguous()
 
 
 # Those are predifined CudaNdarrayType as done in tensor.basic
-# Useful mostly for test as the gpu op are inserted automatically...
+# Useful mostly for tests as the gpu op are inserted automatically...
 def scalar(name=None, dtype=None):
     """
     Return a symbolic scalar variable.

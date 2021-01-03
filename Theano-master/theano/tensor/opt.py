@@ -1673,7 +1673,7 @@ def local_fill_to_alloc(node):
             # we are broadcasting both v and r,
             # the output shape must be computed
             #
-            # TODO: implement this case (including a test!)
+            # TODO: implement this case (including a tests!)
             #
             #  I think the strategy should be to extend the shorter
             #  shape vector with 1s (how?) and then take the
@@ -3879,12 +3879,12 @@ def local_useless_tile(node):
                         return [node.inputs[0]]
                     elif l < node.inputs[0].ndim:
                         # The Op don't support that case, so we can't
-                        # implement the opt and test it.
+                        # implement the opt and tests it.
                         return
                         return [node.inputs[0]]
                     else:
                         # The Op don't support that case, so we can't
-                        # implement the opt and test it.
+                        # implement the opt and tests it.
                         return
                         x_nd = node.inputs[0].ndim
                         broad = ['x'] * (l - x_nd) + xrange(x_nd)
@@ -4541,7 +4541,7 @@ class Canonizer(gof.LocalOptimizer):
             new = _fill_chain(new, node.inputs)[0]
 
         if new.type == out.type:
-            # This happen with test
+            # This happen with tests
             # theano/tensor/tests/test_opt.py:T_local_switch_sink
             new.tag.values_eq_approx = values_eq_approx_remove_inf_nan
             return [new]
@@ -5078,7 +5078,7 @@ def local_cut_useless_reduce(node):
             return [summed]
 
 
-# Enabling this optimization at canonicalization step break this test:
+# Enabling this optimization at canonicalization step break this tests:
 # theano/tensor/tests/test_opt.py:T_local_reduce.test_local_reduce_broadcast_some_0
 # see gh-790 issue.
 #
@@ -5360,8 +5360,8 @@ def local_pow_specialize_device(node):
         y = local_mul_canonizer.get_constant(ysym)
 
         # the next line is needed to fix a strange case that I don't
-        # know how to make a separate test.
-        # That happen in the test_opt.py:test_log_erfc test.
+        # know how to make a separate tests.
+        # That happen in the test_opt.py:test_log_erfc tests.
         # y is a ndarray with dtype int8 and value 2,4 or 6. This make
         # the abs(y) <= 512 fail!
         # taking the value outside ndarray solve the problem.
@@ -5706,7 +5706,7 @@ def distribute_greedy(pos_pairs, neg_pairs, num, denum,
     # each division is counted like div_cost multiplications
     # (typically, division costs more so we are willing to multiply more
     # in order to divide less)
-    # 1.5 was obtained through an informal test and may very well be
+    # 1.5 was obtained through an informal tests and may very well be
     # platform dependent
     div_cost = 1.5
 
@@ -6097,9 +6097,9 @@ def local_log_erfc(node):
 # for float32: threshold=9.3 see at the end of the fct for the explaination
 # TODO: remove the contraint that there are only 2 inputs to exp(x**2)
 #      is the second.
-# TODO: at the test point 10 in float32, there is instability in the original
+# TODO: at the tests point 10 in float32, there is instability in the original
 #      value. The original gives -30.0, the stab -20.1 and in float64 -18.1.
-#      Make it so that the test does not generate an error in that case!
+#      Make it so that the tests does not generate an error in that case!
 @register_stabilize
 @register_specialize
 @gof.local_optimizer([T.true_div])
@@ -6240,7 +6240,7 @@ def local_grad_log_erfc_neg(node):
     ret.tag.values_eq_approx = values_eq_approx_remove_inf_nan
     return [ret]
     """
-The libm used for the test is amdlibm
+The libm used for the tests is amdlibm
     #([y*]exp(-(x**2)))/erfc(x) # The mul is optional
 #exp(x**2)/erfc(-x) => when x>threashold,
 #-x*(1-1/(2*x**2)+3/(4*x**4)-15/(8*x**6))*sqrt(pi) for float64:
@@ -6638,7 +6638,7 @@ your code will run correctly, but may be slower.""")
             return False
 
         # we fuse as many that we can at the same time to make debug mode faster
-        # debug mode will be faster as it won't test all intermediate step.
+        # debug mode will be faster as it won't tests all intermediate step.
         while True:
             ret = local_fuse(n)
             if ret is not False and ret is not None:

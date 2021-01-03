@@ -184,7 +184,7 @@ downcast** of the latter.
                                             sequences=seq)
     triangular_sequence = theano.function(inputs=[up_to], outputs=scan_result)
 
-    # test
+    # tests
     some_num = 15
     print(triangular_sequence(some_num))
     print([n * (n + 1) // 2 for n in range(some_num)])
@@ -222,7 +222,7 @@ with all values set to zero except at the provided array indices.
 
     assign_values_at_positions = theano.function(inputs=[location, values, output_model], outputs=result)
 
-    # test
+    # tests
     test_locations = numpy.asarray([[1, 1], [2, 3]], dtype=numpy.int32)
     test_values = numpy.asarray([42, 50], dtype=numpy.float32)
     test_output_model = numpy.zeros((5, 5), dtype=numpy.float32)

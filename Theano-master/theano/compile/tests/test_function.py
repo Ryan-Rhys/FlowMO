@@ -52,7 +52,7 @@ class TestFunctionIn(unittest.TestCase):
             pass
 
     def test_explicit_shared_input(self):
-        # This is not a test of the In class per se, but the In class relies
+        # This is not a tests of the In class per se, but the In class relies
         # on the fact that shared variables cannot be explicit inputs
         a = theano.shared(1.0)
         self.assertRaises(TypeError, theano.function, [a], a + 1)

@@ -28,10 +28,10 @@ class OpFromGraph(gof.Op):
         - opt to unfold it, work inplace on inputs
         - grad() make it support DisconnectedType and the new interface
         - check how it works with updates.
-        - add test with constant as input or inside the inner graph.
+        - add tests with constant as input or inside the inner graph.
         - Add support for the GPU? Probably just need an opt to remove transfer
         - Add support to pickle this Op.
-        - Add support/test with random generator
+        - Add support/tests with random generator
 
     Notes
     -----

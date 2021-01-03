@@ -530,10 +530,10 @@ class PureOp(object):
     @classmethod
     def _get_test_value(cls, v):
         """
-        Extract test value from variable v.
+        Extract tests value from variable v.
         Raises AttributeError if there is none.
 
-        For a Constant, the test value is v.value.
+        For a Constant, the tests value is v.value.
         For a Shared variable, it is the internal value.
         For another Variable, it is the content of v.tag.test_value.
 
@@ -546,13 +546,13 @@ class PureOp(object):
         elif isinstance(v, SharedVariable):
             return v.get_value(borrow=True, return_internal_type=True)
         elif isinstance(v, graph.Variable) and hasattr(v.tag, 'test_value'):
-            # ensure that the test value is correct
+            # ensure that the tests value is correct
             try:
                 ret = v.type.filter(v.tag.test_value)
             except Exception as e:
                 # Better error message.
                 detailed_err_msg = (
-                    "For compute_test_value, one input test value does not"
+                    "For compute_test_value, one input tests value does not"
                     " have the requested type.\n")
                 tr = getattr(v.tag, 'trace', [])
                 if isinstance(tr, list) and len(tr) > 0:
@@ -566,7 +566,7 @@ class PureOp(object):
                     detailed_err_msg += str(sio.getvalue())
 
                 detailed_err_msg += (
-                    "\nThe error when converting the test value to that"
+                    "\nThe error when converting the tests value to that"
                     " variable type:")
                 # We need to only have 1 args and it should be of type
                 # string.  Otherwise, it print the tuple and so the
@@ -576,7 +576,7 @@ class PureOp(object):
                 raise
             return ret
 
-        raise AttributeError('%s has no test value' % v)
+        raise AttributeError('%s has no tests value' % v)
 
     def __call__(self, *inputs, **kwargs):
         """
@@ -615,7 +615,7 @@ class PureOp(object):
         if config.compute_test_value != 'off':
             run_perform = True
 
-            # build test input-values
+            # build tests input-values
             storage_map = {}
             compute_map = {}
             for i, ins in enumerate(node.inputs):
@@ -623,18 +623,18 @@ class PureOp(object):
                     storage_map[ins] = [self._get_test_value(ins)]
                     compute_map[ins] = [True]
                 except AttributeError:
-                    # no test-value was specified, act accordingly
+                    # no tests-value was specified, act accordingly
                     if config.compute_test_value == 'warn':
                         warnings.warn(
-                            'Warning, Cannot compute test value: input %i (%s) of Op %s missing default value' %
+                            'Warning, Cannot compute tests value: input %i (%s) of Op %s missing default value' %
                             (i, ins, node), stacklevel=2)
                         run_perform = False
                     elif config.compute_test_value == 'raise':
                         raise ValueError(
-                            'Cannot compute test value: input %i (%s) of Op %s missing default value' %
+                            'Cannot compute tests value: input %i (%s) of Op %s missing default value' %
                             (i, ins, node))
                     elif config.compute_test_value == 'ignore':
-                        # silently skip test
+                        # silently skip tests
                         run_perform = False
                     elif config.compute_test_value == 'pdb':
                         import pdb
@@ -644,7 +644,7 @@ class PureOp(object):
                             '%s is invalid for option config.compute_Test_value' %
                             config.compute_test_value)
 
-            # if all inputs have test-values, run the actual op
+            # if all inputs have tests-values, run the actual op
             if run_perform:
                 # Original values should not be destroyed:
                 # copy the values of the inputs in destroy_map
@@ -661,7 +661,7 @@ class PureOp(object):
                     storage_map[o] = [None]
                     compute_map[o] = [False]
 
-                # compute output value once with test inputs to validate graph
+                # compute output value once with tests inputs to validate graph
                 thunk = node.op.make_thunk(node, storage_map, compute_map,
                                            no_recycling=[])
                 thunk.inputs = [storage_map[v] for v in node.inputs]
@@ -1004,13 +1004,13 @@ class Op(utils.object2, PureOp, CLinkerOp):
 
 def get_test_value(v):
     """
-    Extract test value from `v`. Raises AttributeError if there is none.
+    Extract tests value from `v`. Raises AttributeError if there is none.
 
     If input `v` is not already a variable, it is turned into one by calling
     `as_tensor_variable(v)`, so that this function can be applied e.g.
     on numpy arrays or Python lists and scalars, considering them as constants.
 
-    For a Constant, the test value is v.value.
+    For a Constant, the tests value is v.value.
     For a Shared variable, it is the internal value.
     For another Variable, it is the content of v.tag.test_value.
 
@@ -1114,10 +1114,10 @@ def get_debug_values(*args):
         except AttributeError:
             if hasattr(arg, 'name') and arg.name is not None:
                 missing_test_message("Argument " + str(i) + "('" + arg.name +
-                                     "') has no test value")
+                                     "') has no tests value")
             else:
                 missing_test_message("Argument " + str(i) +
-                                     " has no test value")
+                                     " has no tests value")
             return []
 
     if len(rval) == 1:

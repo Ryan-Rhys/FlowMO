@@ -252,7 +252,7 @@ class BB_alpha:
                 ret = self.process_minibatch(permutation[idxs])
             end = time.time()
 
-            # We evaluate the performance on the test data
+            # We evaluate the performance on the tests data
 
             error_train = 0
             ll_train = 0

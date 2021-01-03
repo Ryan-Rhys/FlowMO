@@ -134,7 +134,7 @@ def test_eigvalsh():
         refw = scipy.linalg.eigvalsh(a, b)
         numpy.testing.assert_array_almost_equal(w, refw)
 
-    # We need to test None separatly, as otherwise DebugMode will
+    # We need to tests None separatly, as otherwise DebugMode will
     # complain, as this isn't a valid ndarray.
     b = None
     B = theano.tensor.NoneConst
@@ -212,19 +212,19 @@ class test_Solve(utt.InferShapeTester):
 
         b_val = numpy.asarray(rng.rand(5, 1), dtype=config.floatX)
         
-        # 1-test general case
+        # 1-tests general case
         A_val = numpy.asarray(rng.rand(5, 5), dtype=config.floatX)
         # positive definite matrix:
         A_val = numpy.dot(A_val.transpose(), A_val)
         assert numpy.allclose(scipy.linalg.solve(A_val, b_val),
                               gen_solve_func(A_val, b_val))
 
-        # 2-test lower traingular case
+        # 2-tests lower traingular case
         L_val = scipy.linalg.cholesky(A_val, lower=True)
         assert numpy.allclose(scipy.linalg.solve_triangular(L_val, b_val, lower=True),
                               lower_solve_func(L_val, b_val))
 
-        # 3-test upper traingular case
+        # 3-tests upper traingular case
         U_val = scipy.linalg.cholesky(A_val, lower=False)
         assert numpy.allclose(scipy.linalg.solve_triangular(U_val, b_val, lower=False),
                               upper_solve_func(U_val, b_val))
@@ -251,7 +251,7 @@ def test_expm_grad_1():
     if not imported_scipy:
         raise SkipTest("Scipy needed for the expm op.")
     rng = numpy.random.RandomState(utt.fetch_seed())
-    # Always test in float64 for better numerical stability.
+    # Always tests in float64 for better numerical stability.
     A = rng.randn(5, 5)
     A = A + A.T
 
@@ -263,7 +263,7 @@ def test_expm_grad_2():
     if not imported_scipy:
         raise SkipTest("Scipy needed for the expm op.")
     rng = numpy.random.RandomState(utt.fetch_seed())
-    # Always test in float64 for better numerical stability.
+    # Always tests in float64 for better numerical stability.
     A = rng.randn(5, 5)
     w = rng.randn(5)**2
     A = (numpy.diag(w**0.5)).dot(A + A.T).dot(numpy.diag(w**(-0.5)))
@@ -277,7 +277,7 @@ def test_expm_grad_3():
     if not imported_scipy:
         raise SkipTest("Scipy needed for the expm op.")
     rng = numpy.random.RandomState(utt.fetch_seed())
-    # Always test in float64 for better numerical stability.
+    # Always tests in float64 for better numerical stability.
     A = rng.randn(5, 5)
 
     tensor.verify_grad(expm, [A], rng=rng)

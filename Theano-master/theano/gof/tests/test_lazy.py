@@ -107,7 +107,7 @@ def test_ifelse():
 
     notimpl = NotImplementedOp()
     lazys = [True]
-    # We need lazy to end up being True for this test.
+    # We need lazy to end up being True for this tests.
     if theano.config.vm.lazy in [True, None]:
         lazys = [True, None]
     cloops = [True, False]

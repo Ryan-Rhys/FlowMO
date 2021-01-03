@@ -1955,7 +1955,7 @@ class GpuConv(GpuOp):
         if version != -1:
             raise Exception(
                 """GpuConv with version!=-1 is disabled as we do not
-                test it anymore. It probably work, so you probably can
+                tests it anymore. It probably work, so you probably can
                 just comment this error and use it. But we want to
                 make sure you know about that. Also, this Op is pretty
                 slow and isn't used by default anymore. We strongly

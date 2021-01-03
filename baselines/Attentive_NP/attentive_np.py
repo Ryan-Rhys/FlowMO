@@ -60,9 +60,9 @@ class AttentiveNP():
         :param y_trains: A np.array with dimensions [N_functions, [N_train, y_size]]
                          containing the training data (y values)
         :param x_tests: A tensor with dimensions [N_functions, [N_test, x_size]]
-                        containing the test data (x values)
+                        containing the tests data (x values)
         :param y_tests: A tensor with dimensions [N_functions, [N_test, y_size]]
-                        containing the test data (y values)
+                        containing the tests data (y values)
         :param x_scalers: The standard scaler used when testing == True to convert the
                          x values back to the correct scale.
         :param y_scalers: The standard scaler used when testing == True to convert the predicted
@@ -77,7 +77,7 @@ class AttentiveNP():
                            context points N_context
         :param testing: A Boolean object; if set to be True, then every 30 iterations the
                         R^2 score and RMSE values will be calculated and printed for
-                        both the train and test data
+                        both the train and tests data
         :param print_freq:
         :param dataname:
         :param plotting:

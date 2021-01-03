@@ -22,13 +22,13 @@ from theano.tests.unittest_tools import attr
 if cuda_available:
     from theano.sandbox.cuda import float32_shared_constructor
 
-# TODO: test gpu
+# TODO: tests gpu
 # Done in test_consistency_GPU_{serial,parallel}
 
-# TODO: test MRG_RandomStreams
+# TODO: tests MRG_RandomStreams
 # Partly done in test_consistency_randomstreams
 
-# TODO: test optimizer mrg_random_make_inplace
+# TODO: tests optimizer mrg_random_make_inplace
 # TODO: make tests work when no flags gived. Now need:
 #      THEANO_FLAGS=device=gpu0,floatX=float32
 # Partly done, in test_consistency_GPU_{serial,parallel}
@@ -508,11 +508,11 @@ def basictest(f, steps, sample_size, prefix="", allow_01=False, inputs=None,
 
 
 def test_uniform():
-    # TODO: test param low, high
-    # TODO: test size=None
-    # TODO: test ndim!=size.ndim
-    # TODO: test bad seed
-    # TODO: test size=Var, with shape that change from call to call
+    # TODO: tests param low, high
+    # TODO: tests size=None
+    # TODO: tests ndim!=size.ndim
+    # TODO: tests bad seed
+    # TODO: tests size=Var, with shape that change from call to call
     if (mode in ['DEBUG_MODE', 'DebugMode', 'FAST_COMPILE'] or
             mode == 'Mode' and config.linker in ['py']):
         sample_size = (10, 100)
@@ -528,7 +528,7 @@ def test_uniform():
              [numpy.zeros(sample_size, dtype=config.floatX)]),
             ((x.shape[0], sample_size[1]), sample_size, [x],
              [numpy.zeros(sample_size, dtype=config.floatX)]),
-            # test empty size (scalar)
+            # tests empty size (scalar)
             ((), (), [], []),
             ]:
 
@@ -567,7 +567,7 @@ def test_uniform():
             R = MRG_RandomStreams(234, use_cuda=True)
             u = R.uniform(size=size, dtype='float32',
                           nstreams=rng_mrg.guess_n_streams(size, warn=False))
-            # well, it's really that this test w GPU doesn't make sense otw
+            # well, it's really that this tests w GPU doesn't make sense otw
             assert u.dtype == 'float32'
             f = theano.function(var_input, theano.Out(
                 theano.sandbox.cuda.basic_ops.gpu_from_host(u),
@@ -599,13 +599,13 @@ def test_uniform():
 
 @attr('slow')
 def test_binomial():
-    # TODO: test size=None, ndim=X
-    # TODO: test size=X, ndim!=X.ndim
-    # TODO: test random seed in legal value(!=0 and other)
-    # TODO: test sample_size not a multiple of guessed #streams
-    # TODO: test size=Var, with shape that change from call to call
-    # we test size in a tuple of int and a tensor.shape.
-    # we test the param p with int.
+    # TODO: tests size=None, ndim=X
+    # TODO: tests size=X, ndim!=X.ndim
+    # TODO: tests random seed in legal value(!=0 and other)
+    # TODO: tests sample_size not a multiple of guessed #streams
+    # TODO: tests size=Var, with shape that change from call to call
+    # we tests size in a tuple of int and a tensor.shape.
+    # we tests the param p with int.
 
     if (mode in ['DEBUG_MODE', 'DebugMode', 'FAST_COMPILE'] or
             mode == 'Mode' and config.linker in ['py']):
@@ -625,7 +625,7 @@ def test_binomial():
                  [numpy.zeros(sample_size, dtype=config.floatX)]),
                 ((x.shape[0], sample_size[1]), sample_size, [x],
                  [numpy.zeros(sample_size, dtype=config.floatX)]),
-                # test empty size (scalar)
+                # tests empty size (scalar)
                 ((), (), [], []),
                 ]:
             yield (t_binomial, mean, size, const_size, var_input, input,
@@ -650,7 +650,7 @@ def t_binomial(mean, size, const_size, var_input, input, steps, rtol):
     if mode != 'FAST_COMPILE' and cuda_available:
         R = MRG_RandomStreams(234, use_cuda=True)
         u = R.binomial(size=size, p=mean, dtype='float32')
-        # well, it's really that this test w GPU doesn't make sense otw
+        # well, it's really that this tests w GPU doesn't make sense otw
         assert u.dtype == 'float32'
         f = theano.function(var_input, theano.Out(
             theano.sandbox.cuda.basic_ops.gpu_from_host(u),
@@ -695,10 +695,10 @@ def test_normal0():
         ((x.shape[0], sample_size[1]), sample_size, [x],
          [numpy.zeros(sample_size, dtype=config.floatX)],
          -5., default_rtol, default_rtol),
-        # test odd value
+        # tests odd value
         (sample_size_odd, sample_size_odd, [], [], -5.,
          default_rtol, default_rtol),
-        # test odd value
+        # tests odd value
         (x.shape, sample_size_odd, [x],
          [numpy.zeros(sample_size_odd, dtype=config.floatX)],
          -5., default_rtol, default_rtol),
@@ -706,9 +706,9 @@ def test_normal0():
          numpy.arange(numpy.prod(sample_size),
                       dtype='float32').reshape(sample_size),
          10. * std / numpy.sqrt(steps), default_rtol),
-        # test empty size (scalar)
+        # tests empty size (scalar)
         ((), (), [], [], -5., default_rtol, 0.02),
-        # test with few samples at the same time
+        # tests with few samples at the same time
         ((1,), (1,), [], [], -5., default_rtol, 0.02),
         ((2,), (2,), [], [], -5., default_rtol, 0.02),
         ((3,), (3,), [], [], -5., default_rtol, 0.02),
@@ -742,7 +742,7 @@ def test_normal0():
             R = MRG_RandomStreams(234, use_cuda=True)
             n = R.normal(size=size, avg=avg, std=std, dtype='float32',
                          nstreams=rng_mrg.guess_n_streams(size, warn=False))
-            # well, it's really that this test w GPU doesn't make sense otw
+            # well, it's really that this tests w GPU doesn't make sense otw
             assert n.dtype == 'float32'
             f = theano.function(var_input, theano.Out(
                 theano.sandbox.cuda.basic_ops.gpu_from_host(n),
@@ -833,7 +833,7 @@ def test_multinomial():
         pvals = numpy.asarray(pvals, dtype='float32')
         # We give the number of streams to avoid a warning.
         n = R.multinomial(pvals=pvals, dtype='float32', nstreams=30 * 256)
-        # well, it's really that this test w GPU doesn't make sense otw
+        # well, it's really that this tests w GPU doesn't make sense otw
         assert n.dtype == 'float32'
         f = theano.function(
             [],
@@ -909,7 +909,7 @@ def test_multiple_rng_aliasing():
     """
     Test that when we have multiple random number generators, we do not alias
     the state_updates member. `state_updates` can be useful when attempting to
-    copy the (random) state between two similar theano graphs. The test is
+    copy the (random) state between two similar theano graphs. The tests is
     meant to detect a previous bug where state_updates was initialized as a
     class-attribute, instead of the __init__ function.
 

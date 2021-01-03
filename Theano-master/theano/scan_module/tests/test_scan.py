@@ -225,7 +225,7 @@ class T_Scan(unittest.TestCase):
     @dec.skipif(
         isinstance(theano.compile.mode.get_default_mode(),
                    theano.compile.debugmode.DebugMode),
-        ("This test fails in DebugMode, because it is not yet picklable."))
+        ("This tests fails in DebugMode, because it is not yet picklable."))
     def test_pickling(self):
         def f_pow2(x_tm1):
             return 2 * x_tm1
@@ -612,7 +612,7 @@ class T_Scan(unittest.TestCase):
         ny2[4] = numpy.dot(v_u1[4], vW_in1)
 
     def test_using_taps_sequence(self):
-        # this test refers to a bug reported by Nicolas
+        # this tests refers to a bug reported by Nicolas
         # Boulanger-Lewandowski June 6th
         x = theano.tensor.dvector()
         y, updates = theano.scan(lambda x: [x],
@@ -623,7 +623,7 @@ class T_Scan(unittest.TestCase):
         assert numpy.all(rval == inp[:-1])
 
     def test_using_negative_taps_sequence(self):
-        # This test refers to a bug reported on github on May 22 2015 by
+        # This tests refers to a bug reported on github on May 22 2015 by
         # user june-qijun
         def lp(x, x2):
             return x
@@ -640,7 +640,7 @@ class T_Scan(unittest.TestCase):
         """Test connection_pattern() in the presence of recurrent outputs
         with multiple taps.
 
-        This test refers to a bug signaled on the theano-users mailing list
+        This tests refers to a bug signaled on the theano-users mailing list
         on March 10 2015 by David Schneider-Joseph.
         """
         def fn(a_m2, a_m1, b_m2, b_m1):
@@ -1563,7 +1563,7 @@ class T_Scan(unittest.TestCase):
         # We change the compute_test_value[_opt] flag to run the
         # assert in Scan.grad() of the new scan input sequence related
         # to outer_mitsot_outs, outer_sitsot_outs and
-        # outer_nitsot_outs. This allow to test an old Scan bug.
+        # outer_nitsot_outs. This allow to tests an old Scan bug.
         old1 = theano.config.compute_test_value
         old2 = theano.config.compute_test_value_opt
         theano.config.compute_test_value = 'raise'
@@ -1991,7 +1991,7 @@ class T_Scan(unittest.TestCase):
         However, this is not the proper behavior for shared variables,
         they should not be padded in any way
 
-        This unit test addresses the bug fix of changeset ba7157e95cb1.
+        This unit tests addresses the bug fix of changeset ba7157e95cb1.
         """
         a = theano.tensor.vector()
         init_a = theano.tensor.vector()
@@ -2438,11 +2438,11 @@ class T_Scan(unittest.TestCase):
         utt.assert_allclose(tx5, v_u[-1] + 5.)
 
     def test_use_scan_direct_output(self):
-        # This test looks for a crash that happened when directly using the
+        # This tests looks for a crash that happened when directly using the
         # recurrent output of a scan node instead of taking the result
         # returned by the scan() function
 
-        # Obtain a compilation mode that will cause the test to fail if an
+        # Obtain a compilation mode that will cause the tests to fail if an
         # exception occurs in the optimization process
         on_opt_error = theano.config.on_opt_error
         theano.config.on_opt_error = "raise"
@@ -2485,7 +2485,7 @@ class T_Scan(unittest.TestCase):
         utt.assert_allclose(output2, expected_output2)
 
     def test_use_scan_direct_output2(self):
-        # This test looks for a crash that happened when directly using the
+        # This tests looks for a crash that happened when directly using the
         # recurrent output of a scan node associated with a state with a
         # state with broadcastable dimensions
 
@@ -2584,7 +2584,7 @@ class T_Scan(unittest.TestCase):
         # output_shape = f(numpy.arange(5), 5, [1, 2])
         # assert(all(output_shape == (5, 6)))
 
-    # The following test will fail in DebugMode if there are
+    # The following tests will fail in DebugMode if there are
     # some problems in Scan.infer_shape
     def test_remove_stuff(self):
         x = theano.tensor.vector('x')
@@ -2608,7 +2608,7 @@ class T_Scan(unittest.TestCase):
         self.assertTrue(numpy.allclose(f([1, 2, 3]), 2. / 3))
 
         topo = f.maker.fgraph.toposort()
-        # this new assert is here to test if scan_merging works ..
+        # this new assert is here to tests if scan_merging works ..
         nb_scan = len([n for n in topo
             if isinstance(n.op, theano.scan_module.scan_op.Scan)])
         self.assertTrue(nb_scan == 1)
@@ -2685,7 +2685,7 @@ class T_Scan(unittest.TestCase):
         self.assertTrue(len(scans) == 2)
 
     def test_merge_3scans(self):
-        # This test checks a case where we have 3 scans, two of them
+        # This tests checks a case where we have 3 scans, two of them
         # cannot be merged together, but the third one can be merged with
         # either.
         x = theano.tensor.vector()
@@ -2791,7 +2791,7 @@ class T_Scan(unittest.TestCase):
 
     @theano.configparser.change_flags(on_opt_error='raise')
     def test_pushout_seqs2(self):
-        # This test for a bug with PushOutSeqScan that was reported on the
+        # This tests for a bug with PushOutSeqScan that was reported on the
         # theano-user mailing list where the optimization raised an exception
         # when applied on this graph.
         x = tensor.matrix()
@@ -2843,7 +2843,7 @@ class T_Scan(unittest.TestCase):
         assert hash(scan1.owner.op) == hash(scan2.owner.op)
 
     def test_same(self):
-        # This test is checking a bug discovered by Arnaud and it is based
+        # This tests is checking a bug discovered by Arnaud and it is based
         # on his code
 
         x = theano.tensor.fmatrix('x')
@@ -3352,7 +3352,7 @@ class T_Scan(unittest.TestCase):
         assert len(lssc) == 1
 
     @dec.skipif(True,
-                        ("This test fails because not typed outputs_info "
+                        ("This tests fails because not typed outputs_info "
                          "are always gived the smallest dtype. There is "
                          "no upcast of outputs_info in scan for now."))
     def test_outputs_info_not_typed(self):
@@ -3413,7 +3413,7 @@ class T_Scan(unittest.TestCase):
         # during the grad operation and this tests validates that it now
         # raises a NullTypeGradError instead because the gradient relies on
         # the intermediary states of the random number generators used in the
-        # test. The test case was modified from the original for simplicity
+        # tests. The tests case was modified from the original for simplicity
 
         rand_stream = tensor.shared_randomstreams.RandomStreams()
         inp = tensor.matrix()
@@ -3463,7 +3463,7 @@ class T_Scan(unittest.TestCase):
         O = OS.sum() + W.sum()
 
         # This bug manifests itself by not allowing the function to compile,
-        # so if it compiles it means the test pass
+        # so if it compiles it means the tests pass
         f = theano.function([V, W], O)
 
     def test_while2(self):
@@ -3552,7 +3552,7 @@ class T_Scan(unittest.TestCase):
             return total, total, total
 
         # Assemble a scan with one sequence, one mitsot, one sitsot, one nitsot
-        # a non-sequence and a random state to test the mappings.
+        # a non-sequence and a random state to tests the mappings.
         seq = [tensor.vector()]
         non_seq = [tensor.scalar()]
         outputs_info = [dict(initial=tensor.vector(), taps=[-3, -1]),
@@ -3604,7 +3604,7 @@ class T_Scan(unittest.TestCase):
                                                         2 : [2], 3 : [3]}
 
     def test_grad_duplicate_outputs(self):
-        # This test validates that taking the gradient of a scan, in which
+        # This tests validates that taking the gradient of a scan, in which
         # multiple outputs are the same theano variable, works.
 
         def inner_fct(inp1, inp2, inp3):
@@ -3659,7 +3659,7 @@ class T_Scan(unittest.TestCase):
         utt.assert_allclose(outputs[5], expected_g_non_seq)
 
     def test_grad_duplicate_outputs_connection_pattern(self):
-        # This test checks for a crash in scan.connection_pattern when taking
+        # This tests checks for a crash in scan.connection_pattern when taking
         # the grad of a scan with certain combinations of outputs.
 
         def inner_fct(inp1, inp2, inp3, inp4, inp5, inp6):
@@ -3689,7 +3689,7 @@ class T_Scan(unittest.TestCase):
 
     def test_grad_multiple_seqs_different_nsteps(self):
         # Example provided Michael Forbes
-        # This test assures that we clip the sequences to n_steps before
+        # This tests assures that we clip the sequences to n_steps before
         # computing the gradient (so that when we reverse them we actually
         # get the right values in
         c = theano.tensor.vector('c')
@@ -3866,7 +3866,7 @@ class T_Scan(unittest.TestCase):
 
 
     def test_grad_multiple_taps_state(self):
-        # The test is based on the code provided by Timothy Lillicrap
+        # The tests is based on the code provided by Timothy Lillicrap
 
         def onestep(xdl, xprev, w):
             xnew = w + xprev
@@ -3928,7 +3928,7 @@ class T_Scan(unittest.TestCase):
         assert fgrad() == 1
 
     def test_rop_mitmot(self):
-        # this test is a copy paste from the script given by Justin Bayer to
+        # this tests is a copy paste from the script given by Justin Bayer to
         # reproduce this bug
         # We have 2 parameter groups with the following shapes.
         W1shape = (1, 3)
@@ -4395,7 +4395,7 @@ class T_Scan(unittest.TestCase):
     @attr('slow')
     def test_hessian_bug_grad_grad_two_scans(self):
         # Bug reported by Bitton Tenessi
-        # NOTE : The test to reproduce the bug reported by Bitton Tenessi
+        # NOTE : The tests to reproduce the bug reported by Bitton Tenessi
         # was modified from its original version to be faster to run.
 
         W = tensor.fvector(name='W')
@@ -4542,7 +4542,7 @@ class ScanGpuTests:
     """
 
     # as test_one_sequence_one_output_weights, but on the gpu
-    # This first version test the first case in the optimizer to the gpu.
+    # This first version tests the first case in the optimizer to the gpu.
     def test_one_sequence_one_output_weights_gpu1(self):
 
         def f_rnn(u_t, x_tm1, W_in, W):
@@ -4619,7 +4619,7 @@ class ScanGpuTests:
         assert not any([isinstance(node.op, self.gpu_backend.GpuFromHost)
                         for node in scan_node_topo])
 
-    # This second version test the second case in the optimizer to the gpu.
+    # This second version tests the second case in the optimizer to the gpu.
     def test_one_sequence_one_output_weights_gpu2(self):
 
         def f_rnn(u_t, x_tm1, W_in, W):
@@ -4679,7 +4679,7 @@ class ScanGpuTests:
         assert not any([isinstance(node.op, self.gpu_backend.GpuFromHost)
                         for node in scan_node_topo])
 
-    # This third test checks that scan can deal with a mixture of dtypes as
+    # This third tests checks that scan can deal with a mixture of dtypes as
     # outputs when is running on GPU
     def test_gpu3_mixture_dtype_outputs(self):
 
@@ -4759,12 +4759,12 @@ class ScanGpuTests:
                                allow_input_downcast=True,
                                mode=self.mode_with_gpu)
 
-        # I leave this to tested by debugmode, this test was anyway more of
-        # doest the graph compile kind of test
+        # I leave this to tested by debugmode, this tests was anyway more of
+        # doest the graph compile kind of tests
         t_result = my_f()
 
     def test_gpu_memory_usage(self):
-        # This test validates that the memory usage of the defined theano
+        # This tests validates that the memory usage of the defined theano
         # function is reasonnable when executed on the GPU. It checks for
         # a bug in which one of scan's optimization was not applied which
         # made the scan node compute large and unnecessary outputs which
@@ -4885,7 +4885,7 @@ class T_Scan_Cuda(unittest.TestCase, ScanGpuTests):
         super(T_Scan_Cuda, self).__init__(*args, **kwargs)
 
     def setUp(self):
-        # Skip the test if cuda is not available
+        # Skip the tests if cuda is not available
         if not self.gpu_backend.cuda_available:
             raise SkipTest('Optional package cuda disabled')
 
@@ -4897,16 +4897,16 @@ class T_Scan_Cuda(unittest.TestCase, ScanGpuTests):
 
     def test_inconsistent_inner_fct(self):
         # Test that scan can detect inconsistencies in the inner graph and
-        # raises an appropriate exception. The pickled file used in this test
+        # raises an appropriate exception. The pickled file used in this tests
         # relies on the cuda backend.
 
-        # This test has not been extensively tested for Python 3 so it should
+        # This tests has not been extensively tested for Python 3 so it should
         # be skipped if python version is >=3
         version = sys.version_info
         if version >= (3,):
-            raise SkipTest("This test relies on a pickled file produced with "
+            raise SkipTest("This tests relies on a pickled file produced with "
                            "Python 2. The current python version "
-                           "(%i.%i.%i.%i) is >= 3 so the test will be "
+                           "(%i.%i.%i.%i) is >= 3 so the tests will be "
                            "skipped." % (version.major, version.minor,
                            version.micro, version.serial))
 
@@ -4952,7 +4952,7 @@ class T_Scan_Gpuarray(unittest.TestCase, ScanGpuTests):
         super(T_Scan_Gpuarray, self).__init__(*args, **kwargs)
 
     def setUp(self):
-        # Skip the test if pygpu is not available
+        # Skip the tests if pygpu is not available
         if not self.gpu_backend.pygpu_activated:
             raise SkipTest('Optional package pygpu disabled')
 
@@ -4968,18 +4968,18 @@ def test_speed():
     #
     # This function prints out the speed of very simple recurrent
     # calculations implemented in various ways.  In DebugMode this will
-    # test the correctness of the optimizations applied, but generally
-    # correctness-testing is not the goal of this test.
+    # tests the correctness of the optimizations applied, but generally
+    # correctness-testing is not the goal of this tests.
     #
-    # To be honest, it isn't really a unit test so much as a tool for testing
+    # To be honest, it isn't really a unit tests so much as a tool for testing
     # approaches to scan.
     #
     # The computation being tested here is a recurrent addition.
     #
     #
-    # We need the CVM for this speed test
+    # We need the CVM for this speed tests
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
 
     r = numpy.arange(10000).astype(theano.config.floatX).reshape(1000, 10)
 
@@ -5054,19 +5054,19 @@ def test_speed_rnn():
     #
     # This function prints out the speed of recurrent neural network
     # calculations implemented in various ways.  In DebugMode this will
-    # test the correctness of the optimizations applied, but generally
-    # correctness-testing is not the goal of this test.
+    # tests the correctness of the optimizations applied, but generally
+    # correctness-testing is not the goal of this tests.
     #
-    # To be honest, it isn't really a unit test so much as a tool for testing
+    # To be honest, it isn't really a unit tests so much as a tool for testing
     # approaches to scan.
     #
     # The computation being tested here is a repeated tanh of a matrix-vector
     # multiplication - the heart of an ESN or RNN.
     #
 
-    # We need the CVM for this speed test
+    # We need the CVM for this speed tests
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
 
     L = 10000
     N = 50
@@ -5132,20 +5132,20 @@ def test_speed_batchrnn():
     # calculations implemented in various ways.
 
     # We force the mode to theano.Mode(linker='cvm'). If you manually
-    # change this code to use DebugMode this will test the correctness
+    # change this code to use DebugMode this will tests the correctness
     # of the optimizations applied, but generally correctness-testing
-    # is not the goal of this test.
+    # is not the goal of this tests.
     #
-    # To be honest, it isn't really a unit test so much as a tool for testing
+    # To be honest, it isn't really a unit tests so much as a tool for testing
     # approaches to scan.
     #
     # The computation being tested here is a repeated tanh of a matrix-vector
     # multiplication - the heart of an ESN or RNN.
     #
 
-    # We need the CVM for this speed test
+    # We need the CVM for this speed tests
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
     L = 100
     B = 50
     N = 400
@@ -5319,7 +5319,7 @@ if __name__ == '__main__':
 
 
 def test_compute_test_value():
-    # Verify that test values can be used with scan.
+    # Verify that tests values can be used with scan.
     backup = theano.config.compute_test_value
     theano.config.compute_test_value = 'raise'
     try:
@@ -5342,7 +5342,7 @@ def test_compute_test_value():
 
 
 def test_compute_test_value_nonseq():
-    # Verify that test values can be used for non_sequences with scan.
+    # Verify that tests values can be used for non_sequences with scan.
     backup = theano.config.compute_test_value
     theano.config.compute_test_value = 'raise'
     try:
@@ -5418,7 +5418,7 @@ def test_compute_test_value_grad():
 
 
 def test_compute_test_value_grad_cast():
-    # Test for test values when variables have to be casted
+    # Test for tests values when variables have to be casted
     # Reported by Daniel Renshaw at
     # https://groups.google.com/d/topic/theano-users/o4jK9xDe5WI/discussion
     floatX = theano.config.floatX

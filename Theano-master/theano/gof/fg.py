@@ -578,9 +578,9 @@ class FunctionGraph(utils.object2):
                 new_tval_shape = getattr(new_tval, 'shape', None)
                 if tval_shape != new_tval_shape:
                     raise AssertionError(
-                        "The replacement variable has a test value with "
+                        "The replacement variable has a tests value with "
                         "a shape different from the original variable's "
-                        "test value. Original: %s, new: %s"
+                        "tests value. Original: %s, new: %s"
                         % (tval_shape, new_tval_shape),
                         r, new_r, str(reason))
 

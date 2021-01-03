@@ -11,7 +11,7 @@ try:
     import nose
 except ImportError:
     error = """\
-ERROR: The IPython test suite requires nose to run.
+ERROR: The IPython tests suite requires nose to run.
 
 Please install nose on your system first and try again.
 For information on installing nose, see:

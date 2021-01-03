@@ -6,7 +6,7 @@ You can use them as a guide to use your pycuda code into a Theano op.
 The PycudaElemwiseSourceModuleOp is a Theano op use pycuda code
 generated with pycuda.compiler.SourceModule
 
-Their is a test in test_pycuda.py.
+Their is a tests in test_pycuda.py.
 
 This don't work with broadcast and non-contiguous memory as pycuda
 don't support that, but we make sure we don't introduce problem.

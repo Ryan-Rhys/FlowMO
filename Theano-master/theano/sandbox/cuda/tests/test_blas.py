@@ -9,7 +9,7 @@ from theano.tests import unittest_tools
 
 import numpy
 
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 from nose.plugins.skip import SkipTest
 import theano.sandbox.cuda as cuda_ndarray
 if cuda_ndarray.cuda_available == False:
@@ -49,7 +49,7 @@ class TestBatchedDot(unittest_tools.InferShapeTester):
     mode = mode_with_gpu
 
     def test_batched_dot_correctness(self):
-        # test both implementations
+        # tests both implementations
         for threshold in [0, 100]:
             batched_dot = GpuBatchedDot(stream_threshold=threshold)
 
@@ -299,9 +299,9 @@ if 0:
     # This is commented out because it doesn't make sense...
     # tcn.blas has no op called Pool
     # tcn.blas has an op called GpuDownsampleFactorMax, but that op requires arguments that are
-    # CudaNdarrayType variables... so rethink this test?
+    # CudaNdarrayType variables... so rethink this tests?
     def test_maxpool():
-        """TODO: test the gpu version!!! """
+        """TODO: tests the gpu version!!! """
         for d0, d1, r_true, r_false in [(4, 4, [[[[5, 7], [13, 15]]]], [[[[5, 7], [13, 15]]]]),
                                         (5, 5, [[[[6, 8], [ 16, 18], [ 21, 23]]]],
                                          [[[[6, 8, 9], [ 16, 18, 19], [ 21, 23, 24]]]])]:
@@ -436,7 +436,7 @@ class TestGpuGemv(TestCase, BaseGemv,
     # Mimic shared constructors registry
     @staticmethod
     def shared(val):
-        # If we don't put shared on the GPU, we won't be able to test
+        # If we don't put shared on the GPU, we won't be able to tests
         # the no inplace version as the added transfer will make them inplace.
         try:
             return tcn.shared_constructor(val)
@@ -457,7 +457,7 @@ class TestGpuGemvNoTransfer(TestCase, BaseGemv,
         except TypeError:
             return theano.shared(val)
 
-    # In this test, inputs are not always transfered to GPU
+    # In this tests, inputs are not always transfered to GPU
     gemv = gpu_gemv_no_inplace
     gemv_inplace = gpu_gemv_inplace
 
@@ -474,7 +474,7 @@ class TestVectorMatrixDot(TestCase):
                                        dtype='float32'))
         no_gpu_f = theano.function([], theano.dot(v, m), mode=mode_without_gpu)
         gpu_f = theano.function([], theano.dot(v, m), mode=mode_with_gpu)
-        # gpu_f2 is needed to test the case when the input is not on the gpu
+        # gpu_f2 is needed to tests the case when the input is not on the gpu
         # but the output is moved to the gpu.
         gpu_f2 = theano.function([], tcn.gpu_from_host(theano.dot(v, m)),
                 mode=mode_with_gpu)
@@ -503,7 +503,7 @@ class TestVectorMatrixDot(TestCase):
                                        dtype='float32'))
         no_gpu_f = theano.function([], theano.dot(m, v), mode=mode_without_gpu)
         gpu_f = theano.function([], theano.dot(m, v), mode=mode_with_gpu)
-        # gpu_f2 is needed to test the case when the input is not on the gpu
+        # gpu_f2 is needed to tests the case when the input is not on the gpu
         # but the output is moved to the gpu.
         gpu_f2 = theano.function([], tcn.gpu_from_host(theano.dot(m, v)),
                 mode=mode_with_gpu)
@@ -518,7 +518,7 @@ class TestVectorMatrixDot(TestCase):
                     gpu_f2.maker.fgraph.toposort()]) == 1
 
     def test_gemv1(self):
-        ''' test vector1+dot(matrix,vector2) '''
+        ''' tests vector1+dot(matrix,vector2) '''
         v1 = theano.tensor._shared(numpy.array(numpy.random.rand(2),
             dtype='float32'))
         v2 = theano.tensor._shared(numpy.array(numpy.random.rand(5),
@@ -529,7 +529,7 @@ class TestVectorMatrixDot(TestCase):
         no_gpu_f = theano.function([], v2 + theano.dot(m, v1),
                 mode=mode_without_gpu)
         gpu_f = theano.function([], v2 + theano.dot(m, v1), mode=mode_with_gpu)
-        # gpu_f2 is needed to test the case when the input is not on the gpu
+        # gpu_f2 is needed to tests the case when the input is not on the gpu
         # but the output is moved to the gpu.
         gpu_f2 = theano.function([], tcn.gpu_from_host(v2 + theano.dot(m, v1)),
                 mode=mode_with_gpu)
@@ -544,7 +544,7 @@ class TestVectorMatrixDot(TestCase):
                     gpu_f.maker.fgraph.toposort()]) == 1
 
     def test_gemv2(self):
-        ''' test vector1+dot(vector2,matrix) '''
+        ''' tests vector1+dot(vector2,matrix) '''
         v1 = theano.shared(numpy.array(numpy.random.rand(5), dtype='float32'))
         v2 = tensor._shared(numpy.array(numpy.random.rand(2), dtype='float32'))
         m = theano.shared(numpy.array(numpy.random.rand(5, 2),
@@ -554,7 +554,7 @@ class TestVectorMatrixDot(TestCase):
                 mode=mode_without_gpu)
         gpu_f = theano.function([], v2 + theano.dot(v1, m),
                 mode=mode_with_gpu)
-        # gpu_f2 is needed to test the case when the input is not on the gpu
+        # gpu_f2 is needed to tests the case when the input is not on the gpu
         # but the output is moved to the gpu.
         gpu_f2 = theano.function([], tcn.gpu_from_host(v2 + theano.dot(v1, m)),
                 mode=mode_with_gpu)

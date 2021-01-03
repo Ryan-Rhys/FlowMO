@@ -8,7 +8,7 @@ def filter_output(fd_in):
     for line in fd_in:
         toks = line.split()
         if len(toks):
-            if toks[0] == "File" and toks[-1].startswith('test'):
+            if toks[0] == "File" and toks[-1].startswith('tests'):
                 s += line
             elif toks[0].startswith("ImportError"):
                 s += line

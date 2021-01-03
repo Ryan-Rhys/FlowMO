@@ -1,6 +1,6 @@
 """
 These routines are not well-tested. They are also old.
-OB says that it is not important to test them well because Scalar Ops
+OB says that it is not important to tests them well because Scalar Ops
 are rarely used by themselves, instead they are the basis for Tensor Ops
 (which should be checked thoroughly). Moreover, Scalar will be changed
 to use numpy's scalar routines.
@@ -44,7 +44,7 @@ class test_ScalarOps(unittest.TestCase):
         fn = gof.DualLinker().accept(g).make_function()
         assert fn(1.0, 2.0) == 1.5
 
-    # This test is moved to theano.tensor.tests.test_basic.py:test_mod
+    # This tests is moved to theano.tensor.tests.test_basic.py:test_mod
     # We move it their as under ubuntu the c_extract call of theano.scalar
     # call PyInt_check and it fail under some os. If work in other case.
     # As we use theano.scalar normally, but we use theano.tensor.scalar
@@ -53,7 +53,7 @@ class test_ScalarOps(unittest.TestCase):
     # --> This is why it is purposedly named 'tes_mod' instead of 'test_mod'.
     def tes_mod(self):
         """
-        We add this test as not all language and C implementation give the same
+        We add this tests as not all language and C implementation give the same
         signe to the result. This check that the c_code of `Mod` is implemented
         as Python. That is what we want.
         """
@@ -136,11 +136,11 @@ class test_composite(unittest.TestCase):
                           '*1::1, *1::2, *1::3, *1::4, *1::5, *1::6, *1::7]')
 
     def test_make_node_continue_graph(self):
-        # This is a test for a bug (now fixed) that disabled the
+        # This is a tests for a bug (now fixed) that disabled the
         # local_gpu_elemwise_0 optimization and printed an
         # optimization warning on the terminal.
 
-        # We test that Composite.make_node accept as inputs Variable
+        # We tests that Composite.make_node accept as inputs Variable
         # some that represent existing computation.
 
         si0 = theano.scalar.int8()
@@ -240,7 +240,7 @@ class test_logical(unittest.TestCase):
 
 
 # This class does not inherit from unittest.TestCase, because it would
-# interfere with the "yield" mechanism that automatically generates test, see
+# interfere with the "yield" mechanism that automatically generates tests, see
 # http://stackoverflow.com/questions/6689537/nose-test-generators-inside-class
 # Therefore, it needs to be named "test_..." or "Test_...", so nose can pick
 # it up by name, otherwise the tests would not be executed.
@@ -319,7 +319,7 @@ class test_upgrade_to_float(object):
 
     def test_true_div(self):
         # true_div's upcast policy is not exactly "upgrade_to_float",
-        # so the test is a little bit different
+        # so the tests is a little bit different
         x_range = list(range(-127, 128))
         y_range = list(range(-127, 0)) + list(range(1, 127))
 
@@ -346,7 +346,7 @@ class test_upgrade_to_float(object):
         # Automatically define all individual unary tests
         for unary_op, x_range in self.unary_ops_vals:
             test_name = 'test_%s' % unary_op.name
-            # Make a lambda function so we can name the test
+            # Make a lambda function so we can name the tests
             test = lambda: self._test_unary(unary_op, x_range)
             test.description = test_name
             yield test
@@ -355,7 +355,7 @@ class test_upgrade_to_float(object):
         # Automatically define all individual binary tests
         for binary_op, x_range, y_range in self.binary_ops_vals:
             test_name = 'test_%s' % binary_op.name
-            # Make a lambda function so we can name the test
+            # Make a lambda function so we can name the tests
             test = lambda: self._test_binary(binary_op, x_range, y_range)
             test.description = test_name
             yield test

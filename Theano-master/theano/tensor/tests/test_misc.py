@@ -18,7 +18,7 @@ def test_bug_2009_06_02_trac_387():
 
 
 def test_bug_2009_07_17_borrowed_output():
-    """Regression test for a bug where output was borrowed by mistake."""
+    """Regression tests for a bug where output was borrowed by mistake."""
     a = theano.tensor.dmatrix()
     b = theano.tensor.dmatrix()
     # The output should *NOT* be borrowed.
@@ -39,8 +39,8 @@ def test_bug_2009_07_17_borrowed_output():
     # accurately, on the next revision, i.e. when it was merged with the
     # rest of the code, i.e. on revision cac9c9e9f08e).
     # However, for some reason, it does not fail anymore when at this revision.
-    # Thus, a new test (below) was added that exhibits the same issue. Note
-    # that it may better be moved into the test_nnet.py test file if it turns
+    # Thus, a new tests (below) was added that exhibits the same issue. Note
+    # that it may better be moved into the test_nnet.py tests file if it turns
     # out the bug was caused by 'crossentropy_softmax_argmax_1hot_with_bias',
     # and was not a more general issue.
     test_output_activation_no_bias = theano.tensor.dmatrix()

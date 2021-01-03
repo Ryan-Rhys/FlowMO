@@ -11,7 +11,7 @@ try:
     import scipy.sparse
     from scipy.sparse import csr_matrix
 except ImportError:
-    pass  # The variable enable_sparse will be used to disable the test file.
+    pass  # The variable enable_sparse will be used to disable the tests file.
 
 import theano
 from theano import tensor
@@ -98,7 +98,7 @@ def random_lil(shape, dtype, nnz):
 def sparse_random_inputs(format, shape, n=1, out_dtype=None, p=0.5, gap=None,
                          explicit_zero=False, unsorted_indices=False):
     """Return a tuple containing everything needed to
-    perform a test.
+    perform a tests.
 
     If `out_dtype` is `None`, theano.config.floatX is
     used.
@@ -577,7 +577,7 @@ class T_AddMul(unittest.TestCase):
                       theano.shared(array1)]:
                 for dtype1, dtype2 in [('float64', 'int8'),
                                        ('int8', 'float64'),
-                                       # Needed to test the grad
+                                       # Needed to tests the grad
                                        ('float32', 'float64'),
                                    ]:
                     a = a.astype(dtype1)
@@ -1068,7 +1068,7 @@ class test_structureddot(unittest.TestCase):
         # a structured_dot_csc Op and no assembly of a csc_matrix.
         #
         # The optimization from structured_dot -> structured_dot_csc
-        # is currently disabled, So this test is not expected to pass
+        # is currently disabled, So this tests is not expected to pass
 
         return
         #
@@ -1109,7 +1109,7 @@ class test_structureddot(unittest.TestCase):
         # print outvals
 
     def test_dot_sparse_sparse(self):
-        # test dot for 2 input sparse matrix
+        # tests dot for 2 input sparse matrix
         sparse_dtype = 'float64'
         sp_mat = {'csc': sp.csc_matrix,
                   'csr': sp.csr_matrix,
@@ -1382,7 +1382,7 @@ class UsmmTests(unittest.TestCase):
         self.z = numpy.asarray(self.rng.uniform(-1, 1, z_size),
                                dtype=theano.config.floatX)
 
-    # this is slow, but it's the only test for the op.
+    # this is slow, but it's the only tests for the op.
     def test(self):
         def mat(format, name, dtype):
             if format == 'dense':
@@ -1393,7 +1393,7 @@ class UsmmTests(unittest.TestCase):
         params = product(*([['float32', 'float64', 'int16', 'complex64']] * 4 +
                            [['dense', 'csc', 'csr']] * 2))
 
-        # All test are too slow, so we randomly take 100 of them.
+        # All tests are too slow, so we randomly take 100 of them.
         # The buildbot change the seed, so we will finish by running them all.
         # As of this writing they where all passing.
         #params = self.rng.permutation(list(params))[:500]
@@ -1541,7 +1541,7 @@ class UsmmTests(unittest.TestCase):
             # To make it easier to check the toposort
             mode = theano.compile.mode.get_default_mode().excluding('fusion')
 
-            # test infer_shape of Dot got applied
+            # tests infer_shape of Dot got applied
             f_shape = theano.function([a, x, y],
                                       (z - a * theano.sparse.dot(x, y)).shape,
                                       mode=mode)
@@ -1632,7 +1632,7 @@ def test_may_share_memory():
 
 def test_sparse_shared_memory():
     # Note : There are no inplace ops on sparse matrix yet. If one is
-    # someday implemented, we could test it here.
+    # someday implemented, we could tests it here.
     a = random_lil((3, 4), 'float32', 3).tocsr()
     m1 = random_lil((4, 4), 'float32', 3).tocsr()
     m2 = random_lil((4, 4), 'float32', 3).tocsr()
@@ -2204,7 +2204,7 @@ class Test_getitem(unittest.TestCase):
             assert numpy.all(t4.toarray() == r4.toarray())
 
             #-----------------------------------------------------------
-            # test cases using int indexing instead of theano variable
+            # tests cases using int indexing instead of theano variable
             f6 = theano.function([x], x[1:10:j, 10:20:k])
             r6 = f6(vx)
             t6 = vx[1:10:j, 10:20:k]
@@ -2212,7 +2212,7 @@ class Test_getitem(unittest.TestCase):
             assert numpy.all(r6.toarray() == t6.toarray())
 
             #----------------------------------------------------------
-            # test cases with indexing both with theano variable and int
+            # tests cases with indexing both with theano variable and int
             if is_supported_version:
                 f8 = theano.function([x, a, b, e], x[a:b:e, 10:20:1])
                 r8 = f8(vx, m, n, j)
@@ -2332,7 +2332,7 @@ class CastTester(utt.InferShapeTester):
     def setUp(self):
         super(CastTester, self).setUp()
 
-    # slow but only test
+    # slow but only tests
     def test_cast(self):
         for format in sparse.sparse_formats:
             for i_dtype in sparse.all_dtypes:
@@ -2382,7 +2382,7 @@ class CastTester(utt.InferShapeTester):
             for i_dtype in sparse.float_dtypes:
                 for o_dtype in tensor.float_dtypes:
                     if o_dtype == 'float16':
-                        # Don't test float16 output.
+                        # Don't tests float16 output.
                         continue
                     _, data = sparse_random_inputs(
                         format,
@@ -2459,7 +2459,7 @@ class _HVStackTester(utt.InferShapeTester):
 
 
 def _hv_switch(op, expected_function):
-    """Return the right test class for HStack or VStack.
+    """Return the right tests class for HStack or VStack.
 
     :Parameters:
     - `op`: HStack or VStack class.
@@ -2526,9 +2526,9 @@ class AddSSDataTester(utt.InferShapeTester):
 
 def elemwise_checker(op, expected_f, gap=None, test_dtypes=None,
                      grad_test=True, name=None, gap_grad=None):
-    """Return the appropriate test class for the elemwise on sparse.
+    """Return the appropriate tests class for the elemwise on sparse.
 
-    :param op: Op to test.
+    :param op: Op to tests.
     :expected_f: Function use to compare. This function must act
                  on dense matrix. If the op is structured
                  see the `structure_function` decorator to make
@@ -2542,7 +2542,7 @@ def elemwise_checker(op, expected_f, gap=None, test_dtypes=None,
                         If `None`, this is set to the most common
                         dtypes.
     :param grad_test: True for testing the grad. False will
-                      skip this test.
+                      skip this tests.
     :param gap_grad: If None, we reuse gap. Otherwise it is the same as gap
                      but for testing the gradiant of the op.
 
@@ -2564,7 +2564,7 @@ def elemwise_checker(op, expected_f, gap=None, test_dtypes=None,
                 self.gap_grad = gap_grad
             else:
                 self.gap_grad = gap
-            # Ensure the test's name is correct.
+            # Ensure the tests's name is correct.
             utt.seed_rng()
             assert eval(self.__class__.__name__) is self.__class__
 

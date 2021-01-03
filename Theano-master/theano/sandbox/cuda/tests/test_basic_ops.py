@@ -10,7 +10,7 @@ from six.moves import xrange
 import theano
 import theano.tensor as T
 
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 from nose.plugins.skip import SkipTest
 from nose.tools import assert_raises
 import theano.sandbox.cuda as cuda_ndarray
@@ -51,19 +51,19 @@ def tensor_pattern_to_gpu_pattern(shape, pattern):
 
 def test_careduce():
     """
-    test sum pattern 1, 11, 10, 01, 001, 010, 100, 110, 011, 111,
+    tests sum pattern 1, 11, 10, 01, 001, 010, 100, 110, 011, 111,
     0011, 0101, 0111, 1011, 1111
 
-    test sum pattern implemented with reshape:
+    tests sum pattern implemented with reshape:
     1000, 0100, 0010, 0001, 11111
 
     others implemented by reshape that are not tested
     0011,0101,0110,1001,1010,1100
     1110,1101,1011
 
-    TODO: test with broadcast
+    TODO: tests with broadcast
 
-    We test with the pre_scalar_op sqr in all cases. This cover all
+    We tests with the pre_scalar_op sqr in all cases. This cover all
     code, with and without it the pre_scalar_op.
 
     """
@@ -88,14 +88,14 @@ def test_careduce():
                                ((1, 2), (1,)),
                                ((100, 3, 1300), [1]),
                                ((0,), [0]), ((5,), [0]),
-                               ((0, 0), [0, 1]), ((1, 0), [0, 1]), ((5, 4), [0, 1]), ((33, 31), [0, 1]), ((5, 4), [1]), ((5, 4), [0]),  # need something bigger then 32 for some opt test.
+                               ((0, 0), [0, 1]), ((1, 0), [0, 1]), ((5, 4), [0, 1]), ((33, 31), [0, 1]), ((5, 4), [1]), ((5, 4), [0]),  # need something bigger then 32 for some opt tests.
                                ((5, 4, 3), [0]), ((5, 4, 3), [1]), ((5, 4, 3), [0, 1]), ((5, 4, 3), [2]), ((5, 4, 3), [1, 2]), ((5, 4, 3), [0, 1, 2]),
                                ((0, 0, 0, 0), [0, 1, 2, 3]),
                                ((5, 4, 3, 20), [2, 3]), ((5, 4, 3, 2), [0, 1, 2, 3]), ((5, 4, 3, 2), [0, 2, 3]), ((5, 4, 3, 2), [1, 2, 3]),
                                ((5, 4, 3, 10, 11), [1, 2]),
                                ((5, 4, 3, 20), [2, 3]), ((5, 4, 3, 2), [0, 1, 2, 3]), ((5, 4, 3, 2), [0, 2, 3]), ((5, 4, 3, 2), [1, 2, 3]),
 
-                               # test shape bigger then 4096 on each dimension to make sure that we work correctly when we don't have enough thread/block in each dimensions
+                               # tests shape bigger then 4096 on each dimension to make sure that we work correctly when we don't have enough thread/block in each dimensions
                                ((4100, 3), [0]), ((3, 4101), [0]),  # 10
                                ((1024, 33), [0]), ((33, 1024), [0]),  # 10
                                ((1025, 33), [0]), ((33, 1025), [0]),  # 10
@@ -117,7 +117,7 @@ def test_careduce():
                                ((4100, 4, 3), [0, 1, 2]), ((5, 4100, 3), [0, 1, 2]), ((5, 4, 4100), [0, 1, 2]),  # 111
                                ((65, 4, 3), [0, 1, 2]), ((5, 65, 3), [0, 1, 2]), ((5, 4, 65), [0, 1, 2]),  # 111
 
-                               # test pattern implemented by reshape
+                               # tests pattern implemented by reshape
                                ((4100, 4, 3, 2), [0]), ((4, 4100, 3, 2), [0]), ((4, 3, 4100, 2), [0]), ((4, 3, 2, 4100), [0]),  # 1000
                                ((4100, 4, 3, 2), [1]), ((4, 4100, 3, 2), [1]), ((4, 3, 4100, 2), [1]), ((4, 3, 2, 4100), [1]),  # 0100
                                ((4100, 4, 3, 2), [2]), ((4, 4100, 3, 2), [2]), ((4, 3, 4100, 2), [2]), ((4, 3, 2, 4100), [2]),  # 0010
@@ -216,7 +216,7 @@ def test_careduce():
             finally:
                 theano.tensor.basic.float32_rtol = orig_rtol
 
-            # test with dimshuffle
+            # tests with dimshuffle
             # we shuffle the 2 outer dims.
         for shape, pattern in [  # ((5,),[0]),
                                ((5, 4), [0, 1]), ((5, 4), [0]),
@@ -252,7 +252,7 @@ def test_careduce():
                                                 scalar_op,
                                                 sum([shape[i] for i in pattern]))
 
-            # test with broadcast
+            # tests with broadcast
         for shape, pattern in [((5,), [0]),
                                ((5, 4), [0, 1]), ((5, 4), [0]),
                                ((5, 4, 3), [0]), ((5, 4, 3), [0, 1]),
@@ -323,7 +323,7 @@ def test_reshape():
     assert any([isinstance(node.op, B.GpuReshape) for node in topo])
     assert numpy.all(fv == numpy.asarray([[0, 1, 2], [3, 4, 5]]))
 
-    # test that it works without inplace operations
+    # tests that it works without inplace operations
     a_val = cuda_ndarray.CudaNdarray(theano._asarray([0, 1, 2, 3, 4, 5],
                                                      dtype='float32'))
     a_val_copy = cuda_ndarray.CudaNdarray(theano._asarray([0, 1, 2, 3, 4, 5],
@@ -337,7 +337,7 @@ def test_reshape():
     assert numpy.all(f_sub(a_val, b_val) == 0.0)
     assert numpy.all(numpy.asarray(a_val) == numpy.asarray(a_val_copy))
 
-    # test that it works with inplace operations
+    # tests that it works with inplace operations
     a_val = theano._asarray([0, 1, 2, 3, 4, 5], dtype='float32')
     a_val_copy = theano._asarray([0, 1, 2, 3, 4, 5], dtype='float32')
     b_val = theano._asarray([[0, 1, 2], [3, 4, 5]], dtype='float32')
@@ -399,7 +399,7 @@ def test_alloc_empty():
 
 
 def test_elemwise_empty():
-    # test with 0 element
+    # tests with 0 element
     a = tcn.shared_constructor(theano._asarray(numpy.random.rand(0, 0),
                                                dtype='float32'), 'a')
 
@@ -546,7 +546,7 @@ def test_elemwise4():
 
 def test_elemwise_comparaison_cast():
     """
-    test if an elemwise comparaison followed by a cast to float32 are
+    tests if an elemwise comparaison followed by a cast to float32 are
     pushed to gpu.
     """
 
@@ -567,7 +567,7 @@ def test_elemwise_comparaison_cast():
 
 
 def test_elemwise_composite_float64():
-    # test that we don't fuse composite elemwise with float64 somewhere inside
+    # tests that we don't fuse composite elemwise with float64 somewhere inside
     # nvcc by default downcast them to float32. We would need to tell him not
     # to do so, but that possible only on some device.
     a = tensor.fmatrix()
@@ -656,7 +656,7 @@ def speed_elemwise_collapse():
 
 
 def speed_elemwise_collapse2():
-    """ used to test the speed up of the generalised collapse of
+    """ used to tests the speed up of the generalised collapse of
     ccontiguous dims"""
 
     shape = (30, 40, 50, 600)
@@ -988,7 +988,7 @@ class T_Join_and_Split(theano.tensor.tests.test_basic.T_Join_and_Split):
 
 
 import theano.tensor.tests.test_subtensor
-# This is to don't duplicate test.
+# This is to don't duplicate tests.
 
 
 class T_subtensor(theano.tensor.tests.test_subtensor.T_subtensor):
@@ -1049,7 +1049,7 @@ class T_subtensor(theano.tensor.tests.test_subtensor.T_subtensor):
                                                  -1, -2, -3, -4], False),
                                  ((1, 10), [0, 0], True),
                              ]:
-            # If there is not enough memory on the GPU, skip the test
+            # If there is not enough memory on the GPU, skip the tests
             size_needed = numpy.prod(shape) * (4 + 1)
             if isinstance(theano.compile.get_default_mode(),
                           theano.compile.DebugMode):
@@ -1178,9 +1178,9 @@ def test_set_subtensor():
 
 
 def test_many_arg_elemwise():
-    """this test checks whether the + and * elemwise ops can handle extremely large numbers of
+    """this tests checks whether the + and * elemwise ops can handle extremely large numbers of
     arguments on gpu
-    i.e., it is a test of the optimization theano/sandbox/cuda/opt.py:local_gpu_huge_add_or_mul """
+    i.e., it is a tests of the optimization theano/sandbox/cuda/opt.py:local_gpu_huge_add_or_mul """
     rng = numpy.random.RandomState([1, 2, 3])
 
     for num_args in [25]:
@@ -1196,23 +1196,23 @@ def test_many_arg_elemwise():
 
                 outputs = []
                 for mode in [mode_with_gpu, mode_without_gpu]:
-                    # test the optijmization local_gpu_elemwise_0
+                    # tests the optijmization local_gpu_elemwise_0
                     f = theano.function(
                         symb_args, op_to_test(*symb_args),
                         mode=mode.excluding("local_gpu_elemwise_1"))
                     outputs.append(f(*args))
-                    # assert that the test was done on the gpu.
+                    # assert that the tests was done on the gpu.
                     if mode is mode_with_gpu:
                         assert any([isinstance(node.op, cuda.GpuElemwise)
                                     for node in f.maker.fgraph.apply_nodes])
 
-                    # test the optijmization local_gpu_elemwise_1
+                    # tests the optijmization local_gpu_elemwise_1
                     f = theano.function(
                         symb_args,
                         cuda.gpu_from_host(op_to_test(*symb_args)),
                         mode=mode.excluding("local_gpu_elemwise_0"))
                     out = f(*args)
-                    # assert that the test was done on the gpu.
+                    # assert that the tests was done on the gpu.
                     if mode is mode_with_gpu:
                         assert any([isinstance(node.op, cuda.GpuElemwise)
                                     for node in f.maker.fgraph.apply_nodes])
@@ -1307,14 +1307,14 @@ class test_size(unittest.TestCase):
         assert y.size == theano.function([x], x.size)(y)
 
     def test_shared(self):
-        # NB: we also test higher order tensors at the same time.
+        # NB: we also tests higher order tensors at the same time.
         y = cuda.CudaNdarray.zeros((1, 2, 3, 4))
         x = cuda.shared_constructor(y)
         assert y.size == theano.function([], x.size)()
 
 
 import theano.tensor.tests.test_sharedvar
-# This test the case when the shared constructor view an CudaNdarray as input
+# This tests the case when the shared constructor view an CudaNdarray as input
 test_shared_options = theano.tensor.tests.test_sharedvar.makeSharedTester(
     shared_constructor_=tcn.shared_constructor,
     dtype_='float32',
@@ -1332,7 +1332,7 @@ test_shared_options = theano.tensor.tests.test_sharedvar.makeSharedTester(
     op_by_matrix_=True,
     name='test_shared_options')
 
-# This test the case when the shared constructor view an ndarray as input
+# This tests the case when the shared constructor view an ndarray as input
 test_shared_options2 = theano.tensor.tests.test_sharedvar.makeSharedTester(
     shared_constructor_=tcn.shared_constructor,
     dtype_='float32',

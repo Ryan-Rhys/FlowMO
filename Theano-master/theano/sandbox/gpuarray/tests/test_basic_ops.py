@@ -10,7 +10,7 @@ import theano.tensor as T
 from theano.tensor import TensorType
 from theano.tensor.basic import alloc
 
-# Don't import test classes otherwise they get tested as part of the file
+# Don't import tests classes otherwise they get tested as part of the file
 from theano.tensor.tests import test_basic
 from theano.tensor.tests.test_basic import rand, safe_make_node
 from theano.tests import unittest_tools as utt
@@ -135,7 +135,7 @@ def makeTester(name, op, gpu_op, cases, checks=None, mode_gpu=mode_with_gpu,
                     if isinstance(exc, type(ref_e)):
                         return
                     else:
-                        err_msg = ("Test %s::%s: exception raised during test "
+                        err_msg = ("Test %s::%s: exception raised during tests "
                                    "call was not the same as the reference "
                                    "call (got: %s, expected %s)" %
                                    (self.gpu_op, testname, type(exc),

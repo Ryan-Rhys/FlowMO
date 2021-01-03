@@ -1,8 +1,8 @@
-"""Some pickle test when pygpu isn't there. The test when pygpu is
+"""Some pickle tests when pygpu isn't there. The tests when pygpu is
 available are in test_type.py.
 
-This is needed as we skip all the test file when pygpu isn't there in
-regular test file.
+This is needed as we skip all the tests file when pygpu isn't there in
+regular tests file.
 
 """
 from __future__ import absolute_import, print_function, division
@@ -35,9 +35,9 @@ from .. import pygpu_activated  # noqa
 
 
 def test_unpickle_gpuarray_as_numpy_ndarray_flag1():
-    """Only test when pygpu isn't
+    """Only tests when pygpu isn't
     available. test_unpickle_gpuarray_as_numpy_ndarray_flag0 in
-    test_type.py test it when pygpu is there.
+    test_type.py tests it when pygpu is there.
 
     """
     if pygpu_activated:

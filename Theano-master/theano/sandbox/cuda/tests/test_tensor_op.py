@@ -1,5 +1,5 @@
 """
-This file test tensor op that should also operate on CudaNdaray.
+This file tests tensor op that should also operate on CudaNdaray.
 """
 from __future__ import absolute_import, print_function, division
 import copy
@@ -11,7 +11,7 @@ import theano
 from theano import tensor
 import theano.tensor as T
 
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 import theano.sandbox.cuda as cuda
 from theano.tensor.nnet.tests import test_conv3d2d
 if cuda.cuda_available == False:
@@ -82,7 +82,7 @@ def test_may_share_memory_cuda():
     ra = a.reshape((4, 3))
     rb = b.reshape((4, 3))
 
-    # can't test the transpose as ta._strides = is not implemented
+    # can't tests the transpose as ta._strides = is not implemented
     # manual transpose of a
     #ta = a.reshape((4,3))
     # ta._strides = (ta._strides[1],ta._strides[0])#not implemented
@@ -100,7 +100,7 @@ def test_may_share_memory_cuda():
         assert may_share_memory(a_, b_) == rep
         assert may_share_memory(b_, a_) == rep
 
-    # test that it raise error when needed.
+    # tests that it raise error when needed.
     for a_, b_, rep in [(a, (0,), False), (a, 1, False), (a, None, False)]:
         assert may_share_memory(a_, b_, False) == rep
         assert may_share_memory(b_, a_, False) == rep

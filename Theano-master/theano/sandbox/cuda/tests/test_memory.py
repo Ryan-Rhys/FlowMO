@@ -9,7 +9,7 @@ from theano import tensor
 from theano.sandbox import cuda
 from theano import ifelse
 
-# Skip test if cuda_ndarray is not available.
+# Skip tests if cuda_ndarray is not available.
 from nose.plugins.skip import SkipTest
 if cuda.cuda_available == False:
     raise SkipTest('Optional package cuda disabled')
@@ -52,14 +52,14 @@ def freemem(extra_alloc=0):
 
 def test_memory():
     """
-    We test that we do not keep link to memory between Theano function call
+    We tests that we do not keep link to memory between Theano function call
     and during Theano compilation
 
     The origin of this code come from Aaron Vandenoord and Sander Dieleman.
     I have their autorisation to put this in Theano with the Theano license.
 
     note::
-        This test can fail if there is other process running on the gpu.
+        This tests can fail if there is other process running on the gpu.
     """
     shapes = (200, 100)
     # more_alloc1 was different for each dtype in the past.
@@ -127,7 +127,7 @@ def test_memory():
 def test_memory_lazy():
     """As test_memory, but with the ifelse op.
 
-    We need to test it as the ifelse op with the [c]vm create op not
+    We need to tests it as the ifelse op with the [c]vm create op not
     executed in the graph. This mess with [c]vm gc implementation.
     """
     shapes = (50, 100)

@@ -19,11 +19,11 @@ __contact__ = "delallea@iro"
 Run this script to run tests in small batches rather than all at the same time
 or to conduct time-profiling.
 
-If no argument is provided, then the whole Theano test-suite is run.
+If no argument is provided, then the whole Theano tests-suite is run.
 Otherwise, only tests found in the directory given as argument are run.
 
 If 'time_profile=False', this script performs three tasks:
-    1. Run `nosetests --collect-only --with-id` to collect test IDs
+    1. Run `nosetests --collect-only --with-id` to collect tests IDs
     2. Run `nosetests --with-id i1 ... iN` with batches of 'batch_size'
        indices, until all tests have been run (currently batch_size=100 by
        default).
@@ -31,21 +31,21 @@ If 'time_profile=False', this script performs three tasks:
        => The output of this 3rd step is the one you should care about
 
 If 'time_profile=True', this script conducts time-profiling of the tests:
-    1. Run `nosetests --collect-only --with-id` to collect test IDs
-    2. Run `nosetests --with-id i`, one test with ID 'i' at a time, collecting
+    1. Run `nosetests --collect-only --with-id` to collect tests IDs
+    2. Run `nosetests --with-id i`, one tests with ID 'i' at a time, collecting
        timing information and displaying progresses on standard output after
        every group of 'batch_size' (100 by default), until all tests have
        been run.
        The results are deposited in the files 'timeprof_sort' and
        'timeprof_nosort' in the current directory. Both contain one record for
-       each test and comprise the following fields:
-       - test running-time
-       - nosetests sequential test number
-       - test name
-       - name of class to which test belongs (if any), otherwise full
-         information is contained in test name
-       - test outcome ('OK', 'SKIPPED TEST', 'FAILED TEST' or 'FAILED PARSING')
-       In 'timeprof_sort', test records are sorted according to run-time
+       each tests and comprise the following fields:
+       - tests running-time
+       - nosetests sequential tests number
+       - tests name
+       - name of class to which tests belongs (if any), otherwise full
+         information is contained in tests name
+       - tests outcome ('OK', 'SKIPPED TEST', 'FAILED TEST' or 'FAILED PARSING')
+       In 'timeprof_sort', tests records are sorted according to run-time
        whereas in 'timeprof_nosort' records are reported according to
        sequential number. The former classification is the main information
        source for time-profiling. Since tests belonging to same or close
@@ -57,7 +57,7 @@ One reason to use this script is if you are a Windows user, and see errors like
 "Not enough storage is available to process this command" when trying to simply
 run `nosetests` in your Theano installation directory. This error is apparently
 caused by memory fragmentation: at some point Windows runs out of contiguous
-memory to load the C modules compiled by Theano in the test-suite.
+memory to load the C modules compiled by Theano in the tests-suite.
 
 By using this script, nosetests is run on a small subset (batch) of tests until
 all tests are run. Note that this is slower, in particular because of the
@@ -131,7 +131,7 @@ def run(stdout, stderr, argv, theano_nose, batch_size, time_profile,
     if os.path.isfile('.noseids'):
         os.remove('.noseids')
 
-    # Collect test IDs.
+    # Collect tests IDs.
     print("""\
 ####################
 # COLLECTING TESTS #
@@ -159,7 +159,7 @@ def run(stdout, stderr, argv, theano_nose, batch_size, time_profile,
     ids = data['ids']
     n_tests = len(ids)
     if n_tests == 0:
-        raise Exception("0 test selected")
+        raise Exception("0 tests selected")
     assert n_tests == max(ids)
 
     # Standard batch testing is called for
@@ -192,7 +192,7 @@ def run(stdout, stderr, argv, theano_nose, batch_size, time_profile,
             t0 = time.time()
             subprocess.call(cmd, **subprocess_extra_args)
             t1 = time.time()
-            # Recover failed test indices from the 'failed' field of the
+            # Recover failed tests indices from the 'failed' field of the
             # '.noseids' file. We need to do it after each batch because
             # otherwise this field may get erased. We use a set because it
             # seems like it is not systematically erased though, and we want
@@ -258,7 +258,7 @@ def run(stdout, stderr, argv, theano_nose, batch_size, time_profile,
 
         stamp = str(datetime.datetime.now()) + '\n\n'
         fields = ('Fields: computation time; nosetests sequential id;'
-                  ' test name; parent class (if any); outcome\n\n')
+                  ' tests name; parent class (if any); outcome\n\n')
         path_nosort = os.path.join(sav_dir, 'timeprof_nosort')
         # probably this part can be extracted for function with many args
         with open(path_nosort, 'w') as f_nosort:
@@ -269,9 +269,9 @@ def run(stdout, stderr, argv, theano_nose, batch_size, time_profile,
             for test_floor in xrange(1, n_tests + 1, batch_size):
                 for test_id in xrange(test_floor, min(test_floor + batch_size,
                                                       n_tests + 1)):
-                    # Print the test we will start in the raw log to help
+                    # Print the tests we will start in the raw log to help
                     # debug tests that are too long.
-                    f_rawlog.write("\n%s Will run test #%d %s\n" % (
+                    f_rawlog.write("\n%s Will run tests #%d %s\n" % (
                         time.ctime(), test_id, data["ids"][test_id]))
                     f_rawlog.flush()
 
@@ -281,7 +281,7 @@ def run(stdout, stderr, argv, theano_nose, batch_size, time_profile,
                                                      ['--disabdocstring']))
                     # the previous option calls a custom Nosetests plugin
                     # precluding automatic sustitution of doc. string for
-                    # test name in display
+                    # tests name in display
                     # (see class 'DisabDocString' in file theano-nose)
 
                     # recovering and processing data from pipe
@@ -320,7 +320,7 @@ def run(stdout, stderr, argv, theano_nose, batch_size, time_profile,
                         prof_time = 0
                         prof_id = '#' + str(test_id)
                         prof_test = ('FAILED PARSING, see raw log for details'
-                                     ' on test')
+                                     ' on tests')
                         prof_pass = ''
                     prof_tuple = (prof_time, prof_id, prof_test, prof_pass)
 

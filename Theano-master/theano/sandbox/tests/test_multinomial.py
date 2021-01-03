@@ -78,7 +78,7 @@ def test_n_samples_2():
 
 def test_n_samples_compatibility():
     """
-    This test checks if the new change to MultinomialFromUniform is still compatible
+    This tests checks if the new change to MultinomialFromUniform is still compatible
     with old interface. Here I will load a graph created (using the old interface) as follows:
     RandomStreams = theano.sandbox.rng_mrg.MRG_RandomStreams
     th_rng = RandomStreams(12345)
@@ -129,15 +129,15 @@ def test_multinomial_0():
             assert any([type(node.op) is multinomial.GpuMultinomialFromUniform
                         for node in f.maker.fgraph.toposort()])
 
-        # test that both first and second samples can be drawn
+        # tests that both first and second samples can be drawn
         utt.assert_allclose(f([[1, 0], [0, 1]], [.1, .1]),
                             [[2, 0], [0, 2]])
 
-        # test that both second labels can be drawn
+        # tests that both second labels can be drawn
         r = f([[.2, .8], [.3, .7]], [.31, .31])
         utt.assert_allclose(r, [[0, 2], [0, 2]])
 
-        # test that both first labels can be drawn
+        # tests that both first labels can be drawn
         r = f([[.2, .8], [.3, .7]], [.21, .21])
         utt.assert_allclose(r, [[0, 2], [2, 0]])
 
@@ -154,7 +154,7 @@ def test_multinomial_0():
 
 # TODO: check a bigger example (make sure blocking on GPU is handled correctly)
 def test_multinomial_large():
-    # DEBUG_MODE will test this on GPU
+    # DEBUG_MODE will tests this on GPU
     def body(mode, gpu):
         p = tensor.fmatrix()
         u = tensor.fvector()
@@ -205,11 +205,11 @@ def test_multinomial_dtypes():
 
 def test_gpu_opt():
     if not cuda.cuda_available:
-        # Skip test if cuda_ndarray is not available.
+        # Skip tests if cuda_ndarray is not available.
         from nose.plugins.skip import SkipTest
         raise SkipTest('Optional package cuda not available')
 
-    # We test the case where we put the op on the gpu when the output
+    # We tests the case where we put the op on the gpu when the output
     # is moved to the gpu.
     p = tensor.fmatrix()
     u = tensor.fvector()

@@ -81,7 +81,7 @@ def detect_macos_sdot_bug():
         }
         """)
 
-    _logger.debug('Trying to compile and run test case.')
+    _logger.debug('Trying to compile and run tests case.')
     compilation_ok, run_ok = GCC_compiler.try_compile_tmp(
         test_code,
         tmp_prefix='detect_macos_sdot_bug_',
@@ -91,7 +91,7 @@ def detect_macos_sdot_bug():
     # If compilation failed, we consider there is a bug,
     # and the fix does not work
     if not compilation_ok:
-        _logger.info('Could not compile test case for sdot_.')
+        _logger.info('Could not compile tests case for sdot_.')
         detect_macos_sdot_bug.present = True
         return True
 

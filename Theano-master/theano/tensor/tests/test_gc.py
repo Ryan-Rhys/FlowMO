@@ -115,7 +115,7 @@ def test_merge_opt_runtime():
     f = theano.function([x], r, mode='FAST_COMPILE')
     # FAST_RUN does in-place optimizer which requires a lot of
     # toposorting, which is actually pretty slow at the moment.  This
-    # test was designed to test MergeOptimizer... so I'm leaving
+    # tests was designed to tests MergeOptimizer... so I'm leaving
     # toposort optimizations for a later date.
     dt = time.time() - t
 

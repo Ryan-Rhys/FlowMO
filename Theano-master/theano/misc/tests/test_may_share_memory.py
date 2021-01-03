@@ -1,5 +1,5 @@
 """
-test the tensor and sparse type. The CudaNdarray type is tested in
+tests the tensor and sparse type. The CudaNdarray type is tested in
 sandbox/cuda/tests/test_tensor_op.py.test_may_share_memory_cuda
 """
 from __future__ import absolute_import, print_function, division
@@ -36,7 +36,7 @@ def test_may_share_memory():
         assert may_share_memory(a_, b_, False) == rep
         assert may_share_memory(b_, a_, False) == rep
 
-    # test that it raise error when needed.
+    # tests that it raise error when needed.
     for a_, b_, rep in [(a, (0,), False), (a, 1, False), (a, None, False), ]:
         assert may_share_memory(a_, b_, False) == rep
         assert may_share_memory(b_, a_, False) == rep
@@ -73,7 +73,7 @@ if scipy_imported:
             assert may_share_memory(a_, b_) == rep
             assert may_share_memory(b_, a_) == rep
 
-        # test that it raise error when needed.
+        # tests that it raise error when needed.
         for a_, b_, rep in [(a, (0,), False), (a, 1, False), (a, None, False)]:
             assert may_share_memory(a_, b_, False) == rep
             assert may_share_memory(b_, a_, False) == rep

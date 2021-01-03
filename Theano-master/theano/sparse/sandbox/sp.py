@@ -316,7 +316,7 @@ def convolve(kerns, kshp, nkern, images, imgshp, step=(1, 1), bias=None,
     :return: out1, symbolic result
     :return: out2, logical shape of the output img (nkern,heigt,width)
 
-    :TODO: test for 1D and think of how to do n-d convolutions
+    :TODO: tests for 1D and think of how to do n-d convolutions
     """
     N = numpy
     # start by computing output dimensions, size, etc

@@ -46,7 +46,7 @@ def sharedX(x, name):
 
 
 class t_gemm(TestCase):
-    """This test suite is supposed to establish that gemm works as it
+    """This tests suite is supposed to establish that gemm works as it
     is supposed to.
 
     """
@@ -177,7 +177,7 @@ class t_gemm(TestCase):
         lr2 = T.constant(2).astype(config.floatX)
         l2_reg = T.constant(0.0001).astype(config.floatX)
 
-        # test constant merge with gemm
+        # tests constant merge with gemm
         f = theano.function([a, b], updates=[(s, lr1 * T.dot(a, b) +
                                                 l2_reg * lr2 * s)],
                             mode=mode_not_fast_compile).maker.fgraph.toposort()
@@ -187,7 +187,7 @@ class t_gemm(TestCase):
         assert len(f) == 1
         assert f[0].op == gemm_inplace
 
-        # test factored scalar with merge
+        # tests factored scalar with merge
         f = theano.function([a, b], updates=[(s, lr1 * (T.dot(a, b) -
                                                         l2_reg * s))],
                             mode=mode_not_fast_compile).maker.fgraph.toposort()
@@ -197,7 +197,7 @@ class t_gemm(TestCase):
         assert len(f) == 1
         assert f[0].op == gemm_inplace
 
-        # test factored scalar with merge and neg
+        # tests factored scalar with merge and neg
         f = theano.function([a, b],
                             updates=[(s, s - lr1 * (s * .0002 + T.dot(a, b)))],
                             mode=mode_not_fast_compile).maker.fgraph.toposort()
@@ -208,7 +208,7 @@ class t_gemm(TestCase):
         assert f[0].op == gemm_inplace
 
     def test_destroy_map0(self):
-        """test that only first input can be overwritten"""
+        """tests that only first input can be overwritten"""
         Z = as_tensor_variable(self.rand(2, 2))
         try:
             gemm_inplace(Z, 1.0, Z, Z, 1.0)
@@ -218,7 +218,7 @@ class t_gemm(TestCase):
         self.fail()
 
     def test_destroy_map1(self):
-        """test that only first input can be overwritten"""
+        """tests that only first input can be overwritten"""
         Z = as_tensor_variable(self.rand(2, 2))
         A = as_tensor_variable(self.rand(2, 2))
         try:
@@ -229,7 +229,7 @@ class t_gemm(TestCase):
         self.fail()
 
     def test_destroy_map2(self):
-        """test that only first input can be overwritten"""
+        """tests that only first input can be overwritten"""
         Z = as_tensor_variable(self.rand(2, 2))
         A = as_tensor_variable(self.rand(2, 2))
         try:
@@ -240,7 +240,7 @@ class t_gemm(TestCase):
         self.fail()
 
     def test_destroy_map3(self):
-        """test that only first input can be overwritten"""
+        """tests that only first input can be overwritten"""
         Z = as_tensor_variable(self.rand(2, 2))
         A = as_tensor_variable(self.rand(2, 2))
         try:
@@ -251,7 +251,7 @@ class t_gemm(TestCase):
         self.fail()
 
     def test_destroy_map4(self):
-        """test that dot args can be aliased"""
+        """tests that dot args can be aliased"""
         Z = shared(self.rand(2, 2), name='Z')
         A = shared(self.rand(2, 2), name='A')
         one = T.constant(1.0).astype(Z.dtype)
@@ -292,7 +292,7 @@ class t_gemm(TestCase):
             tx.set_value(y_T, borrow=True)
 
             f()
-            # test that the transposed version of multiplication gives
+            # tests that the transposed version of multiplication gives
             # same answer
             unittest_tools.assert_allclose(z_after, tz.get_value(borrow=True).T)
 
@@ -438,7 +438,7 @@ def fail(msg):
     assert False
 
 
-"""This test suite ensures that Gemm is inserted where it belongs, and
+"""This tests suite ensures that Gemm is inserted where it belongs, and
 that the resulting functions compute the same things as the
 originals.
 
@@ -709,7 +709,7 @@ def test_gemm_opt_wishlist():
 
 def test_gemm_with_vector():
     """Many subgraphs whose dots can be eliminated.  This adds a
-    vector two the previous test, which triggers the long-sought GEMM
+    vector two the previous tests, which triggers the long-sought GEMM
     bug.
 
     """
@@ -753,7 +753,7 @@ def test_gemm_opt_vector_stuff():
 
 
 def test_gemm_unrolled():
-    """This test that the gemm optimizer remove the dot22 that was
+    """This tests that the gemm optimizer remove the dot22 that was
     present in the graph. Otherwise, this add a gemm, but still
     compute the dot22.
 
@@ -993,7 +993,7 @@ def test_dot22scalar_cast():
     """
     Test that in `dot22_to_dot22scalar` we properly cast integers to floats.
     """
-    # Note that this test was failing before d5ff6904.
+    # Note that this tests was failing before d5ff6904.
     A = T.dmatrix()
     for scalar_int_type in T.int_dtypes:
         y = T.scalar(dtype=scalar_int_type)
@@ -1011,7 +1011,7 @@ def test_dot22scalar_cast():
 
 def test_local_dot22_to_dot22scalar():
     """
-    This test that the bug in gh-1507 is really fixed
+    This tests that the bug in gh-1507 is really fixed
     """
     A = T.dmatrix()
     mode = theano.compile.mode.get_default_mode()
@@ -1141,7 +1141,7 @@ class TestGemv(TestCase, unittest_tools.TestOptimizationMixin):
 
     @staticmethod
     def t_gemv1(m_shp):
-        ''' test vector2+dot(matrix,vector1) '''
+        ''' tests vector2+dot(matrix,vector1) '''
         rng = numpy.random.RandomState(unittest_tools.fetch_seed())
         v1 = theano.shared(numpy.array(rng.uniform(size=(m_shp[1],)
             ), dtype='float32'))
@@ -1160,7 +1160,7 @@ class TestGemv(TestCase, unittest_tools.TestOptimizationMixin):
         assert isinstance(topo[0].op, Gemv)
         assert topo[0].op.inplace == False
 
-        # test the inplace version
+        # tests the inplace version
         g = theano.function([], [], updates=[(v2, v2 + theano.dot(m, v1))],
                             mode=mode_blas_opt)
 
@@ -1193,7 +1193,7 @@ class TestGemv(TestCase, unittest_tools.TestOptimizationMixin):
         self.t_gemv1((0, 0))
 
     def test_gemv2(self):
-        ''' test vector2+dot(vector1,matrix) '''
+        ''' tests vector2+dot(vector1,matrix) '''
         rng = numpy.random.RandomState(unittest_tools.fetch_seed())
         v1 = theano.shared(numpy.array(rng.uniform(size=(2,)),
              dtype='float32'))
@@ -1211,7 +1211,7 @@ class TestGemv(TestCase, unittest_tools.TestOptimizationMixin):
         assert sum(isinstance(node.op, Gemv) for node in topo) == 1
         assert topo[-1].op.inplace == False
 
-        # test the inplace version
+        # tests the inplace version
         g = theano.function([], [], updates=[(v2, v2 + theano.dot(v1, m))],
                             mode=mode_blas_opt)
 
@@ -1236,7 +1236,7 @@ class TestGemv(TestCase, unittest_tools.TestOptimizationMixin):
                 numpy.dot(v1.get_value(), m.get_value()) + v2_orig)
 
     def test_gemv_broadcast(self):
-        ''' test gemv with some broadcasted input '''
+        ''' tests gemv with some broadcasted input '''
         rng = numpy.random.RandomState(unittest_tools.fetch_seed())
         v1 = theano.shared(numpy.array(rng.uniform(size=(2,)),
                                        dtype='float32'))
@@ -1496,7 +1496,7 @@ class BaseGemv(object):
     def test_upcasting_scalar_nogemv(self):
         # Test that the optimization does not crash when the scale has
         # an incorrect dtype, and forces upcasting of the result
-        # We put this test in this class to test it on the gpu too.
+        # We put this tests in this class to tests it on the gpu too.
         vs = self.get_data()
         alpha_v, beta_v, a_v, x_v, y_v = vs
         alpha_v = alpha_v.astype("float64")
@@ -1654,28 +1654,28 @@ class TestGer(TestCase, unittest_tools.TestOptimizationMixin):
         return T.as_tensor_variable(numpy.asarray(bval, dtype=self.dtype))
 
     def test_b_0_triggers_ger(self):
-        """ test local_gemm_to_ger opt"""
+        """ tests local_gemm_to_ger opt"""
         assert T.blas.local_gemm_to_ger.transform(
                 gemm_no_inplace(
                     self.A, self.a, self.x.dimshuffle(0, 'x'),
                     self.y.dimshuffle('x', 0), self.b(0)).owner)
 
     def test_b_1_triggers_ger(self):
-        """ test local_gemm_to_ger opt"""
+        """ tests local_gemm_to_ger opt"""
         assert T.blas.local_gemm_to_ger.transform(
                 gemm_no_inplace(
                     self.A, self.a, self.x.dimshuffle(0, 'x'),
                     self.y.dimshuffle('x', 0), self.b(1)).owner)
 
     def test_b_other_does_not_triggers_ger(self):
-        """ test local_gemm_to_ger opt"""
+        """ tests local_gemm_to_ger opt"""
         assert not T.blas.local_gemm_to_ger.transform(
                 gemm_no_inplace(
                     self.A, self.a, self.x.dimshuffle(0, 'x'),
                     self.y.dimshuffle('x', 0), self.b(1.5)).owner)
 
     def test_b_nonconst_does_not_triggers_ger(self):
-        """ test local_gemm_to_ger opt"""
+        """ tests local_gemm_to_ger opt"""
         assert not T.blas.local_gemm_to_ger.transform(
                 gemm_no_inplace(
                     self.A, self.a, self.x.dimshuffle(0, 'x'),
@@ -1714,7 +1714,7 @@ class TestGer(TestCase, unittest_tools.TestOptimizationMixin):
                           numpy.asarray(0.2, self.dtype) * self.A +
                           numpy.asarray(0.1, self.dtype) * T.outer(
                 self.x, self.y))
-        # Why gemm? This make the graph simpler did we test that it
+        # Why gemm? This make the graph simpler did we tests that it
         # make it faster?
         self.assertFunctionContains(f, self.gemm)
         f(numpy.random.rand(5, 4).astype(self.dtype),
@@ -1725,7 +1725,7 @@ class TestGer(TestCase, unittest_tools.TestOptimizationMixin):
           numpy.random.rand(4).astype(self.dtype))
 
     def given_dtype(self, dtype, M, N):
-        """ test corner case shape and dtype"""
+        """ tests corner case shape and dtype"""
 
         f = self.function([self.A, self.x, self.y],
                 self.A + 0.1 * T.outer(self.x, self.y))

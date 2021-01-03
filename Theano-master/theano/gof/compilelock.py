@@ -326,7 +326,7 @@ def refresh_lock(lock_file):
         # In some strange case, this happen.  To prevent all tests
         # from failing, we release the lock, but as there is a
         # problem, we still keep the original exception.
-        # This way, only 1 test would fail.
+        # This way, only 1 tests would fail.
         while get_lock.n_lock > 0:
             release_lock()
         _logger.warn('Refreshing lock failed, we release the'

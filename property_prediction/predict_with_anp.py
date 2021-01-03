@@ -21,8 +21,8 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
     :param path: str specifying the path to the dataset csv file
     :param representation: str specifying the representation. One of [fingerprints, fragments, fragprints]
     :param use_pca: bool specifying whether or not to use PCA to perform Principal Components Regression
-    :param n_trials: int specifying the number of random train/test splits.
-    :param test_set_size: float specifying the train/test split ratio. e.g. 0.2 is 80/20 train/test split
+    :param n_trials: int specifying the number of random train/tests splits.
+    :param test_set_size: float specifying the train/tests split ratio. e.g. 0.2 is 80/20 train/tests split
     :param batch_size: int specifying the number of samples to take of the context set, given the number of
     context points that should be selected.
     :param lr: float specifying the learning rate.
@@ -55,7 +55,7 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
 
     # We pre-allocate arrays for plotting confidence-error curves
 
-    _, _, _, y_test = train_test_split(X, y, test_size=test_set_size)  # To get test set size
+    _, _, _, y_test = train_test_split(X, y, test_size=test_set_size)  # To get tests set size
 
     # Photoswitch dataset requires 80/20 splitting. Other datasets are 80/10/10.
 
@@ -80,7 +80,7 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_set_size, random_state=i)
 
         if task != 'Photoswitch':
-            # Artificially create a 80/10/10 train/validation/test split discarding the validation set.
+            # Artificially create a 80/10/10 train/validation/tests split discarding the validation set.
             split_in_two = int(len(y_test) / 2)
             X_test = X_test[0:split_in_two]
             y_test = y_test[0:split_in_two]
@@ -112,7 +112,7 @@ def main(task, path, representation, use_pca, n_trials, test_set_size, batch_siz
 
         m.train(X_train, y_train, batch_size=32, iterations=500, print_freq=None)
 
-        # Now, the context set comprises the training x / y values, the target set comprises the test x values.
+        # Now, the context set comprises the training x / y values, the target set comprises the tests x values.
 
         y_pred, y_var = m.predict(X_train, y_train, X_test, n_samples=100)
 
@@ -246,9 +246,9 @@ if __name__ == '__main__':
     parser.add_argument('-pca', '--use_pca', type=bool, default=False,
                         help='If true, apply PCA to data (50 components).')
     parser.add_argument('-n', '--n_trials', type=int, default=20,
-                        help='Number of train test splits to try.')
+                        help='Number of train tests splits to try.')
     parser.add_argument('-ts', '--test_set_size', type=float, default=0.2,
-                        help='Fraction of Dataset to use as test set.')
+                        help='Fraction of Dataset to use as tests set.')
     parser.add_argument('-b', '--batch_size', type=int, default=10,
                         help='The number of samples to take of the context set, given the number of'
                              ' context points that should be selected.')

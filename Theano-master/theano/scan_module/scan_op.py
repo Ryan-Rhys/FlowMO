@@ -2189,7 +2189,7 @@ class Scan(PureOp):
             # Here we tests that the new scan input sequence all have
             # the same shape[0]. This is a properties that the scan()
             # fct add and we want to keep it for all Scan op.  This is
-            # used in T_Scan.test_grad_multiple_outs_taps to test
+            # used in T_Scan.test_grad_multiple_outs_taps to tests
             # that.
             for taps, x in zip(self.mitsot_taps(),
                                self.outer_mitsot_outs(outs)):

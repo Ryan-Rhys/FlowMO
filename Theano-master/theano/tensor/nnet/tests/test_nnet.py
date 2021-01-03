@@ -121,7 +121,7 @@ class T_SoftmaxWithBias(utt.InferShapeTester):
                         numpy.random.rand(4)])
 
     def test_broadcast(self):
-        # test that we don't raise an error during optimization for no good
+        # tests that we don't raise an error during optimization for no good
         # reason as softmax_with_bias don't support correctly some/all
         # broadcasted inputs pattern
         initial_W = numpy.asarray([[0.1, 0.1, 0.1],
@@ -395,7 +395,7 @@ class T_CrossentropySoftmaxArgmax1HotWithBias(utt.InferShapeTester):
         n_classes = 5
         n_samples = 3
 
-        # First test gradient when getting a gradient on the NLL output.
+        # First tests gradient when getting a gradient on the NLL output.
         def grad_on_nll_dtype(dtype):
             def grad_on_nll(x, b):
                 y_idx = numpy.random.randint(low=0, high=n_classes, size=n_samples).astype(dtype)
@@ -406,7 +406,7 @@ class T_CrossentropySoftmaxArgmax1HotWithBias(utt.InferShapeTester):
                             [numpy.random.rand(n_samples, n_classes),
                              numpy.random.rand(n_classes)])
 
-        # Then test gradient when getting a gradient on the softmax output.
+        # Then tests gradient when getting a gradient on the softmax output.
         def grad_on_softmax(x, b):
             return self.op(x, b, y_idx=numpy.random.randint(
                 low=0, high=n_classes, size=n_samples))[1]
@@ -1208,7 +1208,7 @@ class T_CrossentropyCategorical1Hot(utt.InferShapeTester):
             assert has_softmax
             assert not has_softmaxdx
 
-        # Cases to test
+        # Cases to tests
         expressions = [
                 a * T.sum(-T.log(softmax(x)[T.arange(y.shape[0]), y])),
                 -a * T.sum(T.log(softmax(x)[T.arange(y.shape[0]), y])),
@@ -1267,7 +1267,7 @@ class T_CrossentropyCategorical1Hot(utt.InferShapeTester):
 def test_argmax_pushdown():
     x = tensor.matrix()
     for sm in [softmax_graph, softmax_op]:
-        # test that the max_and_argmax is pushed down if the max is not used
+        # tests that the max_and_argmax is pushed down if the max is not used
         out = tensor.max_and_argmax(
                 sm(tensor.exp(tensor.tanh(sigmoid(x)))),
                 axis=-1)[1]
@@ -1284,7 +1284,7 @@ def test_argmax_pushdown():
         assert fgraph.toposort()[0].op == tensor.basic._max_and_argmax
         assert str(fgraph.toposort()[1].op) == 'OutputGuard'
         x = tensor.matrix()
-        # test that the max_and_argmax is not pushed down if the max is used
+        # tests that the max_and_argmax is not pushed down if the max is used
         out = tensor.max_and_argmax(
                 sm(tensor.exp(tensor.tanh(sigmoid(x)))),
                 axis=-1)[0]
@@ -1364,12 +1364,12 @@ def test_argmax_pushdown_bias():
 
 def test_asymptotic_32():
     """
-    This test makes sure that our functions behave sensibly when
+    This tests makes sure that our functions behave sensibly when
     huge values are present
     """
 
     # TODO: consider adding the optimization of crossentropy into the current
-    # mode for the purpose of running this test
+    # mode for the purpose of running this tests
 
     for dtype in 'float32', 'float64':
         if dtype == 'float32':
@@ -1430,7 +1430,7 @@ class Test_softmax_opt:
         c = T.matrix()
         p_y = T.exp(c) / T.exp(c).sum(axis=1).dimshuffle(0, 'x')
 
-        # test that function contains softmax and no div.
+        # tests that function contains softmax and no div.
         f = theano.function([c], p_y, mode=self.mode)
 
         assert hasattr(f.maker.fgraph.outputs[0].tag, 'trace')
@@ -1447,7 +1447,7 @@ class Test_softmax_opt:
         c = T.matrix()
         p_y = T.exp(c) / T.exp(c).sum(axis=1, keepdims=True)
 
-        # test that function contains softmax and no div.
+        # tests that function contains softmax and no div.
         f = theano.function([c], p_y, mode=self.mode)
 
         assert hasattr(f.maker.fgraph.outputs[0].tag, 'trace')
@@ -1464,7 +1464,7 @@ class Test_softmax_opt:
         c = T.matrix()
         p_y = T.exp(c) / T.exp(c).sum(axis=1).dimshuffle(0, 'x')
 
-        # test that function contains softmax and softmaxgrad
+        # tests that function contains softmax and softmaxgrad
         w = T.matrix()
         backup = config.warn.sum_div_dimshuffle_bug
         config.warn.sum_div_dimshuffle_bug = False
@@ -1489,11 +1489,11 @@ class Test_softmax_opt:
         c = T.matrix()
         p_y = T.exp(c) / T.exp(c).sum(axis=0)
 
-        # test that function contains softmax and no div.
+        # tests that function contains softmax and no div.
         f = theano.function([c], p_y)
         # printing.debugprint(f)
 
-        # test that function contains softmax and no div.
+        # tests that function contains softmax and no div.
         backup = config.warn.sum_div_dimshuffle_bug
         config.warn.sum_div_dimshuffle_bug = False
         try:
@@ -1509,12 +1509,12 @@ class Test_softmax_opt:
         c = T.vector()
         p_y = T.exp(c) / T.exp(c).sum()
 
-        # test that function contains softmax and no div.
+        # tests that function contains softmax and no div.
         f = theano.function([c], p_y)
         hasattr(f.maker.fgraph.outputs[0].tag, 'trace')
         # printing.debugprint(f)
 
-        # test that function contains softmax and no div.
+        # tests that function contains softmax and no div.
         backup = config.warn.sum_div_dimshuffle_bug
         config.warn.sum_div_dimshuffle_bug = False
         try:
@@ -1577,16 +1577,16 @@ def test_relu():
     rng = numpy.random.RandomState(seed)
     X = rng.randn(20, 30).astype(config.floatX)
 
-    # test the base case, without custom alpha value
+    # tests the base case, without custom alpha value
     y = relu(x).eval({x: X})
     assert numpy.allclose(y, numpy.maximum(X, 0))
 
-    # test for different constant alpha values (also outside of [0, 1])
+    # tests for different constant alpha values (also outside of [0, 1])
     for alpha in 0, 0.3, 1, 2, -0.3, -1, -2:
         y = relu(x, alpha).eval({x: X})
         assert numpy.allclose(y, numpy.where(X > 0, X, alpha * X))
 
-    # test for variable alpha (scalar, vector and matrix)
+    # tests for variable alpha (scalar, vector and matrix)
     for alpha in scalar(), vector(), matrix():
         # create value for alpha (correct ndim and broadcastable against X)
         A = numpy.array(rng.randn(*X.shape[::-1][:alpha.ndim][::-1]),
@@ -1677,11 +1677,11 @@ def test_elu():
     rng = numpy.random.RandomState(seed)
     X = rng.randn(20, 30).astype(config.floatX)
 
-    # test the base case, without custom alpha value
+    # tests the base case, without custom alpha value
     y = elu(x).eval({x: X})
     utt.assert_allclose(y, numpy.where(X > 0, X, numpy.exp(X) - 1))
 
-    # test for different constant alpha values
+    # tests for different constant alpha values
     for alpha in 1.5, 2, -1, -1.5, -2:
         y = elu(x, alpha).eval({x: X})
         utt.assert_allclose(y, numpy.where(X > 0, X, alpha * (numpy.exp(X) - 1)))

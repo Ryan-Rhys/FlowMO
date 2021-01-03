@@ -327,7 +327,7 @@ class T_function(unittest.TestCase):
                 assert z_rpl.get_value() == 8
                 assert y_rpl.get_value() == 3
 
-            # test cpy function:
+            # tests cpy function:
             # 2. SharedVariable is updatable -> values did update(z == 5)
             # 1. sharedvariable is swap ->  Rpl sharedvariables share storage
             names = map_SV.keys()
@@ -341,7 +341,7 @@ class T_function(unittest.TestCase):
     def test_swap_SharedVariable_with_given(self):
         """
         A special testcase for logistic_sgd.py in Deep Learning Tutorial
-        This test assert that SharedVariable in different function have same storage
+        This tests assert that SharedVariable in different function have same storage
         """
         train_x = theano.shared(value=numpy.random.rand(10, 10).astype(config.floatX))
         test_x = theano.shared(value=numpy.random.rand(10, 10).astype(config.floatX))
@@ -352,7 +352,7 @@ class T_function(unittest.TestCase):
         i = T.iscalar('index')
         x = T.vector('x')
         y = T.vector('y')
-        # this formular has no sense but for a test
+        # this formular has no sense but for a tests
         out = (T.sum(x) - y) ** 2
         train = theano.function([i], out,
                                 givens={x: train_x[i], y: train_y[i]},
@@ -437,9 +437,9 @@ class T_function(unittest.TestCase):
         self.assertTrue(g[s] == 4)
 
     def test_shared_state_not_implicit(self):
-        # This test is taken from the documentation in
+        # This tests is taken from the documentation in
         # doc/topics/function.txt. If it does not pass anymore and yet the
-        # behavior is still intended the doc and the test should both be
+        # behavior is still intended the doc and the tests should both be
         # updated accordingly.
         x, s = T.scalars('xs')
         inc = function([x, In(s, update=(s + x), value=10.0)], [])
@@ -492,12 +492,12 @@ class T_function(unittest.TestCase):
         a = T.dmatrix()
         aval = numpy.random.rand(3, 3)
 
-        # when borrow=False, test that a destroy map cannot alias output to input
+        # when borrow=False, tests that a destroy map cannot alias output to input
         f = theano.function([In(a, borrow=False)], Out(a + 1, borrow=True))
         assert numpy.all(f(aval) == aval + 1)
         assert not numpy.may_share_memory(aval, f(aval))
 
-        # when borrow=False, test that a viewmap cannot alias output to input
+        # when borrow=False, tests that a viewmap cannot alias output to input
         f = theano.function([In(a, borrow=False)], Out(a[0, :], borrow=True))
         assert numpy.all(f(aval) == aval[0, :])
         assert not numpy.may_share_memory(aval, f(aval))
@@ -550,7 +550,7 @@ class T_function(unittest.TestCase):
 
     def test_free(self):
         """
-        Make test on free() function
+        Make tests on free() function
         """
         x = T.vector('x')
         func = function([x], x + 1)
@@ -646,7 +646,7 @@ class T_picklefunction(unittest.TestCase):
                       In(s, value=0.0, update=s + a * x, mutable=True)], s + a * x)
 
         try:
-            # Note that here we also test protocol 0 on purpose, since it
+            # Note that here we also tests protocol 0 on purpose, since it
             # should work (even though one should not use it).
             g = pickle.loads(pickle.dumps(f, protocol=0))
             g = pickle.loads(pickle.dumps(f, protocol=-1))
@@ -757,7 +757,7 @@ class T_picklefunction(unittest.TestCase):
             else:
                 raise
 
-        # now test our recovered new_list_of_things
+        # now tests our recovered new_list_of_things
         # it should be totally unrelated to the original
         # it should be interdependent in the same way as the original
 
@@ -875,7 +875,7 @@ class SomethingToPickle(object):
 
 def test_empty_givens_updates():
     """
-    Regression test for bug fixed in 8625e03.
+    Regression tests for bug fixed in 8625e03.
     """
     # Empty givens / updates dictionaries were not properly detected before,
     # triggering useless crashes at compile time.

@@ -487,7 +487,7 @@ def scan(fn,
                         if config.compute_test_value != 'ignore':
                             # No need to print a warning or raise an error now,
                             # it will be done when fn will be called.
-                            _logger.info(('Cannot compute test value for '
+                            _logger.info(('Cannot compute tests value for '
                                 'the inner function of scan, input value '
                                 'missing %s'), e)
 
@@ -617,7 +617,7 @@ def scan(fn,
                     if config.compute_test_value != 'ignore':
                         # No need to print a warning or raise an error now,
                         # it will be done when fn will be called.
-                        _logger.info(('Cannot compute test value for the '
+                        _logger.info(('Cannot compute tests value for the '
                             'inner function of scan, input value missing %s'),
                                      e)
 
@@ -677,7 +677,7 @@ def scan(fn,
                         if config.compute_test_value != 'ignore':
                             # No need to print a warning or raise an error now,
                             # it will be done when fn will be called.
-                            _logger.info(('Cannot compute test value for '
+                            _logger.info(('Cannot compute tests value for '
                                 'the inner function of scan, input value '
                                 'missing. %s'), e)
 

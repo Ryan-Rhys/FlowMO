@@ -794,7 +794,7 @@ class TensorConstantSignature(tuple):
             return (other.has_nan and
                     self.sum == other.sum and
                     (self.no_nan.mask == other.no_nan.mask).all() and
-                    # Note that the second test below (==) may crash e.g. for
+                    # Note that the second tests below (==) may crash e.g. for
                     # a single scalar NaN value, so we do not run it when all
                     # values are missing.
                     (self.no_nan.mask.all() or

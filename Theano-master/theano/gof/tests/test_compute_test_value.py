@@ -55,7 +55,7 @@ class TestComputeTestValue(unittest.TestCase):
             assert _allclose(f(x.tag.test_value, y.tag.test_value),
                              z.tag.test_value)
 
-            # this test should fail
+            # this tests should fail
             y.tag.test_value = numpy.random.rand(6, 5).astype(config.floatX)
             self.assertRaises(ValueError, T.dot, x, y)
         finally:
@@ -68,7 +68,7 @@ class TestComputeTestValue(unittest.TestCase):
             y = T.matrix('y')
             y.tag.test_value = numpy.random.rand(4, 5).astype(config.floatX)
 
-            # should skip computation of test value
+            # should skip computation of tests value
             theano.config.compute_test_value = 'off'
             z = T.dot(x, y)
             assert not hasattr(z.tag, 'test_value')
@@ -77,7 +77,7 @@ class TestComputeTestValue(unittest.TestCase):
             theano.config.compute_test_value = 'raise'
             self.assertRaises(ValueError, T.dot, x, y)
 
-            # test that a warning is raised if required
+            # tests that a warning is raised if required
             theano.config.compute_test_value = 'warn'
             warnings.simplefilter('error', UserWarning)
             try:
@@ -113,7 +113,7 @@ class TestComputeTestValue(unittest.TestCase):
             def f(x, y, z):
                 return T.dot(T.dot(x, y), z)
 
-            # this test should fail
+            # this tests should fail
             z.set_value(numpy.random.rand(7, 6).astype(config.floatX))
             self.assertRaises(ValueError, f, x, y, z)
         finally:
@@ -135,7 +135,7 @@ class TestComputeTestValue(unittest.TestCase):
             f = theano.function([x], z)
             assert _allclose(f(x.tag.test_value), z.tag.test_value)
 
-            # this test should fail
+            # this tests should fail
             y.set_value(numpy.random.rand(5, 6).astype(config.floatX))
             self.assertRaises(ValueError, T.dot, x, y)
         finally:
@@ -156,7 +156,7 @@ class TestComputeTestValue(unittest.TestCase):
             f = theano.function([], z)
             assert _allclose(f(), z.tag.test_value)
 
-            # this test should fail
+            # this tests should fail
             x = numpy.random.rand(2, 4).astype(config.floatX)
             self.assertRaises(ValueError, T.dot, x, y)
         finally:
@@ -194,7 +194,7 @@ class TestComputeTestValue(unittest.TestCase):
             f = theano.function([], z)
             assert _allclose(f(), z.tag.test_value)
 
-            # this test should fail
+            # this tests should fail
             x = T.constant(numpy.random.rand(2, 4), dtype=config.floatX)
             self.assertRaises(ValueError, T.dot, x, y)
         finally:
@@ -216,7 +216,7 @@ class TestComputeTestValue(unittest.TestCase):
             theano.config.compute_test_value = orig_compute_test_value
 
     def test_overided_function(self):
-        # We need to test those as they mess with Exception
+        # We need to tests those as they mess with Exception
         # And we don't want the exception to be changed.
         orig_compute_test_value = theano.config.compute_test_value
         try:
@@ -259,7 +259,7 @@ class TestComputeTestValue(unittest.TestCase):
             theano.config.compute_test_value = orig_compute_test_value
 
     def test_scan_err1(self):
-        # This test should fail when building fx for the first time
+        # This tests should fail when building fx for the first time
         orig_compute_test_value = theano.config.compute_test_value
         try:
             theano.config.compute_test_value = 'raise'
@@ -295,7 +295,7 @@ class TestComputeTestValue(unittest.TestCase):
             theano.config.compute_test_value = orig_compute_test_value
 
     def test_scan_err2(self):
-        # This test should not fail when building fx for the first time,
+        # This tests should not fail when building fx for the first time,
         # but when calling the scan's perform()
         orig_compute_test_value = theano.config.compute_test_value
         try:
@@ -374,7 +374,7 @@ class TestComputeTestValue(unittest.TestCase):
 
     def test_no_perform(self):
         if not theano.config.cxx:
-            raise SkipTest("G++ not available, so we need to skip this test.")
+            raise SkipTest("G++ not available, so we need to skip this tests.")
 
         orig_compute_test_value = theano.config.compute_test_value
         try:
@@ -399,8 +399,8 @@ class TestComputeTestValue(unittest.TestCase):
             theano.config.compute_test_value = orig_compute_test_value
 
     def test_disabled_during_compilation(self):
-        # We test that it is disabled when we include deep copy in the code
-        # This don't test that it is disabled during optimization, but the code do it.
+        # We tests that it is disabled when we include deep copy in the code
+        # This don't tests that it is disabled during optimization, but the code do it.
         orig_compute_test_value = theano.config.compute_test_value
         try:
             theano.config.compute_test_value = 'raise'

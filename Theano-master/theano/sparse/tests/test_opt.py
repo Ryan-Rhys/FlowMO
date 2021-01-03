@@ -5,7 +5,7 @@ try:
     import scipy.sparse as sp
     import scipy.sparse
 except ImportError:
-    pass  # The variable enable_sparse will be used to disable the test file.
+    pass  # The variable enable_sparse will be used to disable the tests file.
 
 import theano
 from theano import sparse, config, tensor
@@ -40,7 +40,7 @@ def test_local_csm_properties_csm():
 def test_local_csm_grad_c():
     raise SkipTest("Opt disabled as it don't support unsorted indices")
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
     data = tensor.vector()
     indices, indptr, shape = (tensor.ivector(), tensor.ivector(),
                               tensor.ivector())
@@ -65,7 +65,7 @@ def test_local_csm_grad_c():
 
 def test_local_mul_s_d():
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
     mode = theano.compile.mode.get_default_mode()
     mode = mode.including("specialize", "local_mul_s_d")
 
@@ -83,7 +83,7 @@ def test_local_mul_s_d():
 
 def test_local_mul_s_v():
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
     mode = theano.compile.mode.get_default_mode()
     mode = mode.including("specialize", "local_mul_s_v")
 
@@ -101,7 +101,7 @@ def test_local_mul_s_v():
 
 def test_local_structured_add_s_v():
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
     mode = theano.compile.mode.get_default_mode()
     mode = mode.including("specialize", "local_structured_add_s_v")
 
@@ -119,7 +119,7 @@ def test_local_structured_add_s_v():
 
 def test_local_sampling_dot_csr():
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
     mode = theano.compile.mode.get_default_mode()
     mode = mode.including("specialize", "local_sampling_dot_csr")
 

@@ -23,7 +23,7 @@ import theano
 from theano import tensor
 from theano.tests.unittest_tools import seed_rng, assert_allclose
 
-# Skip test if cuda is not available.
+# Skip tests if cuda is not available.
 from theano.sandbox import cuda
 if cuda.cuda_available == False:
     raise SkipTest('Optional package cuda disabled')
@@ -146,8 +146,8 @@ def _params_allgood(ishape, kshape, mode, subsample=(1, 1), img_stride=(1, 1),
                     nb_iter=0, ones=False, compile_kshp=None,
                     theano_mode=None, cls=None):
     #
-    # This function is the core of several of the big unit-test drivers,
-    # but it can also be used very directly on its own to test a specific
+    # This function is the core of several of the big unit-tests drivers,
+    # but it can also be used very directly on its own to tests a specific
     # kind of convolution.
     #
     # See `test_example` (above) for an example of how to use this directly.
@@ -257,11 +257,11 @@ def exec_conv(version, shapes, verbose, random, mode,
 
 
 def get_basic_shapes():
-        # basic test of image and kernel shape
+        # basic tests of image and kernel shape
     return [((1, 1, 1, 1), (1, 1, 1, 1), (1, 1), (1, 1), (1, 1)),
             ((1, 1, 2, 2), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1)),
             ((1, 1, 3, 3), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1)),
-        # basic test for unsquare kernel and image
+        # basic tests for unsquare kernel and image
             ((1, 1, 2, 4), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1)),
             ((1, 1, 3, 4), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1)),
             ((1, 1, 4, 3), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1)),
@@ -296,31 +296,31 @@ def get_shapes(imshp=(1, 1), kshp=(1, 1), subsample=(1, 1),
 
 def get_shapes2(scales_img=(1, 1), scales_kern=(1, 1), subsample=(1, 1),
                 img_stride=(1, 1), kern_stride=(1, 1)):
-    # basic test of stack, batch and nkern paramter
+    # basic tests of stack, batch and nkern paramter
     shapes = get_shapes((1 * scales_img[0], 1 * scales_img[1]),
                         (1 * scales_kern[0], 1 * scales_kern[1]),
                         subsample, img_stride, kern_stride)
-    # basic test of stack, batch and nkern paramter with image and kernel shape
+    # basic tests of stack, batch and nkern paramter with image and kernel shape
     shapes += get_shapes((2 * scales_img[0], 2 * scales_img[1]),
                          (2 * scales_kern[0], 2 * scales_kern[1]),
                          subsample, img_stride, kern_stride)
-    # basic test of stack, batch and nkern paramter with image and kernel shape
+    # basic tests of stack, batch and nkern paramter with image and kernel shape
     shapes += get_shapes((3 * scales_img[0], 3 * scales_img[1]),
                          (2 * scales_kern[0], 2 * scales_kern[1]),
                          subsample, img_stride, kern_stride)
-    # basic test of stack, batch and nkern paramter with not square image.
+    # basic tests of stack, batch and nkern paramter with not square image.
     shapes += get_shapes((4 * scales_img[0], 3 * scales_img[1]),
                          (2 * scales_kern[0], 2 * scales_kern[1]),
                          subsample, img_stride, kern_stride)
-    # basic test of stack, batch and nkern paramter with not square image.
+    # basic tests of stack, batch and nkern paramter with not square image.
     shapes += get_shapes((3 * scales_img[0], 4 * scales_img[1]),
                          (2 * scales_kern[0], 2 * scales_kern[1]),
                          subsample, img_stride, kern_stride)
-    # basic test of stack, batch and nkern paramter with not square kernel.
+    # basic tests of stack, batch and nkern paramter with not square kernel.
     shapes += get_shapes((4 * scales_img[0], 4 * scales_img[1]),
                          (3 * scales_kern[0], 2 * scales_kern[1]),
                          subsample, img_stride, kern_stride)
-    # basic test of stack, batch and nkern paramter with not square kernel.
+    # basic tests of stack, batch and nkern paramter with not square kernel.
     shapes += get_shapes((4 * scales_img[0], 4 * scales_img[1]),
                          (2 * scales_kern[0], 3 * scales_kern[1]),
                          subsample, img_stride, kern_stride)
@@ -334,17 +334,17 @@ def get_valid_shapes():
     shapes = get_basic_shapes()
     shapes += get_shapes2()
 
-    # test image stride
+    # tests image stride
     shapes += get_shapes2(scales_img=(2, 2), img_stride=(1, 2))
     shapes += get_shapes2(scales_img=(2, 2), img_stride=(2, 1))
     shapes += get_shapes2(scales_img=(2, 2), img_stride=(2, 2))
     shapes += get_shapes2(scales_img=(2, 2), img_stride=(-1, -1))
     shapes += get_shapes2(scales_img=(2, 2), kern_stride=(-1, -1))
 
-    # test subsample done in a separate fct
+    # tests subsample done in a separate fct
 
     shapes += [
-         # other test
+         # other tests
               ((2, 1, 2, 2), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1))
             , ((3, 2, 4, 4), (4, 2, 4, 4), (1, 1), (1, 1), (1, 1))
             , ((4, 1, 10, 10), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1))
@@ -359,8 +359,8 @@ def get_valid_shapes():
             , ((16, 5, 64, 64), (8, 5, 8, 8), (1, 1), (1, 1), (1, 1))  # a big one
             , ((16, 1, 28, 28), (20, 1, 5, 5), (1, 1), (1, 1), (1, 1))  # MNIST LeNET layer 1
             , ((20, 16, 32, 32), (1, 16, 28, 28), (1, 1), (1, 1), (1, 1))  # layer 1 backprop to weights
-            , ((60, 20, 28, 28), (10, 20, 5, 5), (1, 1), (2, 2), (1, 1))  # added a test case that fail from test_nnet.py.test_conv_nnet2
-            , ((10, 5, 28, 28), (10, 5, 5, 5), (1, 1), (2, 2), (1, 1))  # test precedent but reduced that triger the error
+            , ((60, 20, 28, 28), (10, 20, 5, 5), (1, 1), (2, 2), (1, 1))  # added a tests case that fail from test_nnet.py.test_conv_nnet2
+            , ((10, 5, 28, 28), (10, 5, 5, 5), (1, 1), (2, 2), (1, 1))  # tests precedent but reduced that triger the error
             # Test more than maxThreadsDim0
             , ((2, 4, 13, 1050), (3, 4, 10, 11), (1, 1), (1, 1), (1, 1))
             , ((2, 4, 1050, 13), (3, 4, 10, 11), (1, 1), (1, 1), (1, 1))
@@ -432,7 +432,7 @@ def test_dnn_valid_err():
 
 
 def test_default_conv():
-    """Just test that we introduce the right GPU convolution
+    """Just tests that we introduce the right GPU convolution
     version.
 
     """
@@ -455,17 +455,17 @@ def _test_full(cls, mode=None, version=[-1], extra_shapes=[],
     seed_rng()
     shapes = get_basic_shapes()
     shapes += get_shapes2()
-    # test image stride
+    # tests image stride
     shapes += get_shapes2(scales_img=(2, 2), img_stride=(1, 2))
     shapes += get_shapes2(scales_img=(2, 2), img_stride=(2, 1))
     shapes += get_shapes2(scales_img=(2, 2), img_stride=(2, 2))
     shapes += get_shapes2(scales_img=(2, 2), img_stride=(-1, -1))
     shapes += get_shapes2(scales_img=(2, 2), kern_stride=(-1, -1))
 
-    # test subsample done in a separate fct
+    # tests subsample done in a separate fct
 
     shapes += [
-        # other test
+        # other tests
               ((2, 1, 2, 2), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1))
             , ((3, 2, 4, 4), (4, 2, 4, 4), (1, 1), (1, 1), (1, 1))
             , ((4, 1, 10, 10), (1, 1, 2, 2), (1, 1), (1, 1), (1, 1))
@@ -568,7 +568,7 @@ def _test_subsample(cls, mode, version_valid=[-1], version_full=[-1]):
     shapes += get_shapes2(scales_img=(2, 2), subsample=(2, 2))
 
     # We put only the version that implement the subsample to make the
-    # test faster.
+    # tests faster.
     verbose = 0
     random = True
     print_ = False
@@ -674,7 +674,7 @@ class TestConv2DGPU(unittest.TestCase):
 
 
 class TestConvWithPadding(object):
-    """test conv ops that support arbitrary padding via border_mode
+    """tests conv ops that support arbitrary padding via border_mode
     note that in order to make the yield work, we can not subclass from
     unittest.TestCase
     """
@@ -826,7 +826,7 @@ def conv_grad(mode, bs, ch, nf, rImg1, rImg2, rFlt1, rFlt2, subsample, op):
     k = cuda.CudaNdarrayType(
         broadcastable=[sh == 1 for sh in npy_kern.shape])()
 
-    # TODO: also test custom pad values
+    # TODO: also tests custom pad values
     corr_op = op(mode, subsample)(i, k)
     conv_op = tensor.nnet.conv2d(i, k[:, :, ::-1, ::-1],
                                  border_mode=mode, subsample=subsample)

@@ -114,7 +114,7 @@ following example. Here, we use ``exception_verbosity=high`` and
 
     # input which will be of shape (5,10)
     x  = T.matrix('x')
-    # provide Theano with a default test-value
+    # provide Theano with a default tests-value
     #x.tag.test_value = numpy.random.rand(5, 10)
 
     # transform the shared variable in some way. Theano does not
@@ -171,7 +171,7 @@ so slightly, we can get Theano to reveal the exact source of the error.
 
     # input which will be of shape (5, 10)
     x  = T.matrix('x')
-    # provide Theano with a default test-value
+    # provide Theano with a default tests-value
     x.tag.test_value = numpy.random.rand(5, 10)
 
 In the above, we are tagging the symbolic matrix *x* with a special test

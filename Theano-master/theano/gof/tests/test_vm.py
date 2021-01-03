@@ -75,7 +75,7 @@ def test_c_thunks():
 
 def test_speed():
     if not theano.config.cxx:
-        raise SkipTest("G++ not available, so we need to skip this test.")
+        raise SkipTest("G++ not available, so we need to skip this tests.")
 
     def build_graph(x, depth=5):
         z = x
@@ -240,7 +240,7 @@ if run_memory_usage_tests:
     def test_no_leak_many_graphs():
         # Verify no memory leaks when creating and deleting a lot of functions
 
-        # This isn't really a unit test, you have to run it and look at top to
+        # This isn't really a unit tests, you have to run it and look at top to
         # see if there's a leak
         for i in xrange(10000):
             x = tensor.vector()
@@ -263,7 +263,7 @@ if run_memory_usage_tests:
     def test_no_leak_many_call_lazy():
         # Verify no memory leaks when calling a function a lot of times
 
-        # This isn't really a unit test, you have to run it and look at top to
+        # This isn't really a unit tests, you have to run it and look at top to
         # see if there's a leak
 
         def build_graph(x, depth=5):
@@ -300,7 +300,7 @@ if run_memory_usage_tests:
     def test_no_leak_many_call_nonlazy():
         # Verify no memory leaks when calling a function a lot of times
 
-        # This isn't really a unit test, you have to run it and look at top to
+        # This isn't really a unit tests, you have to run it and look at top to
         # see if there's a leak.
 
         def build_graph(x, depth=5):

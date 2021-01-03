@@ -164,7 +164,7 @@ class TestBinCountOp(utt.InferShapeTester):
             f4 = theano.function([x], bincount(x, minlength=5))
             assert (ref(a, minlength=55) == f3(a)).all()
             assert (ref(a, minlength=5) == f4(a)).all()
-            # skip the following test when using unsigned ints
+            # skip the following tests when using unsigned ints
             if not dtype.startswith('u'):
                 a[0] = -1
                 f5 = theano.function([x], bincount(x, assert_nonneg=True))
@@ -573,7 +573,7 @@ class TestFillDiagonal(utt.InferShapeTester):
             assert numpy.allclose(numpy.diag(out), val)
             assert (out == val).sum() == min(a.shape)
 
-        # test for 3d tensor
+        # tests for 3d tensor
         a = numpy.random.rand(3, 3, 3).astype(config.floatX)
         x = tensor.tensor3()
         y = tensor.scalar()
@@ -718,7 +718,7 @@ class test_Unique(utt.InferShapeTester):
         
     def test_basic_vector(self):           
         """
-        Basic test for a vector.
+        Basic tests for a vector.
         Done by using the op and checking that it returns the right answer.
         """
         x = theano.tensor.vector()
@@ -741,7 +741,7 @@ class test_Unique(utt.InferShapeTester):
                 utt.assert_allclose(out, out_exp)
         
     def test_basic_matrix(self):            
-        """ Basic test for a matrix.
+        """ Basic tests for a matrix.
         Done by using the op and checking that it returns the right answer.
         """
         x = theano.tensor.matrix()
