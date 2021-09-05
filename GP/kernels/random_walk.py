@@ -8,10 +8,11 @@ import tensorflow as tf
 
 
 class RandomWalk(gpflow.kernels.Kernel):
-    def __init__(self, uniform_probabilities=False, geometric=True):
+    def __init__(self, uniform_probabilities=False, geometric=True, weight=0.1):
         super().__init__()
         self.uniform_probabilities=uniform_probabilities
         self.geometric = geometric
+        self.weight = weight
 
     def K(self, X, X2=None):
         if X2 is None:
@@ -39,7 +40,7 @@ class RandomWalk(gpflow.kernels.Kernel):
                     continue
 
                 flanking_factor = tf.linalg.LinearOperatorKronecker(flanking_factors[i], flanking_factors_2[j])
-                diagonal = tf.linalg.LinearOperatorKronecker(eigenvecs[i], eigenvecs_2[j])
+                diagonal = self.weight * tf.linalg.LinearOperatorKronecker(eigenvecs[i], eigenvecs_2[j])
 
                 if self.geometric:
                     power_series = tf.linalg.diag(1 / 1 - diagonal)
@@ -57,7 +58,7 @@ class RandomWalk(gpflow.kernels.Kernel):
         return k_matrix
 
     def K_diag(self, X):
-        return tf.linalg.diag(X) ## TODO: implement
+        return tf.linalg.tensor_diag_part(self.K(X))
 
     def _generate_flanking_factors(self, eigenvecs):
         flanking_factors = []
