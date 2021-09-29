@@ -47,8 +47,6 @@ def test_random_walk_unlabelled(weight, series_type, p, load_data):
     random_walk_FlowMo = RandomWalk(series_type=series_type, weight=weight, normalize=False)
     FlowMo_results = random_walk_FlowMo.K(tensor_adj_mats, tensor_adj_mats)
 
-    import pdb; pdb.set_trace()
-
     npt.assert_almost_equal(
         grakel_results, FlowMo_results.numpy(),
         decimal=2
