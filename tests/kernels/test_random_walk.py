@@ -29,8 +29,8 @@ def load_data():
     [
         (0.1, 'geometric', None),
         (0.1, 'exponential', None),
-        #(0.3, 'geometric', None), TODO: Fix
-        (0.5, 'exponential', None),
+        (0.3, 'geometric', None), #NB: requires `method_type="baseline" in grakel kernel constructor
+        (0.3, 'exponential', None),
         #(0.2, 'geometric', 3), TODO: Implement
         #(0.8, 'exponential', 3), TODO: Implement
     ]
@@ -41,10 +41,10 @@ def test_random_walk_unlabelled(weight, series_type, p, load_data):
     tensor_adj_mats = [tf.convert_to_tensor(adj_mat) for adj_mat in adj_mats]
     grakel_graphs = [grakel.Graph(adj_mat) for adj_mat in adj_mats]
 
-    random_walk_grakel = grakel.kernels.RandomWalk(normalize=False, lamda=weight, kernel_type=series_type)
+    random_walk_grakel = grakel.kernels.RandomWalk(normalize=True, lamda=weight, kernel_type=series_type, method_type="baseline")
     grakel_results = random_walk_grakel.fit_transform(grakel_graphs)
 
-    random_walk_FlowMo = RandomWalk(series_type=series_type, weight=weight, normalize=False)
+    random_walk_FlowMo = RandomWalk(series_type=series_type, weight=weight, normalize=True)
     FlowMo_results = random_walk_FlowMo.K(tensor_adj_mats, tensor_adj_mats)
 
     npt.assert_almost_equal(
