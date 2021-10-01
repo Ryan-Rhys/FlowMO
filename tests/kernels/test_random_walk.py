@@ -3,7 +3,7 @@
 Molecule kernels for Gaussian Process Regression implemented in GPflow.
 """
 
-import sys
+import os
 
 import grakel
 import numpy.testing as npt
@@ -15,13 +15,21 @@ from rdkit.Chem.rdmolops import GetAdjacencyMatrix
 
 from GP.kernel_modules.random_walk import RandomWalk
 
-sys.path.append('/Users/juliusschwartz/Mystuff/FlowMO')
-
 @pytest.fixture
 def load_data():
-    test_dataset_file = '../../datasets/ESOL.csv'
-    df = pd.read_csv(test_dataset_file)
-    return df["smiles"].to_list()
+    benchmark_path = os.path.abspath(
+        os.path.join(
+            os.getcwd(), '..', '..', 'datasets', 'ESOL.csv'
+        )
+    )
+    df = pd.read_csv(benchmark_path)
+    smiles = df["smiles"].to_list()
+
+    adj_mats = [GetAdjacencyMatrix(MolFromSmiles(smiles)) for smiles in smiles[:50]]
+    tensor_adj_mats = [tf.convert_to_tensor(adj_mat) for adj_mat in adj_mats]
+    grakel_graphs = [grakel.Graph(adj_mat) for adj_mat in adj_mats]
+
+    return tensor_adj_mats, grakel_graphs
 
 
 @pytest.mark.parametrize(
@@ -36,10 +44,7 @@ def load_data():
     ]
 )
 def test_random_walk_unlabelled(weight, series_type, p, load_data):
-    adj_mats = [GetAdjacencyMatrix(MolFromSmiles(smiles)) for smiles in load_data[:50]]
-
-    tensor_adj_mats = [tf.convert_to_tensor(adj_mat) for adj_mat in adj_mats]
-    grakel_graphs = [grakel.Graph(adj_mat) for adj_mat in adj_mats]
+    tensor_adj_mats, grakel_graphs = load_data
 
     random_walk_grakel = grakel.kernels.RandomWalk(normalize=True, lamda=weight, kernel_type=series_type, method_type="baseline")
     grakel_results = random_walk_grakel.fit_transform(grakel_graphs)
