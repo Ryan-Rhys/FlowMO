@@ -7,13 +7,16 @@ import gpflow
 import numpy as np
 import tensorflow as tf
 
+from math import factorial
+
 from .kernel_utils import normalize
 
 
 class RandomWalk(gpflow.kernels.Kernel):
-    def __init__(self, uniform_probabilities=False, series_type='geometric', weight=0.1, normalize=True):
+    def __init__(self, uniform_probabilities=False, p=None, series_type='geometric', weight=0.1, normalize=True):
         super().__init__()
         self.uniform_probabilities=uniform_probabilities
+        self.p = p
         if series_type == 'geometric':
             self.geometric = True
         elif series_type == 'exponential':
@@ -66,10 +69,22 @@ class RandomWalk(gpflow.kernels.Kernel):
                      tf.linalg.LinearOperatorFullMatrix(tf.expand_dims(eigenvals_2[idx_2], axis=0))
                      ]).to_dense()
 
-                if self.geometric:
-                    power_series = tf.linalg.diag(1 / (1 - diagonal))
+                if self.p is not None:
+                    power_series = tf.ones_like(diagonal)
+                    temp_diagonal = tf.ones_like(diagonal)
+
+                    for k in range(self.p):
+                        temp_diagonal = tf.multiply(temp_diagonal, diagonal)
+                        if not self.geometric:
+                            temp_diagonal = tf.divide(temp_diagonal, factorial(k+1))
+                        power_series = tf.add(power_series, temp_diagonal)
+
+                    power_series = tf.linalg.diag(power_series)
                 else:
-                    power_series = tf.linalg.diag(tf.exp(diagonal))
+                    if self.geometric:
+                        power_series = tf.linalg.diag(1 / (1 - diagonal))
+                    else:
+                        power_series = tf.linalg.diag(tf.exp(diagonal))
 
                 k_matrix[idx_1, idx_2] = tf.linalg.matmul(
                     flanking_factor,
