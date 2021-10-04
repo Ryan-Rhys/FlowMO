@@ -1,6 +1,7 @@
 # Author: Henry Moss & Ryan-Rhys Griffiths
 """
-Molecule kernels for Gaussian Process Regression implemented in GPflow.
+Verifies the FlowMO implementation of the Random Walk graph kernel
+against GraKel
 """
 
 import os
@@ -37,10 +38,10 @@ def load_data():
     [
         (0.1, 'geometric', None),
         (0.1, 'exponential', None),
-        #(0.3, 'geometric', None), #NB: requires `method_type="baseline" in grakel kernel constructor
+        #(0.3, 'geometric', None), #Requires `method_type="baseline" in GraKel kernel constructor
         (0.3, 'exponential', None),
-        (0.3, 'geometric', 3),
-        (0.8, 'exponential', 3),
+        (0.3, 'geometric', 3), #Doesn't pass due to suspected GraKel bug, see https://github.com/ysig/GraKeL/issues/71
+        (0.8, 'exponential', 3), #Same issue as above test
     ]
 )
 def test_random_walk_unlabelled(weight, series_type, p, load_data):
@@ -49,7 +50,7 @@ def test_random_walk_unlabelled(weight, series_type, p, load_data):
     random_walk_grakel = grakel.kernels.RandomWalk(normalize=True, lamda=weight, kernel_type=series_type, p=p)
     grakel_results = random_walk_grakel.fit_transform(grakel_graphs)
 
-    random_walk_FlowMo = RandomWalk(p=p, series_type=series_type, weight=weight, normalize=True)
+    random_walk_FlowMo = RandomWalk(normalize=True, weight=weight, series_type=series_type, p=p)
     FlowMo_results = random_walk_FlowMo.K(tensor_adj_mats, tensor_adj_mats)
 
     npt.assert_almost_equal(

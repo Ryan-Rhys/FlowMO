@@ -13,18 +13,28 @@ from .kernel_utils import normalize
 
 
 class RandomWalk(gpflow.kernels.Kernel):
-    def __init__(self, uniform_probabilities=False, p=None, series_type='geometric', weight=0.1, normalize=True):
+    def __init__(self, normalize=True, weight=0.1, series_type='geometric',  p=None, uniform_probabilities=False):
         super().__init__()
-        self.uniform_probabilities=uniform_probabilities
-        self.p = p
+        self.normalize = normalize
+        self.weight = weight
         if series_type == 'geometric':
             self.geometric = True
         elif series_type == 'exponential':
             self.geometric = False
-        self.weight = weight
-        self.normalize = normalize
+        self.p = p
+        self.uniform_probabilities = uniform_probabilities
 
     def K(self, X, X2=None):
+        """
+        Compute the random walk graph kernel (Gartner et al. 2003),
+        specifically using the spectral decomposition approach
+        given by https://www.jmlr.org/papers/volume11/vishwanathan10a/vishwanathan10a.pdf
+
+        :param X: array of N graph objects (represented as adjacency matrices of varying sizes)
+        :param X2: array of M graph objects (represented as adjacency matrices of varying sizes)
+            If None, compute the N x N kernel matrix for X.
+        :return: The kernel matrix of dimension N x M.
+        """
         if X2 is None:
             X2 = X
 
@@ -100,9 +110,20 @@ class RandomWalk(gpflow.kernels.Kernel):
         return tf.convert_to_tensor(k_matrix)
 
     def K_diag(self, X):
+        """
+        Compute the diagonal of the N x N kernel matrix of X.
+        :param X: array of N graph objects (represented as adjacency matrices of varying sizes).
+        :return: N x 1 array.
+        """
         return tf.linalg.tensor_diag_part(self.K(X))
 
     def _generate_flanking_factors(self, eigenvecs):
+        """
+        Helper method to calculate intermediate terms in the expression for random
+        walk kernel evaluated for two graphs.
+        :param eigenvecs: array of N matrices of varying sizes
+        :return: array of N matrices of varying sizes
+        """
         flanking_factors = []
 
         for eigenvec in eigenvecs:

@@ -1,6 +1,6 @@
 # Author: Henry Moss & Ryan-Rhys Griffiths
 """
-Molecule kernels for Gaussian Process Regression implemented in GPflow.
+Utility methods for graph-based kernels
 """
 
 import tensorflow as tf
