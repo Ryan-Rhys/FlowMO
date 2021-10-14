@@ -9,7 +9,7 @@ import tensorflow as tf
 
 from math import factorial
 
-from .kernel_utils import normalize
+from .kernel_utils import normalize, unpad_tensor, extract_adj_mats_from_vector_inputs
 
 
 class RandomWalk(gpflow.kernels.Kernel):
@@ -35,48 +35,60 @@ class RandomWalk(gpflow.kernels.Kernel):
             If None, compute the N x N kernel matrix for X.
         :return: The kernel matrix of dimension N x M.
         """
+
+        X_padded = False
+        X2_padded = False
+        X_is_X2 = False
+
+        if isinstance(X, (np.ndarray, tf.Tensor)) and len(X.shape) == 2:
+            X = extract_adj_mats_from_vector_inputs(X)
+            X_padded = True
+
         if X2 is None:
             X2 = X
+            X2_padded = X_padded
+            X_is_X2 = True
+        elif isinstance(X2, (np.ndarray, tf.Tensor)) and len(X2.shape) == 2:
+            X2 = extract_adj_mats_from_vector_inputs(X2)
+            X2_padded = True
 
-        X_is_X2 = X == X2
+        flattened_k_matrix = tf.TensorArray(tf.float64, size=len(X)*len(X2))
+        matrix_idx = 0
 
-        eigenvecs, eigenvals = [], []
-        eigenvecs_2, eigenvals_2 = [], []
+        for idx_1 in range(len(X)):
 
-        for adj_mat in X:
-            val, vec = tf.linalg.eigh(tf.cast(adj_mat, tf.float64))
-            eigenvals.append(val)
-            eigenvecs.append(vec)
+            adj_mat_1 = X[idx_1]
+            if X_padded:
+                adj_mat_1 = unpad_tensor(adj_mat_1)
+            eigenval_1, eigenvec_1 = tf.linalg.eigh(tf.cast(adj_mat_1, tf.float64))
+            start_stop_probs = tf.ones((1, tf.shape(eigenvec_1)[0]), tf.float64)
+            if self.uniform_probabilities:
+                start_stop_probs = tf.divide(start_stop_probs, tf.shape(eigenvec_1)[0])
+            flanking_factor_1 = tf.linalg.matmul(start_stop_probs, eigenvec_1)
 
-        flanking_factors = self._generate_flanking_factors(eigenvecs)
+            for idx_2 in range(len(X2)):
 
-        if X_is_X2:
-            eigenvals_2, eigenvecs_2 = eigenvals, eigenvecs
-            flanking_factors_2 = flanking_factors
-        else:
-            for adj_mat in X2:
-                val, vec = tf.linalg.eigh(tf.cast(adj_mat, tf.float64))
-                eigenvals_2.append(val)
-                eigenvecs_2.append(vec)
-            flanking_factors_2 = self._generate_flanking_factors(eigenvecs_2)
+                if X_is_X2 and idx_1 == idx_2:
+                    eigenval_2, eigenval_2, flanking_factor_2 = eigenval_1, eigenval_1, flanking_factor_1
+                else:
+                    adj_mat_2 = X2[idx_2]
+                    if X2_padded:
+                        adj_mat_2 = unpad_tensor(adj_mat_2)
+                    eigenval_2, eigenvec_2 = tf.linalg.eigh(tf.cast(adj_mat_2, tf.float64))
+                    start_stop_probs = tf.ones((1, tf.shape(eigenvec_2)[0]), tf.float64)
+                    if self.uniform_probabilities:
+                        start_stop_probs = tf.divide(start_stop_probs, tf.shape(eigenvec_2)[0])
+                    flanking_factor_2 = tf.linalg.matmul(start_stop_probs, eigenvec_2)
 
-        k_matrix = np.zeros((len(X), len(X2)))
-
-        for idx_1 in range(k_matrix.shape[0]):
-            for idx_2 in range(k_matrix.shape[1]):
-
-                if X_is_X2 and idx_2 < idx_1:
-                    k_matrix[idx_1, idx_2] = k_matrix[idx_2, idx_1]
-                    continue
 
                 flanking_factor = tf.linalg.LinearOperatorKronecker(
-                    [tf.linalg.LinearOperatorFullMatrix(flanking_factors[idx_1]),
-                     tf.linalg.LinearOperatorFullMatrix(flanking_factors_2[idx_2])
+                    [tf.linalg.LinearOperatorFullMatrix(flanking_factor_1),
+                     tf.linalg.LinearOperatorFullMatrix(flanking_factor_2)
                      ]).to_dense()
 
                 diagonal = self.weight * tf.linalg.LinearOperatorKronecker(
-                    [tf.linalg.LinearOperatorFullMatrix(tf.expand_dims(eigenvals[idx_1], axis=0)),
-                     tf.linalg.LinearOperatorFullMatrix(tf.expand_dims(eigenvals_2[idx_2], axis=0))
+                    [tf.linalg.LinearOperatorFullMatrix(tf.expand_dims(eigenval_1, axis=0)),
+                     tf.linalg.LinearOperatorFullMatrix(tf.expand_dims(eigenval_2, axis=0))
                      ]).to_dense()
 
                 if self.p is not None:
@@ -96,7 +108,7 @@ class RandomWalk(gpflow.kernels.Kernel):
                     else:
                         power_series = tf.linalg.diag(tf.exp(diagonal))
 
-                k_matrix[idx_1, idx_2] = tf.linalg.matmul(
+                matrix_entry = tf.linalg.matmul(
                     flanking_factor,
                     tf.linalg.matmul(
                         power_series,
@@ -104,10 +116,16 @@ class RandomWalk(gpflow.kernels.Kernel):
                     )
                 )
 
-        if self.normalize:
-            return tf.convert_to_tensor(normalize(k_matrix))
+                flattened_k_matrix = flattened_k_matrix.write(matrix_idx, matrix_entry)
+                matrix_idx += 1
 
-        return tf.convert_to_tensor(k_matrix)
+        k_matrix = tf.reshape(flattened_k_matrix.stack(), (len(X), len(X2)))
+
+        if self.normalize:
+            normalized_k_matrix = normalize(k_matrix)
+            return normalized_k_matrix
+
+        return k_matrix
 
     def K_diag(self, X):
         """
@@ -116,23 +134,3 @@ class RandomWalk(gpflow.kernels.Kernel):
         :return: N x 1 array.
         """
         return tf.linalg.tensor_diag_part(self.K(X))
-
-    def _generate_flanking_factors(self, eigenvecs):
-        """
-        Helper method to calculate intermediate terms in the expression for random
-        walk kernel evaluated for two graphs.
-        :param eigenvecs: array of N matrices of varying sizes
-        :return: array of N matrices of varying sizes
-        """
-        flanking_factors = []
-
-        for eigenvec in eigenvecs:
-            start_stop_probs = tf.ones((1, eigenvec.shape[0]), tf.float64)
-            if self.uniform_probabilities:
-                start_stop_probs = tf.divide(start_stop_probs, eigenvec.shape(0))
-
-            flanking_factors.append(
-                tf.linalg.matmul(start_stop_probs, eigenvec)
-            )
-
-        return flanking_factors

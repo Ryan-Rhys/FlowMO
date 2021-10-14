@@ -15,6 +15,7 @@ from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolops import GetAdjacencyMatrix
 
 from GP.kernel_modules.random_walk import RandomWalk
+from GP.kernel_modules.kernel_utils import preprocess_adjacency_matrix_inputs
 
 @pytest.fixture
 def load_data():
@@ -28,9 +29,10 @@ def load_data():
 
     adj_mats = [GetAdjacencyMatrix(MolFromSmiles(smiles)) for smiles in smiles[:50]]
     tensor_adj_mats = [tf.convert_to_tensor(adj_mat) for adj_mat in adj_mats]
+    preprocessed_tensor_adj_mats = preprocess_adjacency_matrix_inputs(tensor_adj_mats)
     grakel_graphs = [grakel.Graph(adj_mat) for adj_mat in adj_mats]
 
-    return tensor_adj_mats, grakel_graphs
+    return preprocessed_tensor_adj_mats, grakel_graphs
 
 
 @pytest.mark.parametrize(
@@ -45,13 +47,13 @@ def load_data():
     ]
 )
 def test_random_walk_unlabelled(weight, series_type, p, load_data):
-    tensor_adj_mats, grakel_graphs = load_data
+    preprocessed_tensor_adj_mats, grakel_graphs = load_data
 
     random_walk_grakel = grakel.kernels.RandomWalk(normalize=True, lamda=weight, kernel_type=series_type, p=p)
     grakel_results = random_walk_grakel.fit_transform(grakel_graphs)
 
     random_walk_FlowMo = RandomWalk(normalize=True, weight=weight, series_type=series_type, p=p)
-    FlowMo_results = random_walk_FlowMo.K(tensor_adj_mats, tensor_adj_mats)
+    FlowMo_results = random_walk_FlowMo.K(preprocessed_tensor_adj_mats, preprocessed_tensor_adj_mats)
 
     npt.assert_almost_equal(
         grakel_results, FlowMo_results.numpy(),
