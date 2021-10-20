@@ -42,6 +42,7 @@ class RandomWalk(gpflow.kernels.Kernel):
         else:
             X2 = extract_adj_mats_from_vector_inputs(X2)
             X_is_X2 = False
+            self.normalize = False
 
         flattened_k_matrix = tf.TensorArray(tf.float64, size=len(X)*len(X2))
         matrix_idx = 0
