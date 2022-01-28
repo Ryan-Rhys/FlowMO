@@ -115,6 +115,7 @@ class SSK(gpflow.kernels.Kernel):
         # first split up strings and pad to fixed length and prep for gpu
         # pad until all have length of self.maxlen
         # turn into one-hot  i.e. shape (# strings, #characters+1, alphabet size)
+        # tf.strings.bytes_split alternatively
         X1 = tf.strings.split(tf.squeeze(X1, 1)).to_tensor("PAD", shape=[None, self.maxlen])
         X1 = self.table.lookup(X1)
         # keep track of original input sizes
